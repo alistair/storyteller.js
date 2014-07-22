@@ -4,6 +4,10 @@
   "description": "Executable Specification authoring and running",
   "dependencies": {},
   "devDependencies": {
-    "gulp": "^3.8.6"
+    "chai": "^1.9.1",
+    "gulp": "^3.8.6",
+    "gulp-mocha": "^0.5.1",
+    "gulp-react": "^0.5.0",
+    "gulp-util": "^3.0.0"
   }
 }
