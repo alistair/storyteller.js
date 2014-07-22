@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var gutil = require('gulp-util');
+var source = require('vinyl-source-stream');
+var watchify = require('watchify');
 
 gulp.task('default', function() {
   console.log('Hello!');
