@@ -1,0 +1,9 @@
+{
+  "name": "storyteller.js",
+  "version": "0.0.1",
+  "description": "Executable Specification authoring and running",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.6"
+  }
+}
