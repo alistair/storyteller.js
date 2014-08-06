@@ -17,7 +17,12 @@ Proposed Tooling
 * Node.js as the web server -- assuming the presence of >0.11 for harmony generators
 * Koa.js as the web framework 
 * React.js, jquery, lodash, and Bootstrap on the client side
+* Browserify for script loading
 * Gulp for all build automation
 * Mocha and Karma for testing
 
-We have also proposed the usage of [Atom Shell](https://github.com/atom/atom-shell) to make the UI a Chrome plugin.
+We have also proposed the usage of [Atom Shell](https://github.com/atom/atom-shell) to make the UI a Chrome plugin. 
+
+I'm personally fine with using straight up Javascript, but I'm open to using either Traceur or CoffeeScript.
+
+- Jeremy
