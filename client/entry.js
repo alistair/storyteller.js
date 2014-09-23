@@ -1,4 +1,4 @@
-var React = require("React");
+var React = require("react");
 var FakeThing = require("./components/FakeThing");
 
 React.renderComponent(
