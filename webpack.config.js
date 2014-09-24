@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require("path");
 
 module.exports = {
   entry: [
@@ -7,9 +8,9 @@ module.exports = {
     "./client/entry.js"
   ],
     output: {
-        path: __dirname + '/client',
+        path: __dirname + '/client/public/javascript',
         filename: "bundle.js",
-        publicPath: '/client/scripts/'
+        publicPath: '/client/public/javascript/'
     },
     resolve: {
     // Allow to omit extensions when requiring these files
