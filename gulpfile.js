@@ -16,6 +16,14 @@ gulp.task('mocha', function(){
         }));
 });
 
+gulp.task('css', function(){
+	var glob = ['node_modules/bootstrap/dist/css/bootstrap.min.css'];
+
+	return gulp.src(glob)
+		.pipe(new gulp.dest('client/public/stylesheets'));
+
+});
+
 gulp.task('watch-mocha', function() {
     gulp.watch(['lib/**', 'test/**'], ['mocha']);
 });
