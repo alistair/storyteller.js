@@ -1,8 +1,8 @@
 var React = require("react");
-var FakeThing = require("./components/FakeThing");
+var Cell = require("./components/Cell");
 var $ = require("jquery");
 
 React.renderComponent(
-  FakeThing({text:"Hello from a React component!"}),
+  Cell({value:"Who dat?"}),
   document.getElementById('main')
 );
