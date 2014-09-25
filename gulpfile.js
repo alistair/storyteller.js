@@ -46,10 +46,7 @@ gulp.task('mocha:watch', function() {
     gulp.watch(['working/**', 'test/**'], ['mocha']);
 });
 
-var shell = require('gulp-shell')
-
-
-gulp.task("harness", function(){
+gulp.task("harness", ['css'], function(){
     var stream = gulp.src('bundle.js')
         .pipe(webpack(require('./webpack.config.js')))
         .pipe(gulp.dest('client/public/javascript/'));
@@ -68,12 +65,9 @@ gulp.task("harness", function(){
                 console.log("CTRL-C to stop the web server");
               }
             });
-
-
         });
 
         return stream;
-
 });
 
 

@@ -12,7 +12,6 @@
     "express": "^4.9.4",
     "gulp": "^3.8.6",
     "gulp-mocha": "^0.5.1",
-    "gulp-shell": "^0.2.9",
     "gulp-util": "^3.0.0",
     "gulp-webpack": "^0.3.0",
     "jquery": "^2.1.1",
