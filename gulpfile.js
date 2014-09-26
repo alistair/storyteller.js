@@ -90,14 +90,15 @@ var mocha_webpack_config = {
 
 var client_entry_file = "./test/mocha-entry.js";
 var client_test_folder = __dirname + '/test/';
-
+var entryWriter = require('./util/webpack-test-bundle');
+var client_entry_writer = entryWriter({folder: client_test_folder, entryFile: client_entry_file, excludes: ['bundle.js']})
 
 gulp.task('test:client', function(){
     var karma = require('gulp-karma');
-    var entryWriter = require('./util/webpack-test-bundle');
+    
 
     return gulp.src(client_entry_file)
-        .pipe(entryWriter({folder: client_test_folder, entryFile: client_entry_file, excludes: ['bundle.js']}))
+        .pipe(client_entry_writer)
         .pipe(webpack(mocha_webpack_config))
         .pipe(gulp.dest('./test'))
         .pipe(karma({

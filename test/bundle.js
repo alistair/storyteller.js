@@ -173,8 +173,14 @@
 	describe('simple arithmetic', function(){
 		it('should be able to add numbers', function(){
 			expect(5).to.equal(2 + 3);
+
 		});
 
+		it('should be able to substract numbers', function(){
+			expect(5).to.equal(7 - 2);
+			expect(5).to.equal(7 - 2);
+			expect(5).to.equal(7 - 2);
+		});
 	});
 
 /***/ },
@@ -17597,8 +17603,8 @@
 	var EventConstants = __webpack_require__(44);
 	var EventPluginHub = __webpack_require__(102);
 	var EventPluginRegistry = __webpack_require__(199);
-	var ReactEventEmitterMixin = __webpack_require__(206);
-	var ViewportMetrics = __webpack_require__(207);
+	var ReactEventEmitterMixin = __webpack_require__(203);
+	var ViewportMetrics = __webpack_require__(204);
 
 	var isEventSupported = __webpack_require__(202);
 	var merge = __webpack_require__(95);
@@ -17959,11 +17965,11 @@
 
 	"use strict";
 
-	var CallbackQueue = __webpack_require__(204);
+	var CallbackQueue = __webpack_require__(205);
 	var PooledClass = __webpack_require__(158);
 	var ReactCurrentOwner = __webpack_require__(79);
 	var ReactPerf = __webpack_require__(85);
-	var Transaction = __webpack_require__(205);
+	var Transaction = __webpack_require__(206);
 
 	var invariant = __webpack_require__(98);
 	var mixInto = __webpack_require__(134);
@@ -18235,7 +18241,7 @@
 	var PooledClass = __webpack_require__(158);
 
 	var emptyFunction = __webpack_require__(94);
-	var getEventTarget = __webpack_require__(203);
+	var getEventTarget = __webpack_require__(207);
 	var merge = __webpack_require__(95);
 	var mergeInto = __webpack_require__(45);
 
@@ -25533,7 +25539,7 @@
 	"use strict";
 
 	var ReactUpdates = __webpack_require__(105);
-	var Transaction = __webpack_require__(205);
+	var Transaction = __webpack_require__(206);
 
 	var emptyFunction = __webpack_require__(94);
 	var mixInto = __webpack_require__(134);
@@ -26401,7 +26407,7 @@
 	var ReactMount = __webpack_require__(41);
 	var ReactUpdates = __webpack_require__(105);
 
-	var getEventTarget = __webpack_require__(203);
+	var getEventTarget = __webpack_require__(207);
 	var getUnboundedScrollPosition = __webpack_require__(247);
 	var mixInto = __webpack_require__(134);
 
@@ -27699,9 +27705,9 @@
 	"use strict";
 
 	var PooledClass = __webpack_require__(158);
-	var CallbackQueue = __webpack_require__(204);
+	var CallbackQueue = __webpack_require__(205);
 	var ReactPutListenerQueue = __webpack_require__(257);
-	var Transaction = __webpack_require__(205);
+	var Transaction = __webpack_require__(206);
 
 	var emptyFunction = __webpack_require__(94);
 	var mixInto = __webpack_require__(134);
@@ -28615,31 +28621,93 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 *
-	 * @providesModule getEventTarget
-	 * @typechecks static-only
+	 * @providesModule ReactEventEmitterMixin
 	 */
 
 	"use strict";
 
-	/**
-	 * Gets the target node from a native browser event by accounting for
-	 * inconsistencies in browser DOM APIs.
-	 *
-	 * @param {object} nativeEvent Native browser event.
-	 * @return {DOMEventTarget} Target node.
-	 */
-	function getEventTarget(nativeEvent) {
-	  var target = nativeEvent.target || nativeEvent.srcElement || window;
-	  // Safari may fire events on text nodes (Node.TEXT_NODE is 3).
-	  // @see http://www.quirksmode.org/js/events_properties.html
-	  return target.nodeType === 3 ? target.parentNode : target;
+	var EventPluginHub = __webpack_require__(102);
+
+	function runEventQueueInBatch(events) {
+	  EventPluginHub.enqueueEvents(events);
+	  EventPluginHub.processEventQueue();
 	}
 
-	module.exports = getEventTarget;
+	var ReactEventEmitterMixin = {
+
+	  /**
+	   * Streams a fired top-level event to `EventPluginHub` where plugins have the
+	   * opportunity to create `ReactEvent`s to be dispatched.
+	   *
+	   * @param {string} topLevelType Record from `EventConstants`.
+	   * @param {object} topLevelTarget The listening component root node.
+	   * @param {string} topLevelTargetID ID of `topLevelTarget`.
+	   * @param {object} nativeEvent Native environment event.
+	   */
+	  handleTopLevel: function(
+	      topLevelType,
+	      topLevelTarget,
+	      topLevelTargetID,
+	      nativeEvent) {
+	    var events = EventPluginHub.extractEvents(
+	      topLevelType,
+	      topLevelTarget,
+	      topLevelTargetID,
+	      nativeEvent
+	    );
+
+	    runEventQueueInBatch(events);
+	  }
+	};
+
+	module.exports = ReactEventEmitterMixin;
 
 
 /***/ },
 /* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule ViewportMetrics
+	 */
+
+	"use strict";
+
+	var getUnboundedScrollPosition = __webpack_require__(247);
+
+	var ViewportMetrics = {
+
+	  currentScrollLeft: 0,
+
+	  currentScrollTop: 0,
+
+	  refreshScrollValues: function() {
+	    var scrollPosition = getUnboundedScrollPosition(window);
+	    ViewportMetrics.currentScrollLeft = scrollPosition.x;
+	    ViewportMetrics.currentScrollTop = scrollPosition.y;
+	  }
+
+	};
+
+	module.exports = ViewportMetrics;
+
+
+/***/ },
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -28749,7 +28817,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ },
-/* 205 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29000,67 +29068,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ },
-/* 206 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule ReactEventEmitterMixin
-	 */
-
-	"use strict";
-
-	var EventPluginHub = __webpack_require__(102);
-
-	function runEventQueueInBatch(events) {
-	  EventPluginHub.enqueueEvents(events);
-	  EventPluginHub.processEventQueue();
-	}
-
-	var ReactEventEmitterMixin = {
-
-	  /**
-	   * Streams a fired top-level event to `EventPluginHub` where plugins have the
-	   * opportunity to create `ReactEvent`s to be dispatched.
-	   *
-	   * @param {string} topLevelType Record from `EventConstants`.
-	   * @param {object} topLevelTarget The listening component root node.
-	   * @param {string} topLevelTargetID ID of `topLevelTarget`.
-	   * @param {object} nativeEvent Native environment event.
-	   */
-	  handleTopLevel: function(
-	      topLevelType,
-	      topLevelTarget,
-	      topLevelTargetID,
-	      nativeEvent) {
-	    var events = EventPluginHub.extractEvents(
-	      topLevelType,
-	      topLevelTarget,
-	      topLevelTargetID,
-	      nativeEvent
-	    );
-
-	    runEventQueueInBatch(events);
-	  }
-	};
-
-	module.exports = ReactEventEmitterMixin;
-
-
-/***/ },
 /* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -29079,28 +29086,27 @@
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 *
-	 * @providesModule ViewportMetrics
+	 * @providesModule getEventTarget
+	 * @typechecks static-only
 	 */
 
 	"use strict";
 
-	var getUnboundedScrollPosition = __webpack_require__(247);
+	/**
+	 * Gets the target node from a native browser event by accounting for
+	 * inconsistencies in browser DOM APIs.
+	 *
+	 * @param {object} nativeEvent Native browser event.
+	 * @return {DOMEventTarget} Target node.
+	 */
+	function getEventTarget(nativeEvent) {
+	  var target = nativeEvent.target || nativeEvent.srcElement || window;
+	  // Safari may fire events on text nodes (Node.TEXT_NODE is 3).
+	  // @see http://www.quirksmode.org/js/events_properties.html
+	  return target.nodeType === 3 ? target.parentNode : target;
+	}
 
-	var ViewportMetrics = {
-
-	  currentScrollLeft: 0,
-
-	  currentScrollTop: 0,
-
-	  refreshScrollValues: function() {
-	    var scrollPosition = getUnboundedScrollPosition(window);
-	    ViewportMetrics.currentScrollLeft = scrollPosition.x;
-	    ViewportMetrics.currentScrollTop = scrollPosition.y;
-	  }
-
-	};
-
-	module.exports = ViewportMetrics;
+	module.exports = getEventTarget;
 
 
 /***/ },
@@ -32596,7 +32602,7 @@
 	"use strict";
 
 	var SyntheticUIEvent = __webpack_require__(254);
-	var ViewportMetrics = __webpack_require__(207);
+	var ViewportMetrics = __webpack_require__(204);
 
 	var getEventModifierState = __webpack_require__(297);
 
@@ -32885,12 +32891,12 @@
 
 	"use strict";
 
-	var CallbackQueue = __webpack_require__(204);
+	var CallbackQueue = __webpack_require__(205);
 	var PooledClass = __webpack_require__(158);
 	var ReactBrowserEventEmitter = __webpack_require__(104);
 	var ReactInputSelection = __webpack_require__(236);
 	var ReactPutListenerQueue = __webpack_require__(257);
-	var Transaction = __webpack_require__(205);
+	var Transaction = __webpack_require__(206);
 
 	var mixInto = __webpack_require__(134);
 
@@ -33908,7 +33914,7 @@
 
 	var SyntheticEvent = __webpack_require__(106);
 
-	var getEventTarget = __webpack_require__(203);
+	var getEventTarget = __webpack_require__(207);
 
 	/**
 	 * @interface UIEvent
