@@ -10,9 +10,7 @@ Tasks
 -------------------
 1.) Default: do a full web pack for prod, do all mocha tests
 2.) test
-3.) test-watch
-4.) harness -- does the webpack watch thing
-5.) test:client
+
 6.) 
 
 
@@ -21,9 +19,7 @@ Tasks
 */
 
 
-gulp.task('default', function() {
-  console.log('Hello!');
-});
+gulp.task('default', ['css', 'test:client']);
 
 
 gulp.task('css', function(){
@@ -62,12 +58,6 @@ gulp.task("harness", ['css'], function(){
 
 
 
-
-
-gulp.task('mocha:watch', function() {
-    gulp.watch('client/components/*.jsx', ['react']);
-    gulp.watch(['working/**', 'test/**'], ['mocha']);
-});
 
 var mocha_webpack_config = {
     entry: client_entry_file,
