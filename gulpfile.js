@@ -41,10 +41,7 @@ gulp.task('css', function(){
 
 });
 
-gulp.task('mocha:watch', function() {
-    gulp.watch('client/components/*.jsx', ['react']);
-    gulp.watch(['working/**', 'test/**'], ['mocha']);
-});
+
 
 gulp.task("harness", ['css'], function(){
     var stream = gulp.src('bundle.js')
@@ -91,6 +88,8 @@ function StringBuilder(text){
     return this;
 }
 
+var client_entry_file = "./test/mocha-entry.js";
+
 gulp.task('mocha:entry', function(){
     var fs = require('fs');
     var path = require('path');
@@ -104,23 +103,83 @@ gulp.task('mocha:entry', function(){
         files = _.filter(files, function(f){return path.extname(f) === '.js';});
         files.forEach(function(file){
             if (file === 'mocha-entry.js') return;
+            if (file === 'bundle.js') return;
 
             var line = "require('" + folder + file + "');";
             builder.appendLine(line);
         });
 
-        var entryFile = "./test/mocha-entry.js";
-        fs.writeFile(entryFile, builder.text, function(err) {
+        fs.writeFile(client_entry_file, builder.text, function(err) {
             if(err) {
                 console.log(err);
             } else {
-                console.log("Wrote the mocha entry file to " + entryFile);
+                console.log("Wrote the mocha entry file to " + client_entry_file);
             }
         }); 
 
     });
 
 });
+
+gulp.task('mocha:watch', function() {
+    gulp.watch('client/components/*.jsx', ['react']);
+    gulp.watch(['working/**', 'test/**'], ['mocha']);
+});
+
+var mocha_webpack_config = {
+    entry: client_entry_file,
+    output: {
+        path: __dirname + '/test',
+        filename: "bundle.js",
+        publicPath: '/javascript/'
+    },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
+    plugins: [],
+    module: {
+        loaders: [
+            { test: /\.css$/, loader: "style!css" },
+            { test: /\.jsx$/, loader: 'jsx' },
+        ]
+    }
+};
+
+
+gulp.task('temp', ['mocha:entry'], function(){
+    var karma = require('gulp-karma');
+
+    return gulp.src(client_entry_file)
+        .pipe(webpack(mocha_webpack_config))
+        .pipe(gulp.dest('./test'))
+        .pipe(karma({
+          configFile: 'karma.conf.js',
+          action: 'run'
+        }))
+        .on('error', function(err) {
+          // Make sure failed tests cause gulp to exit non-zero
+          throw err;
+        });
+
+});
+
+gulp.task('debug', function(){
+    var karma = require('gulp-karma');
+
+    return gulp.src('')
+        .pipe(karma({
+          configFile: 'karma.conf.js',
+          showStack: true,
+          action: 'run'
+        }), {showStack: true})
+        .on('error', function(err) {
+          // Make sure failed tests cause gulp to exit non-zero
+          console.log(err);
+          throw err;
+        });
+});
+
+
 
 
 

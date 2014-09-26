@@ -6,11 +6,13 @@
     "react": "^0.11.1"
   },
   "devDependencies": {
+    "arraybuffer-slice": "^0.1.2",
     "body-parser": "^1.8.3",
     "bootstrap": "^3.2.0",
     "chai": "^1.9.1",
     "express": "^4.9.4",
     "gulp": "^3.8.6",
+    "gulp-karma": "0.0.4",
     "gulp-mocha": "^0.5.1",
     "gulp-util": "^3.0.0",
     "gulp-webpack": "^0.3.0",
