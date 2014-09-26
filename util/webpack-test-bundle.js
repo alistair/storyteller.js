@@ -60,7 +60,7 @@ function writeFile(folder, entryFile, excludes){
 
 var through = require('through');
 
-module.exports = function(options){
+var pipe = function(options){
     return through(function(data){
         this.emit('data', data);
     },
@@ -70,3 +70,8 @@ module.exports = function(options){
         this.emit('end');
     });
 }
+
+pipe.writeFile = writeFile;
+
+module.exports =pipe;
+

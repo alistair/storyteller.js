@@ -6,9 +6,5 @@ describe('simple arithmetic', function(){
 
 	});
 
-	it('should be able to substract numbers', function(){
-		expect(5).to.equal(7 - 2);
-		expect(5).to.equal(7 - 2);
-		expect(5).to.equal(7 - 2);
-	});
+
 });

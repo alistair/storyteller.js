@@ -94,8 +94,7 @@ var entryWriter = require('./util/webpack-test-bundle');
 var client_entry_writer = entryWriter({folder: client_test_folder, entryFile: client_entry_file, excludes: ['bundle.js']})
 
 gulp.task('test:client', function(){
-    var karma = require('gulp-karma');
-    
+    var karma = require('gulp-karma');    
 
     return gulp.src(client_entry_file)
         .pipe(client_entry_writer)
@@ -109,7 +108,38 @@ gulp.task('test:client', function(){
           // Make sure failed tests cause gulp to exit non-zero
           throw err;
         });
+});
 
+gulp.task('test:client:entry', function(){
+    return gulp.src(client_entry_file)
+        .pipe(client_entry_writer);
+});
+
+gulp.task('test:client:build', function(){
+    return gulp.src(client_entry_file)
+        .pipe(webpack(mocha_webpack_config))
+        .pipe(gulp.dest('./test'));
+});
+
+gulp.task('test:client:watch', ['test:client:entry', 'test:client:build'], function(){
+    var entryWatcher = gulp.watch(['test/test-*.js']);
+
+    var writeEntry = function(e){
+        entryWriter.writeFile(client_test_folder, client_entry_file, ['bundle.js']);
+    };
+
+    entryWatcher.on('added', writeEntry);
+    entryWatcher.on('deleted', writeEntry);
+
+    var webpackWatcher = gulp.watch(['test/*.js', 'client/*.js', '!test/bundle.js'], ['test:client:build']);
+
+    console.log("Starting up karma, type CTRL-C to stop");
+    var karma = require('gulp-karma'); 
+    return gulp.src('test/bundle.js')
+        .pipe(karma({
+          configFile: 'karma.conf.js',
+          action: 'start'
+        }));
 });
 
 
