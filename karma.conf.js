@@ -12,6 +12,7 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['mocha'],
 
+    plugins: ['karma-mocha-reporter', 'karma-osx-reporter', 'karma-growl-reporter', 'karma-mocha', 'karma-chrome-launcher'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -34,7 +35,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'growl'],
+    reporters: ['progress', 'growl', 'osx', 'mocha'],
 
 
     // web server port

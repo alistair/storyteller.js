@@ -1,8 +1,8 @@
-var React = require('react/addons');
+var React = require('react');
 var TU = require('react-test-utils');
 var expect = require('chai').expect;
 
-var Cell = require('./../client/components/Cell');
+var Cell = require('./../client/components/cell');
 
 
 describe('Rendering a Cell without results', function(){

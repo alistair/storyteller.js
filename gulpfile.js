@@ -121,7 +121,7 @@ gulp.task('test:client:watch', ['test:client:entry', 'test:client:build'], funct
     entryWatcher.on('added', writeEntry);
     entryWatcher.on('deleted', writeEntry);
 
-    var webpackWatcher = gulp.watch(['test/*.js', 'client/*.js', '!test/bundle.js'], ['test:client:build']);
+    var webpackWatcher = gulp.watch(['test/**/*.js', 'client/**/*.js', 'client/**/*.jsx', '!test/bundle.js'], ['test:client:build']);
 
     console.log("Starting up karma, type CTRL-C to stop");
     var karma = require('gulp-karma'); 

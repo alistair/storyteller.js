@@ -23,6 +23,8 @@
     "karma-growl-reporter": "^0.1.1",
     "karma-html-reporter": "^0.2.4",
     "karma-mocha": "^0.1.9",
+    "karma-mocha-reporter": "^0.3.1",
+    "karma-osx-reporter": "^0.1.0",
     "karma-phantomjs-launcher": "^0.1.4",
     "lodash": "^2.4.1",
     "mocha": "^1.21.4",
