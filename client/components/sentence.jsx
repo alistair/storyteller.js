@@ -85,16 +85,17 @@ function SentenceParser(format, cells, parts){
 
 
 function Sentence(metadata){
-	this.cells = {};
-	metadata.cells.forEach(function(c){
-		this.cells[c.key] = c;
+	var cells = {};
+
+	(metadata.cells || []).forEach(function(c){
+		cells[c.key] = c;
 	});
 
 	this.key = metadata.key;
 	this.description = metadata.description;
 
 	this.parts = [];
-
+	this.cells = cells;
 
 	var parser = new SentenceParser(metadata.format, this.cells, this.parts);
 	parser.parse();

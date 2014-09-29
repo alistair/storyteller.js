@@ -31,7 +31,18 @@ describe('Sentence', function(){
 			
 	}
 
-	describe('when parsing the format', function(){
+	describe('when building out a Sentence from metadata', function(){
+		it('captures basic properties', function(){
+			build({
+				format: 'the foo is afoot',
+				description: 'does something',
+				key: 'foo'
+			});
+
+			expect(sentence.key).to.equal('foo');
+			expect(sentence.description).to.equal('does something');
+		});
+
 		it('no cells', function(){
 			build({
 				format: 'the foo is afoot'
@@ -104,6 +115,31 @@ describe('Sentence', function(){
 			partShouldBeCell(1, 'x');
 			partShouldBeText(2, ' to ');
 			partShouldBeCell(3, 'y');
+		});
+
+		it('matches cell data to the parts', function(){
+			build({
+				format: 'Add {x} to {y}',
+				cells: [
+					{key: 'x', description: 'the x'},
+					{key: 'y', description: 'the y'}
+				]
+			});
+
+			expect(sentence.parts[1].cell.description).to.equal('the x');
+			expect(sentence.parts[3].cell.description).to.equal('the y');
+		});
+
+		it('can fill in missing cells', function(){
+			build({
+				format: 'Add {x} to {y}',
+				cells: [
+					{key: 'x', description: 'the x'}
+				]
+			});
+
+			expect(sentence.parts[1].cell.description).to.equal('the x');
+			expect(sentence.parts[3].cell.key).to.equal('y');
 		});
 	});
 });
