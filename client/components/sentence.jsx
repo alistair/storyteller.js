@@ -25,6 +25,8 @@
 */
 
 var _ = require('lodash');
+var Cell = require('./cell');
+var PreviewCell = require('./previewCell');
 
 function SentenceParser(format, cells, parts){
 	this.format = format;
@@ -112,12 +114,15 @@ function Sentence(metadata){
 	if (unusedCells.length > 0){
 		throw new Error('Cell(s) ' + unusedCells + ' are unaccounted for in the sentence format');
 	}
+}
 
+Sentence.prototype.buildEditor = function(){
 
 }
 
-
-
+Sentence.prototype.buildPreview = function(){
+	
+}
 
 
 function CellPart(cell){
@@ -126,12 +131,23 @@ function CellPart(cell){
 	this.key = cell.key;
 }
 
-CellPart.prototype.buildEditor = function(data){
 
+CellPart.prototype.buildEditor = function(data){
+	// TODO -- do something w/ callbacks for state tracking
+	var cellData = data[this.key] || {result: null, value: null, changed: false};
+
+	var props = {
+		cell: this.cell,
+
+	};
+
+	_.assign(props, cellData);
+
+	return Cell(props);
 }
 
-CellPart.prototype.buildDisplay = function(data){
-
+CellPart.prototype.buildPreview = function(data){
+	return PreviewCell(data);
 }
 
 function TextPart(text){
@@ -139,17 +155,13 @@ function TextPart(text){
 	this.type = "Text";
 
 
-
 	return this;
 }
 
-TextPart.prototype.buildEditor = function(data){
-	
+TextPart.prototype.buildEditor = TextPart.prototype.buildPreview =  function(data){
+	return React.DOM.span(null, this.text)
 }
 
-TextPart.prototype.buildDisplay = function(data){
-	
-}
 
 
 module.exports = Sentence;

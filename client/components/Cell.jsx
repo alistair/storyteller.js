@@ -24,16 +24,12 @@ props = {
 
 }
 
-Editor
-------
-buildEditor(cell, value, callback) : component
-
 */
 
 var React = require("react");
 var builders = require("./builders");
 
-
+// TODO -- split this up a little bit
 module.exports = React.createClass({
 	getInitialState: function(){
 		return {editing: false};
@@ -41,11 +37,7 @@ module.exports = React.createClass({
 
 	render: function(){
 		var classes = ['cell'];
-		var builderType = this.props.cell.type || 'text';
-		var builder = builders[builderType];
-		if (!builder){
-			throw new Error("Unable to find a cell builder strategy for '" + builderType + "'");
-		}
+		var builder = builders.get(this.props.cell.type);
 
 		if (this.props.changed){
 			classes.push('changed');

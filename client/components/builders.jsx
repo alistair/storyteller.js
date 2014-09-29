@@ -29,5 +29,16 @@ builders.add('text', function(cell, value, callback){
 	);
 });
 
+builders.get = function(type){
+	if (!type) type = 'text';
+
+	var builder = this[type];
+	if (!builder){
+		throw new Error("Unable to find a cell builder strategy for '" + builderType + "'");
+	}
+
+	return builder;
+}
+
 
 module.exports = builders;
