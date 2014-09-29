@@ -16,7 +16,7 @@
 	key: '',
 	comment: '',
 	cells: {
-		'key1': {value: '', changed: true/false, }
+		'key1': {value: '', changed: true/false, result: }
 
 	}
 }
