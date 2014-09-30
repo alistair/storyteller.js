@@ -28,6 +28,7 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "lodash": "^2.4.1",
     "mocha": "^1.21.4",
+    "node-uuid": "^1.4.1",
     "open": "0.0.5",
     "react-hot-loader": "^0.4.5",
     "react-test-utils": "0.0.1",

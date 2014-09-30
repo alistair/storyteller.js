@@ -57,6 +57,7 @@ gulp.task("harness", ['css'], function(){
 });
 
 
+var mocha = require('gulp-mocha');
 
 
 var mocha_webpack_config = {
@@ -82,6 +83,11 @@ var client_entry_file = "./test/mocha-entry.js";
 var client_test_folder = __dirname + '/test/';
 var entryWriter = require('./util/webpack-test-bundle');
 var client_entry_writer = entryWriter({folder: client_test_folder, entryFile: client_entry_file, excludes: ['bundle.js']})
+
+gulp.task('test:client:lib', function(){
+    return gulp.src('./client/lib-tests/test-*.js', {read: false})
+        .pipe(mocha({reporter: 'spec'}));
+});
 
 gulp.task('test:client', function(){
     var karma = require('gulp-karma');    

@@ -1,32 +1,7 @@
-/*
-
--- Sentence Metadata --
-{
-	key: 'name',
-	format: 'some {words} in a {format}',
-	description: '',
-	cells: [
-		{key: '', description: '', default: '', editor: '', options: []}
-	]
-}
-
-
--- Step Metadata --
-{
-	key: '',
-	comment: '',
-	cells: {
-		'key1': {value: '', changed: true/false, result: }
-
-	}
-}
-
-
-*/
+/** @jsx React.DOM */
 
 var _ = require('lodash');
-var Cell = require('./cell');
-var PreviewCell = require('./previewCell');
+
 
 function SentenceParser(format, cells, parts){
 	this.format = format;
@@ -95,6 +70,8 @@ function Sentence(metadata){
 	this.description = metadata.description;
 
 	this.parts = [];
+
+// TODO -- use CellCollection
 	this.cells = cells;
 
 	var parser = new SentenceParser(metadata.format, this.cells, this.parts);
@@ -116,12 +93,16 @@ function Sentence(metadata){
 	}
 }
 
-Sentence.prototype.buildEditor = function(){
-
+Sentence.prototype.editor = function(){
+	throw new Error("Not implemented yet!");
 }
 
-Sentence.prototype.buildPreview = function(){
-	
+Sentence.prototype.preview = function(){
+	throw new Error("Not implemented yet!");
+}
+
+Sentence.prototype.editorWithoutChrome = function(){
+	throw new Error("Not implemented yet!");
 }
 
 
@@ -130,6 +111,10 @@ function CellPart(cell){
 	this.cell = cell;
 	this.key = cell.key;
 }
+
+// TODO -- do this with a builder
+//var Cell = require('./cell');
+//var PreviewCell = require('./previewCell');
 
 
 CellPart.prototype.buildEditor = function(data){

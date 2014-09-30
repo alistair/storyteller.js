@@ -1,31 +1,4 @@
 /** @jsx React.DOM */
-
-/*
-cell = {
-	key: '',
-	description: '',
-	default: '',
-	editor: 'select', 'text', 'number' -- later --> date, time, big-text, radio(?), typeahead(?)
-	options: ['', ''] or [{key: '', display: ''}]
-}
-
-result = {
-	status: ok, success, failure, error,
-	error: '',
-	actual: ''
-}
-
-props = {
-	cell: {},
-	value: '',
-	result: {},
-	callback: function(val){},
-	changed: true/false
-
-}
-
-*/
-
 var React = require("react");
 var builders = require("./builders");
 
@@ -35,6 +8,7 @@ module.exports = React.createClass({
 		return {editing: false};
 	},
 
+	// TODO -- use the Cell from the lib to clean this up a bit
 	render: function(){
 		var classes = ['cell'];
 		var builder = builders.get(this.props.cell.type);
@@ -63,7 +37,7 @@ module.exports = React.createClass({
 			var status = this.props.result.status || 'ok';
 
 			if (status == 'ok'){
-
+				// nothing.
 			}
 			else if (status == 'failed'){
 				classes.push('failed');

@@ -3,7 +3,7 @@
 var React = require("react");
 var builders = require("./builders");
 
-
+// TODO -- when this is a Cell, no need to worry about default
 module.exports = React.createClass({
 	render: function(){
 		var builder = builders.get(this.props.cell.type);

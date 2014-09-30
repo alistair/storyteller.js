@@ -1,6 +1,6 @@
 var React = require('react');
 var expect = require('chai').expect;
-var Sentence = require('./../client/components/sentence')
+var Sentence = require('./../lib/sentence')
 
 describe('Sentence', function(){
 	var sentence = null;
@@ -14,7 +14,8 @@ describe('Sentence', function(){
 		metadata.key = metadata.key || 'foo';
 		metadata.cells = metadata.cells || [];
 
-		sentence = new Sentence(metadata);
+		// not worried about the builder quite yet
+		sentence = new Sentence(metadata, null);
 	}
 
 	function partShouldBeText(index, text){
