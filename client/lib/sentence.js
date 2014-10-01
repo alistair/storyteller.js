@@ -16,7 +16,7 @@ function Sentence(metadata){
 
 	this.cells = cells;
 
-	var parser = new SentenceParser(metadata.format, this.cells, this.parts);
+	var parser = new SentenceParser(metadata.format, this);
 	parser.parse();
 
 	var usedCells = _.filter(this.parts, function(part){
@@ -35,19 +35,77 @@ function Sentence(metadata){
 	}
 }
 
-Sentence.prototype.editor = function(){
+Sentence.prototype.editor = function(components){
 	throw new Error("Not implemented yet!");
 }
 
-Sentence.prototype.preview = function(){
+Sentence.prototype.preview = function(components){
 	throw new Error("Not implemented yet!");
 }
 
-Sentence.prototype.editorWithoutChrome = function(){
+Sentence.prototype.editorWithoutChrome = function(components){
 	throw new Error("Not implemented yet!");
 }
 
+Sentence.prototype.addCell = function(key){
+	if (!this.cells[key]){
+		this.cells[key] = {key: key};
+	}
 
+	this.parts.push(new CellPart(this.cells[key]));
+}
+
+Sentence.prototype.addText = function(text){
+	this.parts.push(new TextPart(text));
+}
+
+function CellPart(cell){
+	if (cell == null) throw new Error("'cell' cannot be null");
+
+	this.type = "Cell";
+	this.cell = cell;
+	this.key = cell.key;
+}
+
+// TODO -- do this with a builder
+//var Cell = require('./cell');
+//var PreviewCell = require('./previewCell');
+
+/* SPIKE BELOW-------------------->
+CellPart.prototype.buildEditor = function(data){
+	// TODO -- do something w/ callbacks for state tracking
+	var cellData = data[this.key] || {result: null, value: null, changed: false};
+
+	var props = {
+		cell: this.cell,
+
+	};
+
+	_.assign(props, cellData);
+
+	return Cell(props);
+}
+
+CellPart.prototype.buildPreview = function(data){
+	return PreviewCell(data);
+}
+*/
+
+function TextPart(text){
+	this.text = text;
+	this.type = "Text";
+
+
+	return this;
+}
+
+/* SPIKE BELOW!!!!!!!!!!!!!!
+
+TextPart.prototype.buildEditor = TextPart.prototype.buildPreview =  function(data){
+	return React.DOM.span(null, this.text)
+}
+
+*/
 
 
 
