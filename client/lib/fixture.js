@@ -1,5 +1,6 @@
 var Sentence = require('./sentence');
 var MissingGrammar = require('./missing-grammar');
+var Section = require('./section');
 
 function Fixture(data){
 	this.key = data.key;
@@ -24,6 +25,10 @@ Fixture.prototype.find = function(key){
 	}
 
 	return new MissingGrammar(key);
+}
+
+Fixture.prototype.buildStep = function(data){
+	return new Section(data, this);
 }
 
 module.exports = Fixture;
