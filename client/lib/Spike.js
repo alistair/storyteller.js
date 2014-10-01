@@ -116,51 +116,8 @@ function Grid(metadata, data){
 }
 
 
-function CellCollection(cells){
-	this.cells = {};
-
-	cells.forEach(function(c){
-		this.cells[c.key] = c;
-	});
-}
-
-CellCollection.prototype.find = function(key){
-	if (!this.cells[key]){
-		var cell = {key: key, default: null};
-		this.cells[key] = cell;
-	}
-
-	return this.cells[key];
-}
-
-CellCollection.prototype.allKeys = function(){
-	var allCells = [];
-	for (key in cells){
-		allCells.push(key);
-	}
-
-	return allCells;
-}
 
 
 
-function Cell(metadata, step){
-	this.key = metadata.key;
-	this.result = null;
-	this.changed = false;
-	this.cell = metadata;
-
-	this.value = step.cells[this.key] || metadata.default;
-}
-
-Cell.prototype.isMissing = function(){
-	return this.value != null;
-}
-
-Cell.prototype.store = function(data){
-	if (!data.cells) data.cells = {};
-
-	data.cells[this.key] = this.value || this.cell.default;
-}
 
 

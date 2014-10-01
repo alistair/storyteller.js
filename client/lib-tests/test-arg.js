@@ -3,7 +3,7 @@ var Cell = require('./../lib/cell');
 var Arg = require('./../lib/arg');
 
 
-describe.only('Arg', function(){
+describe('Arg', function(){
 	it('should grab the basic props from the cell', function(){
 		var cell = new Cell('foo');
 		var step = {cells:{foo: 'A'}};
