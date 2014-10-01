@@ -11,16 +11,34 @@
 }
 
 
--- Step Metadata --
+-- Step Editor Model --
 {
 	key: '',
 	comment: '',
 	cells: {
 		'key1': {value: '', changed: true/false, result: }
 
+	},
+
+
+	tables: {
+		
+
 	}
 }
 
+-- Persisted Step Model --
+{
+	key: 'foo',
+	comment: '',
+	cells: {key1: value1, key2: value2}
+	
+	-- and possibly for paragraphs --
+	tables: {key1: [children steps]}
+
+	-- for a table --
+	rows: []
+}
 
 */
 
@@ -51,9 +69,52 @@ props = {
 */
 
 var uuid = require('node-uuid');
-// uuid.v4();
 
-//function Step(metadata)
+
+// Cells could be either a table or a regular cell?????
+// Not sure I like that.
+// cells is a CellCollection
+function Step(key, cells, data){
+	this.id = uuid.v4();
+	this.cells = {};
+	this.key = metadata.key;
+	
+	metadata.cells.forEach(function(c){
+		this.cells[c.key] = new Cell(c, data);
+	});
+
+	// TODO --later: add tables
+
+	this.tables = {};
+}
+
+Step.prototype.descendents = function(){
+	
+	// TODO -- gotta get table data
+	return [];
+}
+
+Step.prototype.write = function(){
+	var data = {key: this.key, cells: {}};
+	this.cells.forEach(function(c){
+		data.cells[c.key] = c.value;
+	});
+
+	return data;
+}
+
+Step.prototype.pack = function(){
+	var data = this.write();
+	data.id = this.id;
+
+	return data;
+}
+
+
+function Grid(metadata, data){
+
+}
+
 
 function CellCollection(cells){
 	this.cells = {};
@@ -72,7 +133,7 @@ CellCollection.prototype.find = function(key){
 	return this.cells[key];
 }
 
-CellCollection.prototype.all = function(){
+CellCollection.prototype.allKeys = function(){
 	var allCells = [];
 	for (key in cells){
 		allCells.push(key);
@@ -80,6 +141,8 @@ CellCollection.prototype.all = function(){
 
 	return allCells;
 }
+
+
 
 function Cell(metadata, step){
 	this.key = metadata.key;
@@ -100,6 +163,4 @@ Cell.prototype.store = function(data){
 	data.cells[this.key] = this.value || this.cell.default;
 }
 
-function Step(data, grammar){
 
-}

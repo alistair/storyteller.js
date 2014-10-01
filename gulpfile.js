@@ -89,7 +89,7 @@ gulp.task('test:client:lib', function(){
         .pipe(mocha({reporter: 'spec'}));
 });
 
-gulp.task('test:client', function(){
+gulp.task('test:client', ['test:client:lib'], function(){
     var karma = require('gulp-karma');    
 
     return gulp.src(client_entry_file)
