@@ -71,44 +71,7 @@ props = {
 var uuid = require('node-uuid');
 
 
-// Cells could be either a table or a regular cell?????
-// Not sure I like that.
-// cells is a CellCollection
-function Step(key, cells, data){
-	this.id = uuid.v4();
-	this.cells = {};
-	this.key = metadata.key;
-	
-	metadata.cells.forEach(function(c){
-		this.cells[c.key] = new Cell(c, data);
-	});
 
-	// TODO --later: add tables
-
-	this.tables = {};
-}
-
-Step.prototype.descendents = function(){
-	
-	// TODO -- gotta get table data
-	return [];
-}
-
-Step.prototype.write = function(){
-	var data = {key: this.key, cells: {}};
-	this.cells.forEach(function(c){
-		data.cells[c.key] = c.value;
-	});
-
-	return data;
-}
-
-Step.prototype.pack = function(){
-	var data = this.write();
-	data.id = this.id;
-
-	return data;
-}
 
 
 function Grid(metadata, data){

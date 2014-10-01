@@ -1,7 +1,7 @@
 var Arg = require('./arg');
 
 function ArgCollection(cells, data){
-	var args = [];
+	var args = {};
 
 	cells.forEach(function(cell){
 		var arg = new Arg(cell, data);
@@ -29,4 +29,10 @@ ArgCollection.prototype.allKeys = function(){
 	return allCells;
 }
 
+ArgCollection.prototype.store = function(data){
+	for (key in this.args){
+		this.args[key].store(data);
+	}
+}
+	
 module.exports = ArgCollection;
