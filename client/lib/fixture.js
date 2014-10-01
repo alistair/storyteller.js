@@ -1,6 +1,4 @@
 var Sentence = require('./sentence');
-//var Comment = require('./comment');
-//var TODO = require('./todo');
 var MissingGrammar = require('./missing-grammar');
 
 function Fixture(data){

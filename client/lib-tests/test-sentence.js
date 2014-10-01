@@ -1,7 +1,7 @@
 var React = require('react');
 var expect = require('chai').expect;
 var Sentence = require('./../lib/sentence');
-
+var Step = require('./../lib/step');
 
 describe('Sentence', function(){
 	var sentence = null;
@@ -163,6 +163,37 @@ describe('Sentence', function(){
 					format: 'Add {x to something'
 				});
 			}).to.throw();
+		});
+	});
+
+	describe('when building a Step from raw data', function(){
+		it('creates a new step with the data and the cells', function(){
+			var sentence = new Sentence({key: 'Adding', format: 'Add {x} to {y}'});
+			var data = {key: 'Adding', cells: {x: 1, y: 2}};
+
+			var step = sentence.buildStep(data);
+
+			expect(step instanceof Step).to.equal.true;
+			expect(step.args.find('x').value).to.equal(1);
+			expect(step.args.find('y').value).to.equal(2);
+
+		});
+
+		it('can create a new step', function(){
+			var sentence = new Sentence(
+				{key: 'Adding', 
+				format: 'Add {x} to {y}', 
+				cells: [
+					{key: 'x', default: 1},
+					{key: 'y', default: 2}
+				]
+				});
+
+			var step = sentence.newStep();
+
+			expect(step instanceof Step).to.equal.true;
+			expect(step.args.find('x').value).to.equal(1);
+			expect(step.args.find('y').value).to.equal(2);
 		});
 	});
 });

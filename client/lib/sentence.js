@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var SentenceParser = require('./sentence-parser');
-
+var Step = require('./step');
 
 function Sentence(metadata){
 	var cells = {};
@@ -23,16 +23,23 @@ function Sentence(metadata){
 		return part.type == "Cell";
 	}).map(function(p){return p.cell.key});
 
-	var allCells = [];
-	for (key in cells){
-		allCells.push(key);
-	}
-
+	var allCells = _.keys(cells);
 	var unusedCells = _.difference(allCells, usedCells).join(', ');
 
 	if (unusedCells.length > 0){
 		throw new Error('Cell(s) ' + unusedCells + ' are unaccounted for in the sentence format');
 	}
+
+	this.allCells = _.values(this.cells);
+
+}
+
+Sentence.prototype.buildStep = function(data){
+	return new Step(data, this.allCells);
+}
+
+Sentence.prototype.newStep = function(){
+	return this.buildStep({key: this.key, cells: {}});
 }
 
 Sentence.prototype.editor = function(components){
