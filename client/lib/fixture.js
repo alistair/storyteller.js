@@ -1,11 +1,9 @@
 var Sentence = require('./sentence');
 //var Comment = require('./comment');
 //var TODO = require('./todo');
-//var MissingGrammar = require('./missing-grammar');
+var MissingGrammar = require('./missing-grammar');
 
 function Fixture(data){
-	
-
 	this.key = data.key;
 	this.title = data.title;
 
@@ -27,7 +25,7 @@ Fixture.prototype.find = function(key){
 		return this.grammars[key];
 	}
 
-	throw new Error('Missing grammar named ' + key);
+	return new MissingGrammar(key);
 }
 
 module.exports = Fixture;

@@ -1,6 +1,7 @@
 var React = require('react');
 var expect = require('chai').expect;
-var Sentence = require('./../lib/sentence')
+var Sentence = require('./../lib/sentence');
+
 
 describe('Sentence', function(){
 	var sentence = null;

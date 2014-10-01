@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
 var Sentence = require('./../lib/sentence');
 var Fixture= require('./../lib/fixture');
+var MissingGrammar = require('./../lib/missing-grammar');
 
 describe('Fixture', function(){
 	var fixture = null;
@@ -36,4 +37,12 @@ describe('Fixture', function(){
 		expect(fixture.find('Add') instanceof Sentence).to.be.true;
 		expect(fixture.find('Result') instanceof Sentence).to.be.true;
 	});
+
+	it('should resolve a missing grammar for an unknown grammar', function(){
+		var grammar = fixture.find('unknown');
+
+		expect(grammar instanceof MissingGrammar).to.be.true;
+		expect(grammar.key).to.equal('unknown');
+	});
+
 });
