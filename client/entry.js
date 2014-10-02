@@ -1,19 +1,6 @@
 // document.getElementById('main')
 
-var fixtureData = [
-	{
-		key: 'Math', 
-		title: 'Doing some mathematics!', 
-		grammars: [
-			{type: 'sentence', key: 'StartWith', format: 'Start with {x}'},
-			{type: 'sentence', key: 'Add', format: 'Add {x}', cells:[{key: 'x', description: 'The operand for addition'}]},
-			{type: 'sentence', key: 'Subtract', format: 'Subtract {x}'},
-			{type: 'sentence', key: 'TheResultShouldBe', format: 'The result should be {x}'},
-			{type: 'sentence', key: 'Adding', format: 'Adding {x} to {y} should be {result}'}
-		]
-	}
-
-];
+var fixtureData = [require('./lib-tests/math-fixture-data')];
 
 
 var Fixture = require('./lib/fixture');

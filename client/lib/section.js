@@ -1,7 +1,7 @@
 var uuid = require('node-uuid');
 
 
-// TODO - UT this
+
 function Section(data, fixture){
 	this.id = uuid.v4();
 	this.key = fixture.key;
@@ -12,7 +12,7 @@ function Section(data, fixture){
 		// TODO -- has to be smart enough to deal w/ comments, TODO
 
 		var grammar = fixture.find(x.key);
-		var step = grammar.buildStep(x);  // TODO -- start HERE!
+		var step = grammar.buildStep(x);  
 
 		steps.push(step);
 	});
@@ -21,7 +21,8 @@ function Section(data, fixture){
 }
 
 Section.prototype.descendents = function(){
-	throw new Error('Not implemented yet');
+	// TODO -- this will need to be recursive later
+	return this.steps;
 }
 
 Section.prototype.write = function(){

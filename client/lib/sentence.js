@@ -4,6 +4,7 @@ var Step = require('./step');
 
 function Sentence(metadata){
 	var cells = {};
+	this.type = 'sentence';
 
 	(metadata.cells || []).forEach(function(c){
 		cells[c.key] = c;
