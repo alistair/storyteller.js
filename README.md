@@ -3,6 +3,8 @@ storyteller.js
 
 Author executable specifications with the business now, automate them later
 
+See the [wiki for more information](https://github.com/jeremydmiller/storyteller.js/wiki).
+
 There isn't much to see here yet, but this repository will be a rewrite of the [Storyteller2](https://github.com/DarthFubuMVC/StoryTeller2) tool in .Net. The current thinking
 is:
  
@@ -11,6 +13,9 @@ is:
 * Create a JSON API to communicate between the UI client and the actual test engine(s) so that the UI could be used against multiple platforms.
 * Retrofit the new UI client onto the existing .Net Storyteller2 engine in order to reuse existing specs and fixture
 * Build an option to host the test engine, UI, and specifications in a remote web server for non-technical users who might not have access to the source of a project but still want to review, edit, or run specifications.
+
+
+
 
 Proposed Tooling
 ================
