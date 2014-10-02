@@ -16,7 +16,6 @@ Step.prototype.descendents = function(){
 Step.prototype.write = function(){
 	var data = {key: this.key, cells: {}};
 
-	console.log('args: ' + this.args.length);
 	this.args.store(data);
 
 	return data;
@@ -29,7 +28,6 @@ Step.prototype.pack = function(){
 	return data;
 }
 
-// TODO -- add a UT
 Step.prototype.findValue = function(key){
 	var arg = this.args.find(key);
 	if (arg == null) return null;
