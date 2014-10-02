@@ -8,10 +8,10 @@ module.exports = React.createClass({
 	render: function(){
 		var builder = builders.get(this.props.cell.type);
 
-		var text = builder.display(this.props.value || this.props.default);
+		var text = builder.display(this.props.cell, this.props.value);
 
 		return (
-			<span className="cell" title={this.props.description}>{text}</span>
+			<span className="preview-cell" title={this.props.cell.description}>{text}</span>
 		);
 	}
 });

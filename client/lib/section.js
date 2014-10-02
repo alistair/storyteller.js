@@ -1,6 +1,7 @@
 var uuid = require('node-uuid');
 
 
+// TODO - UT this
 function Section(data, fixture){
 	this.id = uuid.v4();
 	this.key = fixture.key;
@@ -13,7 +14,7 @@ function Section(data, fixture){
 		var grammar = fixture.find(x.key);
 		var step = grammar.buildStep(x);  // TODO -- start HERE!
 
-		steps.push(x);
+		steps.push(step);
 	});
 
 	this.steps = steps;

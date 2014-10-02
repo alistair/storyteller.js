@@ -1,7 +1,4 @@
-var Cell = require('./cell');
-var Line = require('./line');
-var PreviewContainer = require('./preview-container');
-
+var React = require('react');
 
 function Loader(){
 	var loader = this;
@@ -11,6 +8,10 @@ function Loader(){
 		loader[method] = function(props){
 			return component(props);
 		}
+	}
+
+	this.span = function(text){
+		return React.DOM.span(null, text);
 	}
 }
 

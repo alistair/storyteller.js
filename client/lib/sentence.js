@@ -42,15 +42,20 @@ Sentence.prototype.newStep = function(){
 	return this.buildStep({key: this.key, cells: {}});
 }
 
-Sentence.prototype.editor = function(components){
+Sentence.prototype.editor = function(step, loader){
 	throw new Error("Not implemented yet!");
 }
 
-Sentence.prototype.preview = function(components){
-	throw new Error("Not implemented yet!");
+// TODO -- add UT
+Sentence.prototype.preview = function(step, loader){
+	var components = _.map(this.parts, function(part){
+		return part.preview(step, loader);
+	});
+
+	return loader.line({components: components});
 }
 
-Sentence.prototype.editorWithoutChrome = function(components){
+Sentence.prototype.editorWithoutChrome = function(step, loader){
 	throw new Error("Not implemented yet!");
 }
 
@@ -92,11 +97,18 @@ CellPart.prototype.buildEditor = function(data){
 
 	return Cell(props);
 }
-
-CellPart.prototype.buildPreview = function(data){
-	return PreviewCell(data);
-}
 */
+
+// TODO - UT
+CellPart.prototype.preview = function(step, loader){
+	var value = step.findValue(this.key);
+	if (value == null || typeof value === 'undefined'){
+		value = '[' + this.key + ']';
+	}
+
+	return loader.previewCell({cell: this.cell, value: value});
+}
+
 
 function TextPart(text){
 	this.text = text;
@@ -104,6 +116,11 @@ function TextPart(text){
 
 
 	return this;
+}
+
+// TODO - UT
+TextPart.prototype.preview = function(step, loader){
+	return loader.span(this.text);
 }
 
 /* SPIKE BELOW!!!!!!!!!!!!!!

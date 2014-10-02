@@ -29,5 +29,15 @@ Step.prototype.pack = function(){
 	return data;
 }
 
+// TODO -- add a UT
+Step.prototype.findValue = function(key){
+	var arg = this.args.find(key);
+	if (arg == null) return null;
+
+	return arg.value || arg.default;
+
+
+}
+
 
 module.exports = Step;

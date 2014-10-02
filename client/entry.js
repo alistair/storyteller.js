@@ -6,7 +6,7 @@ var fixtureData = [
 		title: 'Doing some mathematics!', 
 		grammars: [
 			{type: 'sentence', key: 'StartWith', format: 'Start with {x}'},
-			{type: 'sentence', key: 'Add', format: 'Add {x}'},
+			{type: 'sentence', key: 'Add', format: 'Add {x}', cells:[{key: 'x', description: 'The operand for addition'}]},
 			{type: 'sentence', key: 'Subtract', format: 'Subtract {x}'},
 			{type: 'sentence', key: 'TheResultShouldBe', format: 'The result should be {x}'},
 			{type: 'sentence', key: 'Adding', format: 'Adding {x} to {y} should be {result}'}
@@ -37,6 +37,22 @@ function FixtureLibrary(data){
 		var fixture = this.find(data.key);
 		return fixture.buildStep(data);
 	}
+
+	this.preview = function(spec, loader){
+		var library = this;
+
+		var components = _.map(spec.steps, function(step){
+			// TODO -- comment or TODO
+			var fixture = library.find(step.key);
+			return fixture.preview(step, loader);
+		});
+
+		return loader.specPreview({title: spec.title, components: components});
+	}
+
+	this.editor = function(spec, loader){
+		throw new Error('Not implemented yet');
+	}
 }
 
 var specData = {
@@ -49,7 +65,7 @@ var specData = {
 				{key: 'StartWith', cells: {x: 1}},
 				{key: 'Add', cells: {x: 5}},
 				{key: 'Subtract', cells: {x: 2}},
-				{key: 'TheResultShouldBe', cells: {result: 4}},
+				{key: 'TheResultShouldBe', cells: {x: 4}},
 				{key: 'Adding', cells:{x:1, y:2, result:3}}
 			]
 		}
@@ -79,10 +95,9 @@ var loader = require('./components/component-loader');
 //var Cell = require("./components/cell");
 var $ = require("jquery");
 
-var cell = loader.cell({value:"I rendered ok!", cell: {key: 'foo', type: 'text'}});
-var line = loader.line({components: [cell]});
+
 
 React.renderComponent(
-  loader.specPreview({title: 'I am a preview container!',components: [line]}),
+  library.preview(spec, loader),
   document.getElementById('main')
 );
