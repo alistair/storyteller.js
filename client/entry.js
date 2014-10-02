@@ -73,13 +73,16 @@ var spec = new Specification(specData, library);
 
 
 var React = require("react");
-var Cell = require("./components/Cell");
+var Cell = require("./components/cell");
 var $ = require("jquery");
 
+var Line = require("./components/line");
+var PreviewContainer = require("./components/preview-container");
 
-
+var cell = Cell({value:"I rendered ok!", cell: {key: 'foo', type: 'text'}});
+var line = Line({components: [cell]});
 
 React.renderComponent(
-  Cell({value:"I rendered ok!", cell: {key: 'foo', type: 'text'}}),
+  PreviewContainer({title: 'I am a preview container!',components: [line]}),
   document.getElementById('main')
 );
