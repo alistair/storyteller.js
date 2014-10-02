@@ -166,6 +166,31 @@ describe('Sentence', function(){
 		});
 	});
 
+	describe('when building the preview controls', function(){
+		it('should create all the right controls for text and cells', function(){
+			var loader = require('./stub-loader')();
+			var sentence = new Sentence({key: 'Adding', format: 'Add {x} to {y} should be {sum}'});
+			var step = sentence.buildStep({cells: {x: 1, y: 2, sum: 3}});
+
+			var preview = sentence.preview(step, loader);
+
+			expect(preview).to.deep.equal({
+				type: 'line',
+				props: {
+					components: [
+						loader.span('Add '),
+						loader.previewCell({cell: {key: 'x'}, value: 1}),
+						loader.span(' to '),
+						loader.previewCell({cell: {key: 'y'}, value: 2}),
+						loader.span(' should be '),
+						loader.previewCell({cell: {key: 'sum'}, value: 3})
+					]
+				}
+
+			});
+		});
+	});
+
 	describe('when building a Step from raw data', function(){
 		it('creates a new step with the data and the cells', function(){
 			var sentence = new Sentence({key: 'Adding', format: 'Add {x} to {y}'});

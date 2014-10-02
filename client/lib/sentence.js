@@ -100,7 +100,6 @@ CellPart.prototype.buildEditor = function(data){
 }
 */
 
-// TODO - UT
 CellPart.prototype.preview = function(step, loader){
 	var value = step.findValue(this.key);
 	if (value == null || typeof value === 'undefined'){
@@ -119,7 +118,6 @@ function TextPart(text){
 	return this;
 }
 
-// TODO - UT
 TextPart.prototype.preview = function(step, loader){
 	return loader.span(this.text);
 }

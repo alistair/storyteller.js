@@ -1,6 +1,7 @@
 var Sentence = require('./sentence');
 var MissingGrammar = require('./missing-grammar');
 var Section = require('./section');
+var _ = require('lodash');
 
 function Fixture(data){
 	this.key = data.key;
@@ -27,7 +28,7 @@ Fixture.prototype.find = function(key){
 	return new MissingGrammar(key);
 }
 
-// TODO -- add UT
+// tested through the Section ctor
 Fixture.prototype.buildStep = function(data){
 	return new Section(data, this);
 }

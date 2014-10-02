@@ -10,6 +10,12 @@ function StubLoader(){
 	this.add('previewContainer');
 	this.add('specPreview');
 	this.add('previewCell');
+
+	this.span = function(text){
+		return {type: 'span', text: text};
+	}
+
+	return this;
 }
 
 module.exports = StubLoader;

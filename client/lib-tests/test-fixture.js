@@ -45,4 +45,52 @@ describe('Fixture', function(){
 		expect(grammar.key).to.equal('unknown');
 	});
 
+
+	describe('when building the preview for a section', function(){
+		var data = {
+			type: 'section',
+			key: 'Math', 
+			steps: [
+				{key: 'StartWith', cells: {x: 1}},
+				{key: 'Add', cells: {x: 5}},
+				{key: 'TheResultShouldBe', cells: {x: 4}},
+				{key: 'Adding', cells:{x:1, y:2, z:3}}
+			]
+		}
+
+		var fixtureData = {
+			key: 'Math',
+			title: 'Do some math',
+			grammars: [
+				{key: 'Adding', type: 'sentence', format: '{x} + {y} should be {z}'},
+				{key: 'StartWith', type: 'sentence', format: 'Start with {x}'},
+				{key: 'Add', type: 'sentence', format: 'Add {x}'},
+				{key: 'TheResultShouldBe', type: 'sentence', format: 'The result should be {x}'}
+			]
+
+
+		};
+
+		var fixture = new Fixture(fixtureData);
+
+		var section = fixture.buildStep(data);
+
+		var loader = require('./stub-loader')();
+		var preview = fixture.preview(section, loader);
+
+		it('should build a preview container with each child step', function(){
+			var line1 = fixture.find(section.steps[0].key).preview(section.steps[0], loader);
+			var line2 = fixture.find(section.steps[1].key).preview(section.steps[1], loader);
+			var line3 = fixture.find(section.steps[2].key).preview(section.steps[2], loader);
+			var line4 = fixture.find(section.steps[3].key).preview(section.steps[3], loader);
+
+			expect(preview).to.deep.equal({
+				type: 'previewContainer',
+				props: {
+					title: 'Do some math',
+					components: [line1, line2, line3, line4]
+				}
+			});
+		});
+	});
 });
