@@ -31,9 +31,4 @@ describe('ArgCollection', function(){
 		expect(args.allKeys()).to.deep.equal(['A', 'B', 'C']);
 	});
 
-	it('blows up when you ask for an arg that does not exist', function(){
-		expect(function(){
-			args.find('X');
-		}).to.throw(Error);
-	});
 });

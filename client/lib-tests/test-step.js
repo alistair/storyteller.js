@@ -4,6 +4,39 @@ var Cell = require('./../lib/cell');
 var Step = require('./../lib/step');
 
 describe('Step', function(){
+	describe('when getting a cell value', function(){
+		var cells = [new Cell('A'), new Cell('B'), new Cell('C')];
+		var data = {key: 'foo', cells: {
+			A: 1,
+			B: 2,
+			C: 3
+		}};
+
+		var step = new Step(data, cells);
+
+		it('should find the value happy path', function(){
+			expect(step.findValue('A')).to.equal(1);
+		});
+
+		it('should resolve to null if the cell arg is missing', function(){
+			expect(step.findValue('D')).to.be.null;
+		});
+
+		it('should resolve the default if the cell arg is null', function(){
+			step.args.find('A').default = -1;
+			step.args.find('A').value = null;
+
+			expect(step.findValue('A')).to.equal(-1);
+		});
+
+		it('should resolve to null if value is null and default is null', function(){
+			step.args.find('A').default = null;
+			step.args.find('A').value = null;
+
+			expect(step.findValue('A')).to.null;
+		});
+	});
+
 	it('should have an id', function(){
 		var step1 = new Step({key: 'foo'}, []);
 		var step2 = new Step({key: 'foo'}, []);

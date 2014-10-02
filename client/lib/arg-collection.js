@@ -13,10 +13,6 @@ function ArgCollection(cells, data){
 }
 
 ArgCollection.prototype.find = function(key){
-	if (!this.args[key]){
-		throw new Error("Unknown cell or arg '" + key + "', the available keys are " + allKeys.join(', '));
-	}
-
 	return this.args[key];
 }
 
