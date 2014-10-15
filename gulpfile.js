@@ -5,18 +5,7 @@ var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var webpack = require('gulp-webpack');
 var _ = require('lodash');
-/*
-Tasks
--------------------
-1.) Default: do a full web pack for prod, do all mocha tests
-2.) test
 
-6.) 
-
-
-
-
-*/
 
 
 gulp.task('default', ['css', 'test:client']);
