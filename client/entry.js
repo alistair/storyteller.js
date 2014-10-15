@@ -25,14 +25,7 @@ var specData = {
 	]
 }
 
-function Specification(data, library){
-	this.title = data.title;
-	this.steps = [];
-
-	for (var i = 0; i < data.steps.length; i++){
-		this.steps[i] = library.buildStep(data.steps[i]);
-	}
-}
+var Specification = require('./lib/specification');
 
 
 // Now, let's do some CRAZY spiking stuff

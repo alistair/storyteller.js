@@ -3,7 +3,7 @@ var FixtureLibrary = require('./../lib/fixture-library');
 
 var fixtureData = [require('./math-fixture-data'), require('./zork-fixture-data')];
 
-
+var StubLoader = require('./stub-loader');
 
 describe('The FixtureLibrary', function(){
 	var library = new FixtureLibrary(fixtureData);
@@ -42,7 +42,6 @@ describe('The FixtureLibrary', function(){
 		expect(section.steps[4].findValue('result'))
 			.to.equal(3);
 	});
-
 
 
 });
