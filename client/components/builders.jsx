@@ -21,11 +21,7 @@ var builders = {
 	}
 };
 
-builders.add('text', function(cell, value, callback){
-	var cb = function(e){
-		callback(e.target.value);
-	}
-
+builders.add('text', function(cell, value){
 	return (
 		<input type="text" value={value} onchange={callback} />
 	);

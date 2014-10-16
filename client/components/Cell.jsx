@@ -2,6 +2,7 @@
 var React = require("react");
 var builders = require("./builders");
 var Arg = require('./../lib/arg');
+var Postal = require('postal');
 
 var labelStatus = {
 	ok: 'label-default',
@@ -100,9 +101,15 @@ module.exports = React.createClass({
 			this.applyResultsToDisplay(state);
 		}
 
+		var subject = {step: this.props.id, cell: this.props.cell.key};
+
+		var handleClick = function(){
+			alert('Clicked on ' + JSON.stringify(subject));
+		}
 
 		return (
 			<span 
+				onClick={handleClick}
 				tabIndex="0" 
 				role="button"
 				className={state.classes.join(' ')} 

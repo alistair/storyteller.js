@@ -1,3 +1,5 @@
+var uuid = require('node-uuid');
+
 function Arg(cell, data){
 	this.key = cell.key;
 	this.result = null;
@@ -6,6 +8,7 @@ function Arg(cell, data){
 	this.data = data;
 
 	this.value = data.cells[this.key] || cell.default;
+	this.id = data.id || uuid.v4(); // the default id is only for testing
 
 	return this;
 }
