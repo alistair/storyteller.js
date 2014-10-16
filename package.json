@@ -30,6 +30,7 @@
     "mocha": "^1.21.4",
     "node-uuid": "^1.4.1",
     "open": "0.0.5",
+    "postal": "^0.10.3",
     "react-hot-loader": "^0.4.5",
     "react-test-utils": "0.0.1",
     "through": "^2.3.6",
