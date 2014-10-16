@@ -9,6 +9,8 @@ var builders = {
 			this[key] = {
 				edit: strategy,
 				display: function(cell, value){
+					if (value == null) return 'NULL';
+
 					return value.toString();
 				}
 			}

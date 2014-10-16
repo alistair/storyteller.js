@@ -3,6 +3,7 @@ var TU = require('react-test-utils');
 var expect = require('chai').expect;
 
 var Cell = require('./../client/components/cell');
+var Arg = require('./../client/lib/arg');
 var $ = require('jquery');
 
 describe('Rendering a Cell', function(){
@@ -14,23 +15,12 @@ describe('Rendering a Cell', function(){
 		cell = null;
 		div = null;
 
-		props = {
-			cell: {
-				key: 'X',
-				description: 'The first operand',
-				default: null,
-				type: null, // should default to text
-				size: null,   // should default to medium
-				options: null // doesn't matter in most cases
-			},
-			result: null, // would be {status, error, actual},
-			value: null,
-			callback: function(val){},
-			changed: false
-		};
+		props = new Arg({key: 'X', description: 'The operand'}, {cells: {X: null}});
 	});
 
 	function element(){
+
+
 		if (!cell){
 			cell = new Cell(props);
 			div = document.createElement('div');
@@ -98,7 +88,14 @@ describe('Rendering a Cell', function(){
 		});
 	
 		it('with no value but a default', function(){
-			props.cell.default = 'bar';
+			props = new Arg({
+				key: 'X', 
+				description: 'The operand',
+				default: 'bar'
+			}, {cells: {X: null}});
+
+			expect(props.cell.default).to.equal('bar');
+			expect(props.value).to.equal('bar');
 
 			elementShouldBeSpanWithText('bar');
 			elementShouldNotHaveClass('missing');

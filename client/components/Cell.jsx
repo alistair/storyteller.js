@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 var React = require("react");
 var builders = require("./builders");
+var Arg = require('./../lib/arg');
 
 // TODO -- split this up a little bit
 module.exports = React.createClass({
@@ -8,7 +9,50 @@ module.exports = React.createClass({
 		return {editing: false};
 	},
 
-	// TODO -- use the Cell from the lib to clean this up a bit
+	createText: function(classes, builder, raw){
+		if (Arg.isMissing(this.props)){
+			classes.push('missing');
+			return '[' + this.props.cell.key + ']';
+		}
+		else {
+			return builder.display(this.props.cell, raw);
+		}
+	},
+
+	hasError: function(){
+		return this.hasResults() && this.props.result.status == 'error';
+	},
+
+	buildErrorDisplay: function(raw){
+		return (
+			<button type="button" 
+				className="cell btn btn-warning" data-toggle="popover" 
+				title="Error!" 
+				data-content={this.props.result.error}>{raw}</button>
+		);
+	},
+
+	hasResults: function(){
+		return this.props.result != null;
+	},
+
+	applyResultsToDisplay: function(text, classes, builder){
+		var status = this.props.result.status || 'ok';
+
+		if (status == 'ok'){
+			// nothing
+		}
+		else if (status == 'failed'){
+			classes.push('failed');
+			return text + ', but was ' + builder.display(this.props.cell, this.props.result.actual);
+		}
+		else if (status == 'success'){
+			classes.push('success');
+		}
+
+		return text;
+	},
+
 	render: function(){
 		var classes = ['cell'];
 		var builder = builders.get(this.props.cell.type);
@@ -21,39 +65,16 @@ module.exports = React.createClass({
 			throw 'I do not know how to edit yet';
 		}
 
-		var text = null;
-		var raw = this.props.value || this.props.cell.default;
+		var raw = this.props.value;
 
-		if (this.props.value == null && !this.props.cell.default){
-			classes.push('missing');
-			text = '[' + this.props.cell.key + ']';
-		}
-		else {
-			text = builder.display(this.props.cell, raw);
-		}
+		if (this.hasError()){
+			return this.buildErrorDisplay(raw);
+		};
 
+		var text = this.createText(classes, builder, raw);
 
-		if (this.props.result){
-			var status = this.props.result.status || 'ok';
-
-			if (status == 'ok'){
-				// nothing.
-			}
-			else if (status == 'failed'){
-				classes.push('failed');
-				text = text + ', but was ' + builder.display(this.props.cell, this.props.result.actual);
-			}
-			else if (status == 'success'){
-				classes.push('success');
-			}
-			else if (status == 'error'){
-				return (
-					<button type="button" 
-						className="cell btn btn-warning" data-toggle="popover" 
-						title="Error!" 
-						data-content={this.props.result.error}>{raw}</button>
-				);
-			}
+		if (this.hasResults()){
+			text = this.applyResultsToDisplay(text, classes, builder);
 		}
 
 
