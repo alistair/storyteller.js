@@ -44,7 +44,7 @@ describe('Rendering a Cell', function(){
 		expect(element().nodeName).to.equal(type.toUpperCase());
 	}
 
-	function elementShouldBeSpanWithText(text){
+	function elementShouldBeLinkWithText(text){
 		elementTypeShouldBe('span');
 		innerTextShouldBe(text);
 	}
@@ -83,7 +83,7 @@ describe('Rendering a Cell', function(){
 
 	describe('Rendering a Cell without results', function(){
 		it('with no default and no value', function(){
-			elementShouldBeSpanWithText('[X]');
+			elementShouldBeLinkWithText('[X]');
 			elementShouldHaveClass('missing');
 		});
 	
@@ -97,7 +97,7 @@ describe('Rendering a Cell', function(){
 			expect(props.cell.default).to.equal('bar');
 			expect(props.value).to.equal('bar');
 
-			elementShouldBeSpanWithText('bar');
+			elementShouldBeLinkWithText('bar');
 			elementShouldNotHaveClass('missing');
 		});
 
@@ -105,7 +105,7 @@ describe('Rendering a Cell', function(){
 			props.value = 'my sweet love';
 			props.cell.default = null;
 
-			elementShouldBeSpanWithText('my sweet love');
+			elementShouldBeLinkWithText('my sweet love');
 			elementShouldNotHaveClass('missing');
 		});
 
@@ -113,7 +113,7 @@ describe('Rendering a Cell', function(){
 			props.value = 'my sweet love';
 			props.cell.default = 'whaa whaa';
 
-			elementShouldBeSpanWithText('my sweet love');
+			elementShouldBeLinkWithText('my sweet love');
 			elementShouldNotHaveClass('missing');
 		});
 	});
@@ -126,10 +126,10 @@ describe('Rendering a Cell', function(){
 
 			props.value = 'foo';
 
-			elementShouldBeSpanWithText('foo');
+			elementShouldBeLinkWithText('foo');
 			elementShouldNotHaveClass('error');
-			elementShouldNotHaveClass('failed');
-			elementShouldNotHaveClass('success');
+			elementShouldNotHaveClass('label-danger');
+			elementShouldNotHaveClass('label-success');
 
 		});
 
@@ -140,10 +140,10 @@ describe('Rendering a Cell', function(){
 
 			props.value = 'foo';
 
-			elementShouldBeSpanWithText('foo');
+			elementShouldBeLinkWithText('foo');
 			elementShouldNotHaveClass('error');
-			elementShouldNotHaveClass('failed');
-			elementShouldHaveClass('success');
+			elementShouldNotHaveClass('label-danger');
+			elementShouldHaveClass('label-success');
 		});
 
 		it('failed with a value', function(){
@@ -154,10 +154,10 @@ describe('Rendering a Cell', function(){
 
 			props.value = 'foo';
 
-			elementShouldBeSpanWithText('foo, but was bar');
+			elementShouldBeLinkWithText('foo, but was bar');
 			elementShouldNotHaveClass('error');
-			elementShouldHaveClass('failed');
-			elementShouldNotHaveClass('success');
+			elementShouldHaveClass('label-danger');
+			elementShouldNotHaveClass('label-success');
 		});
 
 		it('has an error', function(){

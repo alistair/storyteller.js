@@ -80,25 +80,6 @@ function CellPart(cell){
 	this.key = cell.key;
 }
 
-// TODO -- do this with a builder
-//var Cell = require('./cell');
-//var PreviewCell = require('./previewCell');
-
-/* SPIKE BELOW-------------------->
-CellPart.prototype.buildEditor = function(data){
-	// TODO -- do something w/ callbacks for state tracking
-	var cellData = data[this.key] || {result: null, value: null, changed: false};
-
-	var props = {
-		cell: this.cell,
-
-	};
-
-	_.assign(props, cellData);
-
-	return Cell(props);
-}
-*/
 
 CellPart.prototype.preview = function(step, loader){
 	var value = step.findValue(this.key);
@@ -121,14 +102,6 @@ function TextPart(text){
 TextPart.prototype.preview = function(step, loader){
 	return loader.span(this.text);
 }
-
-/* SPIKE BELOW!!!!!!!!!!!!!!
-
-TextPart.prototype.buildEditor = TextPart.prototype.buildPreview =  function(data){
-	return React.DOM.span(null, this.text)
-}
-
-*/
 
 
 

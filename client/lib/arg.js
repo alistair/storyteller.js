@@ -1,6 +1,3 @@
-var Cell = require('./cell');
-
-
 function Arg(cell, data){
 	this.key = cell.key;
 	this.result = null;
@@ -17,6 +14,15 @@ Arg.isMissing = function(props){
 	return props.value == null && props.cell.default == null;
 }
 
+Arg.status = function(props){
+	if (props.result){
+		return props.result.status || 'ok';
+	}
+	else {
+		return 'ok';
+	}
+}
+
 Arg.prototype.isMissing = function(){
 	return Arg.isMissing(this);
 }
@@ -26,6 +32,8 @@ Arg.prototype.store = function(data){
 
 	data.cells[this.key] = this.value || this.cell.default;
 }
+
+
 
 
 

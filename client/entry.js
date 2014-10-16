@@ -38,10 +38,14 @@ var React = require("react");
 
 var loader = require('./components/component-loader');
 
-//var Cell = require("./components/cell");
+var Cell = require("./components/cell");
 var $ = require("jquery");
 
 
+var Arg = require('./lib/arg');
+
+var arg = new Arg({key: 'X', description: 'The operand'}, {cells: {X: 5}});
+React.renderComponent(Cell(arg), document.getElementById('cell'));
 
 React.renderComponent(
   library.preview(spec, loader),

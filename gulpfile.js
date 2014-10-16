@@ -12,7 +12,7 @@ gulp.task('default', ['css', 'test:client']);
 
 
 gulp.task('css', function(){
-	var glob = ['node_modules/bootstrap/dist/css/bootstrap.min.css'];
+	var glob = ['node_modules/bootstrap/dist/css/bootstrap.min.css', 'client/css/storyteller.css'];
 
 	return gulp.src(glob)
 		.pipe(new gulp.dest('client/public/stylesheets'));

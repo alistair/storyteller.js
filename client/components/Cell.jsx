@@ -3,7 +3,15 @@ var React = require("react");
 var builders = require("./builders");
 var Arg = require('./../lib/arg');
 
-function CellDisplayState(raw, builder, cell){
+var labelStatus = {
+	ok: 'label-default',
+	error: 'label-warning',
+	failed: 'label-danger',
+	success: 'label-success'
+}
+
+function CellDisplayState(raw, builder, cell, status){
+	this.status = status;
 	this.builder = builder;
 	this.classes = ['cell'];
 	this.raw = raw;
@@ -15,6 +23,9 @@ function CellDisplayState(raw, builder, cell){
 		this.addClass('missing');
 		this.text = '[' + cell.key + ']';
 	}
+
+	this.addClass('label');
+	this.addClass(labelStatus[status]);
 }
 
 CellDisplayState.prototype.addClass = function(clazz){
@@ -30,6 +41,8 @@ CellDisplayState.prototype.writeActual = function(actual){
 	this.write(this.builder.display(this.cell, actual));
 }
 
+
+
 // TODO -- split this up a little bit
 module.exports = React.createClass({
 	getInitialState: function(){
@@ -43,6 +56,7 @@ module.exports = React.createClass({
 	buildErrorDisplay: function(state){
 		return (
 			<button type="button" 
+				tabindex="0"
 				className="cell btn btn-warning" data-toggle="popover" 
 				title="Error!" 
 				data-content={this.props.result.error}>{state.raw}</button>
@@ -54,20 +68,21 @@ module.exports = React.createClass({
 	},
 
 	applyResultsToDisplay: function(state){
-		var status = this.props.result.status || 'ok';
-
-		if (status == 'failed'){
-			state.addClass('failed');
+		if (state.status == 'failed'){
 			state.writeActual(this.props.result.actual);
-		}
-		else if (status == 'success'){
-			state.addClass('success');
 		}
 	},
 
 	render: function(){
 		var builder = builders.get(this.props.cell.type);
-		var state = new CellDisplayState(this.props.value, builder, this.props.cell);
+		var status = Arg.status(this.props);
+
+		var state = new CellDisplayState(
+			this.props.value, 
+			builder, 
+			this.props.cell,
+			status);
+
 
 		if (this.hasError()){
 			return this.buildErrorDisplay(state);
@@ -87,7 +102,11 @@ module.exports = React.createClass({
 
 
 		return (
-			<span className={state.classes.join(' ')} title={this.props.cell.description || this.props.cell.key}>{state.text}</span>
+			<span 
+				tabIndex="0" 
+				role="button"
+				className={state.classes.join(' ')} 
+				title={this.props.cell.description || this.props.cell.key}>{state.text}</span>
 		)
 	}
 });
