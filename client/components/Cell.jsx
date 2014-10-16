@@ -3,32 +3,49 @@ var React = require("react");
 var builders = require("./builders");
 var Arg = require('./../lib/arg');
 
+function CellDisplayState(raw, builder, cell){
+	this.builder = builder;
+	this.classes = ['cell'];
+	this.raw = raw;
+
+	if (raw){
+		this.text = builder.display(cell, raw);
+	}
+	else{
+		this.addClass('missing');
+		this.text = '[' + cell.key + ']';
+	}
+}
+
+CellDisplayState.prototype.addClass = function(clazz){
+	this.classes.push(clazz);
+}
+
+CellDisplayState.prototype.write = function(text){
+	this.text = this.text + text;
+}
+
+CellDisplayState.prototype.writeActual = function(actual){
+	this.write(', but was ');
+	this.write(this.builder.display(this.cell, actual));
+}
+
 // TODO -- split this up a little bit
 module.exports = React.createClass({
 	getInitialState: function(){
 		return {editing: false};
 	},
 
-	createText: function(classes, builder, raw){
-		if (Arg.isMissing(this.props)){
-			classes.push('missing');
-			return '[' + this.props.cell.key + ']';
-		}
-		else {
-			return builder.display(this.props.cell, raw);
-		}
-	},
-
 	hasError: function(){
 		return this.hasResults() && this.props.result.status == 'error';
 	},
 
-	buildErrorDisplay: function(raw){
+	buildErrorDisplay: function(state){
 		return (
 			<button type="button" 
 				className="cell btn btn-warning" data-toggle="popover" 
 				title="Error!" 
-				data-content={this.props.result.error}>{raw}</button>
+				data-content={this.props.result.error}>{state.raw}</button>
 		);
 	},
 
@@ -36,50 +53,41 @@ module.exports = React.createClass({
 		return this.props.result != null;
 	},
 
-	applyResultsToDisplay: function(text, classes, builder){
+	applyResultsToDisplay: function(state){
 		var status = this.props.result.status || 'ok';
 
-		if (status == 'ok'){
-			// nothing
-		}
-		else if (status == 'failed'){
-			classes.push('failed');
-			return text + ', but was ' + builder.display(this.props.cell, this.props.result.actual);
+		if (status == 'failed'){
+			state.addClass('failed');
+			state.writeActual(this.props.result.actual);
 		}
 		else if (status == 'success'){
-			classes.push('success');
+			state.addClass('success');
 		}
-
-		return text;
 	},
 
 	render: function(){
-		var classes = ['cell'];
 		var builder = builders.get(this.props.cell.type);
+		var state = new CellDisplayState(this.props.value, builder, this.props.cell);
+
+		if (this.hasError()){
+			return this.buildErrorDisplay(state);
+		};
 
 		if (this.props.changed){
-			classes.push('changed');
+			state.addClass('changed');
 		}
 
 		if (this.state.editing){
 			throw 'I do not know how to edit yet';
 		}
 
-		var raw = this.props.value;
-
-		if (this.hasError()){
-			return this.buildErrorDisplay(raw);
-		};
-
-		var text = this.createText(classes, builder, raw);
-
 		if (this.hasResults()){
-			text = this.applyResultsToDisplay(text, classes, builder);
+			this.applyResultsToDisplay(state);
 		}
 
 
 		return (
-			<span className={classes.join(' ')} title={this.props.cell.description || this.props.cell.key}>{text}</span>
+			<span className={state.classes.join(' ')} title={this.props.cell.description || this.props.cell.key}>{state.text}</span>
 		)
 	}
 });
