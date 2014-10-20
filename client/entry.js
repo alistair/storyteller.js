@@ -51,3 +51,15 @@ React.renderComponent(
   library.preview(spec, loader),
   document.getElementById('main')
 );
+
+
+
+
+var Postal = require('postal');
+var subscription = Postal.subscribe({
+	channel: 'editor',
+	topic: 'select-cell',
+    callback: function(data, envelope) {
+        console.log('Got data: ' + JSON.stringify(data));
+    }
+});

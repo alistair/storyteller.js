@@ -101,15 +101,23 @@ module.exports = React.createClass({
 			this.applyResultsToDisplay(state);
 		}
 
-		var subject = {step: this.props.id, cell: this.props.cell.key};
+		var identifier = {step: this.props.id, cell: this.props.cell.key};
+		var editCell = function(e){
+			Postal.publish({
+				channel: 'editor',
+				topic: 'select-cell',
+				data: identifier
+			});
 
-		var handleClick = function(){
-			alert('Clicked on ' + JSON.stringify(subject));
+			e.preventDefault();
+			return false;
+
 		}
 
 		return (
 			<span 
-				onClick={handleClick}
+				onClick={editCell}
+				onFocus={editCell}
 				tabIndex="0" 
 				role="button"
 				className={state.classes.join(' ')} 

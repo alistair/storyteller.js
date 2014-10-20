@@ -5,6 +5,7 @@ var expect = require('chai').expect;
 var Cell = require('./../client/components/cell');
 var Arg = require('./../client/lib/arg');
 var $ = require('jquery');
+var Postal = require('postal');
 
 describe('Rendering a Cell', function(){
 	var cell = null;
@@ -24,6 +25,7 @@ describe('Rendering a Cell', function(){
 		if (!cell){
 			cell = new Cell(props);
 			div = document.createElement('div');
+			$(document.body).append(div);
 			React.renderComponent(cell, div);
 		}
 
@@ -178,6 +180,54 @@ describe('Rendering a Cell', function(){
 	});
 
 
+	describe('when responding to focus or click events in read only mode', function(){
+		var listener = {
+			events: [],
+
+			clear: function(){
+				this.events = [];
+			},
+
+			append: function(data){
+				this.events.push(data);
+			}
+		};
+
+		Postal.subscribe({
+		    channel  : "editor",
+		    topic    : "select-cell",
+		    callback : function(data, envelope) {
+		        listener.append(data);
+		    }
+		});
+
+		beforeEach(function(){
+			listener.clear();
+		});
+
+		function singleEventReceivedShouldBe(expected){
+			expect(listener.events.length).to.equal(1);
+			expect(listener.events[0]).to.deep.equal(expected);
+		}
+
+		it('should send a message for select-cell when clicked', function(){
+			var elem = element();
+
+			$(elem).click();
+
+			singleEventReceivedShouldBe({step: props.id, cell: 'X'});
+		});
+
+/* CANNOT MAKE THE FOCUS EVENT HANDLER TRIGGER W/ EITHER JQUERY or REACT TestUtil
+		it.only('should send a message for select-cell it receives focus', function(){
+			var elem = element();
+
+			$(elem).trigger('focus');
+
+			singleEventReceivedShouldBe({step: props.id, cell: 'X'});
+		});
+*/
+	});
 
 });
 
