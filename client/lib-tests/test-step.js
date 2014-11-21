@@ -74,7 +74,7 @@ describe('Step', function(){
 		expect(step.args.find('C').value).to.equal(3);
 	});
 
-	it('descendents just gives you an empty array -- FOR RIGHT NOW', function(){
+	it('children just gives you an empty array -- FOR RIGHT NOW', function(){
 		var cells = [new Cell('A'), new Cell('B'), new Cell('C')];
 		var data = {key: 'foo', cells: {
 			A: 1,
@@ -84,7 +84,7 @@ describe('Step', function(){
 
 		var step = new Step(data, cells);
 
-		expect(step.descendents().length).to.equal(0);
+		expect(step.children().length).to.equal(0);
 	});
 
 	it('should write arg data back out', function(){

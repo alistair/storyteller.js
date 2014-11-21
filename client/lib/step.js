@@ -2,12 +2,13 @@ var uuid = require('node-uuid');
 var ArgCollection = require('./arg-collection');
 
 function Step(data, cells){
-	this.id = uuid.v4();
+	this.id = data.id || uuid.v4();
 	this.args = new ArgCollection(cells, data);
 	this.key = data.key;
+	this.type = 'step';
 }
 
-Step.prototype.descendents = function(){
+Step.prototype.children = function(){
 	
 	// TODO -- gotta get table data
 	return [];
@@ -36,6 +37,8 @@ Step.prototype.findValue = function(key){
 
 
 }
+
+
 
 
 module.exports = Step;

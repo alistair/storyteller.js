@@ -3,10 +3,10 @@ var StepHolder = require('./step-holder');
 
 
 function Section(data, fixture){
-	StepHolder.call(this);
+	StepHolder.call(this, data.id);
 
-	this.id = uuid.v4();
 	this.key = fixture.key;
+	this.type = 'section';
 
 	var self = this;
 
@@ -21,7 +21,7 @@ function Section(data, fixture){
 
 }
 
-Section.prototype.descendents = function(){
+Section.prototype.children = function(){
 	// TODO -- this will need to be recursive later
 	return this.steps;
 }

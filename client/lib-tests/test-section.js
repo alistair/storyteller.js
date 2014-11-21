@@ -10,6 +10,7 @@ describe('Section', function(){
 	var fixture = new Fixture(fixtureData);
 
 	var data = {
+		id: 1,
 		type: 'section',
 		key: 'Math', 
 		steps: [
@@ -22,6 +23,16 @@ describe('Section', function(){
 	}
 
 	var section = new Section(data, fixture);
+
+	it('uses the persisted id if it exists', function(){
+		expect(section.id).to.equal(1);
+	});
+
+	it('assigns an id if one is not in the data', function(){
+		var section = new Section({type: 'section', key: 'Math', steps: []}, fixture);
+
+		expect(section.id).to.not.be.null;
+	});
 
 	it('should make itself the parent of all children', function(){
 		expect(section.steps[0].parent).to.equal(section);
@@ -43,9 +54,8 @@ describe('Section', function(){
 		expect(section.steps[1].findValue('x')).to.equal(5);
 	});
 
-	// TODO -- later this will need to be recursive
-	it('can return the immediate descendents', function(){
-		var descendents = section.descendents();
+	it('can return the immediate children', function(){
+		var descendents = section.children();
 
 		expect(_.contains(descendents, section.steps[0])).to.be.true;
 		expect(_.contains(descendents, section.steps[1])).to.be.true;

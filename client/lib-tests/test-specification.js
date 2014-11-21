@@ -15,6 +15,7 @@ describe('Specification', function(){
 			title: 'My first specification',
 			steps: [
 				{
+					id: 1,
 					type: 'section',
 					key: 'Math', 
 					steps: [
