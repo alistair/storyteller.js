@@ -21,7 +21,7 @@ function FakeChange(){
 	}
 }
 
-describe.only('SpecificationDataStore', function(){
+describe('SpecificationDataStore', function(){
 	var store = null;
 
 	var specData = {

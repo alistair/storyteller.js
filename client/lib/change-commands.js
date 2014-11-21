@@ -1,17 +1,22 @@
-function ChangeCell(id, cell, value){
-	this.id = id;
-	this.cell = cell;
-	this.value = value;
-}
 
-ChangeCell.prototype.apply = function(store){
-
-}
-
-ChangeCell.prototype.unapply = function(store){
-	
-}
 
 module.exports = {
-	changeCell: ChangeCell
+	cellValue: function(id, cell, value){
+		this.apply = function(store){
+			this.arg = store.find(id).args.find(cell);
+		
+			this.oldValue = this.arg.value;
+			this.oldChanged = this.arg.changed;
+
+			this.arg.value = value;
+			this.arg.changed = true;
+		}
+
+		this.unapply = function(store){
+			this.arg.value = this.oldValue;
+			this.arg.changed = this.oldChanged;
+		}
+
+		return this;
+	}
 }
