@@ -36,6 +36,10 @@ describe('Specification', function(){
 			expect(section.key).to.equal('Math');
 			expect(section.steps.length).to.equal(5);
 		});
+
+		it('should put itself as the parent on each child step', function(){
+			expect(specification.steps[0].parent).to.equal(specification);
+		});
 	});
 
 

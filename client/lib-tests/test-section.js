@@ -23,6 +23,14 @@ describe('Section', function(){
 
 	var section = new Section(data, fixture);
 
+	it('should make itself the parent of all children', function(){
+		expect(section.steps[0].parent).to.equal(section);
+		expect(section.steps[1].parent).to.equal(section);
+		expect(section.steps[2].parent).to.equal(section);
+		expect(section.steps[3].parent).to.equal(section);
+		expect(section.steps[4].parent).to.equal(section);
+	});
+
 	it('should be able to build a simple sentence step for the data', function(){
 		expect(section.steps[0] instanceof Step).to.be.true;
 		expect(section.steps[1] instanceof Step).to.be.true;

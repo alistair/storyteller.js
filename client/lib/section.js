@@ -1,12 +1,14 @@
 var uuid = require('node-uuid');
-
+var StepHolder = require('./step-holder');
 
 
 function Section(data, fixture){
+	StepHolder.call(this);
+
 	this.id = uuid.v4();
 	this.key = fixture.key;
 
-	var steps = [];
+	var self = this;
 
 	data.steps.forEach(function(x){
 		// TODO -- has to be smart enough to deal w/ comments, TODO
@@ -14,10 +16,9 @@ function Section(data, fixture){
 		var grammar = fixture.find(x.key);
 		var step = grammar.buildStep(x);  
 
-		steps.push(step);
+		self.addStep(step);
 	});
 
-	this.steps = steps;
 }
 
 Section.prototype.descendents = function(){
@@ -25,10 +26,12 @@ Section.prototype.descendents = function(){
 	return this.steps;
 }
 
+// for execution
 Section.prototype.write = function(){
 	throw new Error('Not implemented yet');
 }
 
+// for persistence
 Section.prototype.pack = function(){
 	throw new Error('Not implemented yet');
 }
