@@ -3,7 +3,25 @@ var fixtureData = [require('./math-fixture-data'), require('./zork-fixture-data'
 var SpecificationDataStore = require('./../lib/specification-data-store');
 var Specification = require('./../lib/specification');
 
-describe('SpecificationDataStore', function(){
+function FakeChange(){
+	this.applied = 0;
+	this.unapplied = 0;
+
+	this.apply = function(store){
+		this.applied++;
+	}
+
+	this.unapply = function(store){
+		this.unapplied++;
+	}
+
+	this.reset = function(){
+		this.applied = 0;
+		this.unapplied = 0;
+	}
+}
+
+describe.only('SpecificationDataStore', function(){
 	var store = null;
 
 	var specData = {
@@ -57,4 +75,110 @@ describe('SpecificationDataStore', function(){
 		expect(step.parent.type).to.equal('section');
 		expect(step.parent.parent.type).to.equal('specification');
 	});
+
+	it('calculates the initial state', function(){
+		expect(store.changeStatus()).to.deep.equal({applied: 0, unapplied: 0});
+	});
+
+	it('performs the very first change', function(){
+		var change = new FakeChange();
+
+		store.apply(change);
+
+		expect(change.applied).to.equal(1);
+		expect(store.changeStatus()).to.deep.equal({applied: 1, unapplied: 0});
+	});
+
+	it('performs a second change', function(){
+		var change1 = new FakeChange();
+		var change2 = new FakeChange();
+
+		store.apply(change1);
+		store.apply(change2);
+
+		expect(change1.applied).to.equal(1);
+		expect(change2.applied).to.equal(1);
+		expect(store.changeStatus()).to.deep.equal({applied: 2, unapplied: 0});
+	});
+
+	it('can undo', function(){
+		var change1 = new FakeChange();
+		var change2 = new FakeChange();
+
+		store.apply(change1);
+		store.apply(change2);
+
+		store.undo();
+
+		// only #2 should be unapplied
+		expect(change1.unapplied).to.equal(0);
+		expect(change2.unapplied).to.equal(1);
+
+		expect(store.changeStatus()).to.deep.equal({applied: 1, unapplied: 1});
+
+		store.undo();
+
+		expect(change1.unapplied).to.equal(1);
+		expect(change2.unapplied).to.equal(1);
+
+		expect(store.changeStatus()).to.deep.equal({applied: 0, unapplied: 2});
+	});
+
+	it('can redo', function(){
+		var change1 = new FakeChange();
+		var change2 = new FakeChange();
+
+		store.apply(change1);
+		store.apply(change2);
+
+		store.undo();
+
+		store.redo();
+
+		expect(change1.unapplied).to.equal(0);
+		expect(change2.unapplied).to.equal(1);		
+		expect(change2.applied).to.equal(2);
+
+		expect(store.changeStatus()).to.deep.equal({applied: 2, unapplied: 0});		
+	});
+
+	it('series of changes, undos, and redos', function(){
+		var change1 = new FakeChange();
+		var change2 = new FakeChange();
+		var change3 = new FakeChange();
+		var change4 = new FakeChange();
+
+		store.apply(change1);
+		store.apply(change2);
+		store.apply(change3);
+
+		store.undo();
+		store.undo();
+
+		store.apply(change4);
+
+		expect(store.changeStatus()).to.deep.equal({applied: 2, unapplied: 0});		
+	});
+
+	it('applies a change with only undos in the queues', function(){
+		var change1 = new FakeChange();
+		var change2 = new FakeChange();
+		var change3 = new FakeChange();
+		var change4 = new FakeChange();
+
+		store.apply(change1);
+		store.apply(change2);
+		store.apply(change3);
+
+		store.undo();
+		store.undo();
+		store.undo();
+	
+		store.apply(change4);
+
+		expect(store.changeStatus()).to.deep.equal({applied: 1, unapplied: 0});	
+	});
+
+
+
 });

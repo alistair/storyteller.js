@@ -30,7 +30,37 @@ function SpecificationDataStore(){
 		this.steps = steps;
 	}
 
+	this.undoList = [];
+	this.redoList = [];
 
+	this.apply = function(change){
+		change.apply(this);
+		this.undoList.push(change);
+
+		this.redoList = [];
+	}
+
+	this.changeStatus = function(){
+		return {applied: this.undoList.length, unapplied: this.redoList.length};
+	}
+
+	this.undo = function(){
+		if (this.undoList.length == 0) return;
+
+		var last = this.undoList.pop();
+		last.unapply(this);
+
+		this.redoList.push(last);
+	}
+
+	this.redo = function(){
+		if (this.redoList.length == 0) return;
+
+		var last = this.redoList.pop();
+		last.apply(this);
+
+		this.undoList.push(last);
+	}
 
 	this.find = function(id){
 		return this.steps[id];
