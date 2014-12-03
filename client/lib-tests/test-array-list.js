@@ -83,4 +83,22 @@ describe('ArrayList', function () {
 
         expect(list.toArray()).to.deep.equal([1, 2, 5, 3, 4]);
     });
+
+    it('should expose a last method for the last member', function(){
+        var list = new ArrayList(1, 2, 3, 4);
+
+        expect(list.last()).to.equal(4);
+    });
+
+    describe('contains() method', function(){
+        var list = new ArrayList(1, 2, 3, 4);
+
+        it('should work for the negative case', function(){
+            expect(list.contains(10)).to.be.false;
+        });
+
+        it('should work for the positive case', function(){
+            expect(list.contains(1)).to.be.true;
+        });
+    });
 });

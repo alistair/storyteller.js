@@ -58,6 +58,14 @@ _.extend(ArrayList.prototype, {
     }
 
     return arr;
+  },
+
+  last: function(){
+    return this[this.length - 1];
+  },
+
+  contains: function(element){
+    return this.indexOf(element) > -1;
   }
 
 });
