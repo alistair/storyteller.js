@@ -63,7 +63,19 @@ function SpecificationDataStore(){
 	}
 
 	this.find = function(id){
-		return this.steps[id];
+		if (this.steps.hasOwnProperty(id)){
+			return this.steps[id];
+		}
+
+		return null;
+	}
+
+	this.removeStep = function(step){
+		delete this.steps[step.id];
+	}
+
+	this.storeStep = function(step){
+		this.steps[step.id] = step;
 	}
 }
 

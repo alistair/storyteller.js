@@ -23,18 +23,21 @@ module.exports = {
 	// the following two can do sections too
 	stepAdded: function(parent, step, index){
 		if (index != null){
-			this.apply = function(){
+			this.apply = function(store){
 				parent.insertStep(index, step);
+				store.storeStep(step);
 			}
 		}
 		else {
 			this.apply = function(store){
 				parent.addStep(step);
+				store.storeStep(step);
 			}
 		}
 
 		this.unapply = function(store){
 			parent.removeStep(step);
+			store.removeStep(step);
 		}
 
 		return this;
@@ -43,10 +46,12 @@ module.exports = {
 	stepRemoved: function(parent, step){
 		this.apply = function(store){
 			this.position = parent.removeStep(step);
+			store.removeStep(step);
 		}
 
 		this.unapply = function(store){
 			parent.insertStep(this.position, step);
+			store.storeStep(step);
 		}
 
 		return this;

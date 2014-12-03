@@ -57,6 +57,24 @@ describe('SpecificationDataStore', function(){
 		store.loadSpecification(specData);
 	});
 
+	it('can store a new step', function(){
+		var step = {id: 3};
+
+		store.storeStep(step);
+
+		expect(store.find(3)).to.equal(step);
+	});
+
+	it('can remove an old step', function(){
+		var step = {id: 3};
+
+		store.storeStep(step);
+
+		store.removeStep(step);
+
+		expect(store.find(3)).to.be.null;
+	});
+
 	it('can load the specification', function(){
 		expect(store.spec).to.not.be.null;
 
