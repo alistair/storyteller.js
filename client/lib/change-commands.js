@@ -18,5 +18,17 @@ module.exports = {
 		}
 
 		return this;
-	}
+	},
+
+	// the following two can do sections too
+	stepAdded: function(parent, step, order){
+
+	},
+
+	stepRemoved: function(parent, step){
+
+	},
+
+
+
 }
