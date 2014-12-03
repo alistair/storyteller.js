@@ -27,6 +27,10 @@ function StepHolder(id){
 
 		self.steps.insertAt(index, step);
 	}
+
+	self.clear = function(){
+		self.steps = new ArrayList();
+	}
 }
 
 module.exports = StepHolder;
