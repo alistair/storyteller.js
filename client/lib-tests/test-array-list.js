@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var ArrayList = require('../lib/array-list');
 
 
-describe.only('ArrayList', function () {
+describe('ArrayList', function () {
 
     it('should create a new empty list', function () {
         var list = new ArrayList;
