@@ -25,6 +25,19 @@ function Specification(data, library){
 			steps: this.packSteps()
 		}
 	}
+
+	// TODO -- only spiked, needs tests
+	this.preview = function(loader){
+		var components = this.buildComponents(function(x){
+			return x.preview(loader);
+		});
+
+		return loader.specPreview({title: this.title, components: components});
+	}
+
+	this.editor = function(loader){
+		throw new Error('Not implemented yet');
+	}
 }
 
 module.exports = Specification;

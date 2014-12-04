@@ -19,4 +19,12 @@ Comment.prototype.pack = function(){
 	return null;
 }
 
+Comment.prototype.preview = function(loader){
+	throw new Error('Not implemented yet....');
+}
+
+Comment.prototype.editor = function(loader){
+	throw new Error('Not implemented yet....');
+}
+
 module.exports = Comment;

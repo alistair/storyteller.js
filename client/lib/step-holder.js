@@ -78,6 +78,10 @@ function StepHolder(id){
 
 		throw new Error('Unknown type for data and no fixture: ' + JSON.stringify(data));
 	}
+
+	self.buildComponents = function(func){
+		return _.map(self.steps, func);
+	}
 }
 
 module.exports = StepHolder;

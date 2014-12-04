@@ -48,7 +48,7 @@ var arg = new Arg({key: 'X', description: 'The operand'}, {cells: {X: 5}});
 React.renderComponent(Cell(arg), document.getElementById('cell'));
 
 React.renderComponent(
-  library.preview(spec, loader),
+  spec.preview(loader),
   document.getElementById('main')
 );
 

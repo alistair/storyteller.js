@@ -33,27 +33,5 @@ Fixture.prototype.buildStep = function(data){
 	return new Section(data, this);
 }
 
-// TODO -- add UT
-Fixture.prototype.preview = function(section, loader){
-	var fixture = this;
-
-	var components = _.map(section.steps, function(step){
-		// TODO -- watch for comment and todo's
-		var grammar = fixture.find(step.key);
-		return grammar.preview(step, loader);
-	});
-
-	return loader.previewContainer({title: this.title, components: components});
-}
-
-// TODO -- add UT
-Fixture.prototype.editor = function(section, loader){
-	throw new Error('Not implemented yet');
-}
-
-// TODO -- add UT
-Fixture.prototype.editorWithoutChrome = function(section, loader){
-	throw new Error('Not implemented yet');
-}
-		
+	
 module.exports = Fixture;

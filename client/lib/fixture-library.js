@@ -16,18 +16,6 @@ FixtureLibrary.prototype.find = function(key){
 	return this.fixtures[key];
 }
 
-// TODO -- NOT TESTED, ONLY SPIKED!!!!!!!
-FixtureLibrary.prototype.preview = function(spec, loader){
-	var library = this;
-
-	var components = _.map(spec.steps, function(step){
-		// TODO -- comment or TODO
-		var fixture = library.find(step.key);
-		return fixture.preview(step, loader);
-	});
-
-	return loader.specPreview({title: spec.title, components: components});
-}
 
 FixtureLibrary.prototype.editor = function(spec, loader){
 	throw new Error('Not implemented yet');

@@ -7,6 +7,7 @@ function Step(data, cells){
 	this.args = new ArgCollection(cells, data);
 	this.key = data.key;
 	this.type = 'step';
+	this.grammar = null; // set by the StepHolder.buildStep() method
 }
 
 Step.prototype.children = function(){
@@ -35,11 +36,15 @@ Step.prototype.findValue = function(key){
 	if (arg == null) return null;
 
 	return arg.value || arg.default;
-
-
 }
 
+Step.prototype.preview = function(loader){
+	return this.grammar.preview(this, loader);
+}
 
+Step.prototype.editor = function(loader){
+	throw new Error('Not yet implemented...');
+}
 
 
 module.exports = Step;

@@ -41,4 +41,20 @@ Section.prototype.pack = function(){
 	}
 }
 
+Section.prototype.preview = function(loader){
+	var components = this.buildComponents(function(x){
+		return x.preview(loader);
+	});
+
+	return loader.previewContainer({title: this.title, components: components});
+}
+
+Section.prototype.editor = function(loader){
+	throw new Error('Not implemented yet');
+}
+
+Section.prototype.editorWithoutChrome = function(loader){
+	throw new Error('Not implemented yet');
+}
+
 module.exports = Section;
