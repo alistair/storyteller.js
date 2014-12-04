@@ -7,10 +7,7 @@ function Specification(data, library){
 
 	this.type = 'specification';
 
-	for (var i = 0; i < data.steps.length; i++){
-		var step = this.buildStep(data.steps[i], library);
-		this.addStep(step);
-	}
+	this.readSteps(data, library);
 
 	this.children = function(){
 		return this.steps;
