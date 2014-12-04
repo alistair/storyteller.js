@@ -56,4 +56,58 @@ describe('StepHolder mechanics', function(){
 		expect(holder.steps[4]).to.equal(step4);
 
 	});
+
+	describe('writing and packing step collections', function(){
+
+		function FakeStep(written, packed){
+			this.pack = function(){
+				return packed;
+			}
+
+			this.write = function(){
+				return written;
+			}
+
+			this.written = written;
+			this.packed = packed;
+		}
+
+		it('can write all the steps for persistence', function(){
+			var holder = new StepHolder();
+
+			var step1 = new FakeStep({}, {});
+			var step2 = new FakeStep({}, {});
+			var step3 = new FakeStep({}, {});
+			var step4 = new FakeStep({}, {});
+		
+			holder.addStep(step1);
+			holder.addStep(step2);
+			holder.addStep(step3);
+			holder.addStep(step4);
+
+			var steps = holder.writeSteps();
+
+			expect(steps).to.deep.equal([step1.written, step2.written, step3.written, step4.written]);
+		});
+
+
+		it('can pack all the steps for execution', function(){
+			var holder = new StepHolder();
+
+			var step1 = new FakeStep({}, {});
+			var step2 = new FakeStep({}, {});
+			var step3 = new FakeStep({}, null);
+			var step4 = new FakeStep({}, {});
+		
+			holder.addStep(step1);
+			holder.addStep(step2);
+			holder.addStep(step3);
+			holder.addStep(step4);
+
+			var steps = holder.packSteps();
+
+			// step3 should be ignored
+			expect(steps).to.deep.equal([step1.written, step2.written, step4.written]);
+		});
+	});
 });

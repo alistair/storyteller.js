@@ -1,5 +1,7 @@
+
 var uuid = require('node-uuid');
 var ArrayList = require('./array-list');
+var _ = require('lodash');
 
 function StepHolder(id){
 	var self = this;
@@ -30,6 +32,20 @@ function StepHolder(id){
 
 	self.clear = function(){
 		self.steps = new ArrayList();
+	}
+
+	self.packSteps = function(){
+		return _.map(self.steps, function(step){
+			return step.pack();
+		}).filter(function(x){
+			return x != null;
+		});
+	}
+
+	self.writeSteps = function(){
+		return _.map(self.steps, function(step){
+			return step.write();
+		});
 	}
 }
 
