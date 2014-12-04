@@ -2,6 +2,7 @@ var expect = require('chai').expect;
 var fixtureData = [require('./math-fixture-data'), require('./zork-fixture-data')];
 var SpecificationDataStore = require('./../lib/specification-data-store');
 var Specification = require('./../lib/specification');
+var FixtureLibrary = require('./../lib/fixture-library');
 
 function FakeChange(){
 	this.applied = 0;
@@ -52,9 +53,10 @@ describe('SpecificationDataStore', function(){
 
 	beforeEach(function(){
 		store = new SpecificationDataStore();
-		store.activateFixtures(fixtureData);
 
-		store.loadSpecification(specData);
+		var library = new FixtureLibrary(fixtureData);
+
+		store.loadSpecification(specData, library);
 	});
 
 	it('can store a new step', function(){

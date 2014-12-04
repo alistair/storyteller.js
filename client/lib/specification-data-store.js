@@ -4,16 +4,9 @@ var Specification = require('./specification');
 function SpecificationDataStore(){
 	this.spec = null;
 	this.steps = {};
-	this.library = null;
 
-
-	this.activateFixtures = function(fixtures){
-		// TODO -- make this be more selective later?
-		this.library = new FixtureLibrary(fixtures);
-	}
-
-	this.loadSpecification = function(data){
-		this.spec = new Specification(data, this.library);
+	this.loadSpecification = function(data, library){
+		this.spec = new Specification(data, library);
 		var steps = {};
 
 		var readHolder = function(holder){
