@@ -28,12 +28,21 @@ Section.prototype.children = function(){
 
 // for execution
 Section.prototype.write = function(){
-	throw new Error('Not implemented yet');
+	return {
+		key: this.key,
+		type: 'section',
+		steps: this.writeSteps()
+	}
 }
 
 // for persistence
 Section.prototype.pack = function(){
-	throw new Error('Not implemented yet');
+	return {
+		key: this.key,
+		id: this.id,
+		type: 'section',
+		steps: this.packSteps()
+	}
 }
 
 

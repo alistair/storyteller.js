@@ -24,6 +24,25 @@ describe('Section', function(){
 
 	var section = new Section(data, fixture);
 
+	it('can write for persistence', function(){
+		var data = section.write();
+
+		expect(data.key).to.equal(section.key);
+		expect(data.hasOwnProperty('id')).to.be.false;
+		expect(data.type).to.equal('section');
+
+		expect(data.steps.length).to.equal(5);
+	});
+
+	it('can pack data for execution', function(){
+		var data = section.pack();
+
+		expect(data.id).to.equal(section.id);
+		expect(data.type).to.equal('section');
+
+		expect(data.steps.length).to.equal(5);
+	});
+
 	it('uses the persisted id if it exists', function(){
 		expect(section.id).to.equal(1);
 	});
