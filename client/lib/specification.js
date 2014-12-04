@@ -32,7 +32,11 @@ function Specification(data, library){
 			return x.preview(loader);
 		});
 
-		return loader.specPreview({title: this.title, components: components});
+		var props = {title: this.title, components: components};
+
+		var component = loader.specPreview(props);
+
+		return component;
 	}
 
 	this.editor = function(loader){

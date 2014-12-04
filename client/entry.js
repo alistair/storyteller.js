@@ -47,8 +47,10 @@ var Arg = require('./lib/arg');
 var arg = new Arg({key: 'X', description: 'The operand'}, {cells: {X: 5}});
 React.renderComponent(Cell(arg), document.getElementById('cell'));
 
+var component = spec.preview(loader);
+
 React.renderComponent(
-  spec.preview(loader),
+  component,
   document.getElementById('main')
 );
 
