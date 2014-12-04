@@ -5,6 +5,8 @@ var fixtureData = [require('./math-fixture-data'), require('./zork-fixture-data'
 
 var StubLoader = require('./stub-loader');
 
+var Comment = require('./../lib/comment');
+
 describe('The FixtureLibrary', function(){
 	var library = new FixtureLibrary(fixtureData);
 
@@ -41,6 +43,13 @@ describe('The FixtureLibrary', function(){
 
 		expect(section.steps[4].findValue('result'))
 			.to.equal(3);
+	});
+
+	it('can build a comment from data', function(){
+		var comment = library.buildStep({type: 'comment', text: 'Foo!'});
+
+		expect(comment.text).to.equal('Foo!');
+		expect(comment instanceof Comment).to.be.true;
 	});
 
 

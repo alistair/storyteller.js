@@ -15,7 +15,6 @@ describe('Specification', function(){
 			title: 'My first specification',
 			steps: [
 				{
-					id: 1,
 					type: 'section',
 					key: 'Math', 
 					steps: [
@@ -25,7 +24,16 @@ describe('Specification', function(){
 						{key: 'TheResultShouldBe', cells: {x: 4}},
 						{key: 'Adding', cells:{x:1, y:2, result:3}}
 					]
-				}
+				},
+				{type: 'comment', text: 'foo'},
+				{type: 'comment', text: 'bar'},
+				{
+					type: 'section',
+					key: 'Math', 
+					steps: [
+						{key: 'Adding', cells:{x:1, y:2, result:3}}
+					]
+				},
 			]
 		}
 
@@ -40,6 +48,18 @@ describe('Specification', function(){
 
 		it('should put itself as the parent on each child step', function(){
 			expect(specification.steps[0].parent).to.equal(specification);
+		});
+
+		it('should be able to write itself', function(){
+			var data = specification.write();
+
+			expect(data).to.deep.equal(specData);
+		});
+
+		it('should be able to pack data for execution', function(){
+			var data = specification.pack();
+
+			expect(data.steps.length).to.equal(2);
 		});
 	});
 

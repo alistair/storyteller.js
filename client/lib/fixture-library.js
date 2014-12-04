@@ -1,4 +1,5 @@
 var Fixture = require('./fixture');
+var Comment = require('./comment');
 
 function FixtureLibrary(data){
 	this.fixtures = {};
@@ -16,7 +17,7 @@ FixtureLibrary.prototype.find = function(key){
 }
 
 FixtureLibrary.prototype.buildStep = function(data){
-	// TODO -- check if it's a comment or a TODO
+	if (data.type == 'comment') return new Comment(data.text);
 
 	var fixture = this.find(data.key);
 	return fixture.buildStep(data);

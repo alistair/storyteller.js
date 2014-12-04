@@ -15,6 +15,19 @@ function Specification(data, library){
 	this.children = function(){
 		return this.steps;
 	}
+
+	this.write = function(){
+		return {
+			title: this.title,
+			steps: this.writeSteps()
+		}
+	}
+
+	this.pack = function(){
+		return {
+			steps: this.packSteps()
+		}
+	}
 }
 
 module.exports = Specification;
