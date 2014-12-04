@@ -2,23 +2,29 @@ var uuid = require('node-uuid');
 var StepHolder = require('./step-holder');
 
 
-function Section(data, fixture){
+function Section(data, library){
 	StepHolder.call(this, data.id);
+
+	var fixture = library.find(data.key);
+	if (fixture == null){
+		throw new Error('Unknown Fixture ' + data.key);
+	}
 
 	this.key = fixture.key;
 	this.type = 'section';
+	this.fixture = fixture;
 
 	var self = this;
 
 	data.steps.forEach(function(x){
 		// TODO -- has to be smart enough to deal w/ comments, TODO
-
 		var grammar = fixture.find(x.key);
 		var step = grammar.buildStep(x);  
 
 		self.addStep(step);
 	});
 
+	return self;
 }
 
 Section.prototype.children = function(){
@@ -44,7 +50,5 @@ Section.prototype.pack = function(){
 		steps: this.packSteps()
 	}
 }
-
-
 
 module.exports = Section;

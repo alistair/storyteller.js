@@ -2,7 +2,8 @@
 var uuid = require('node-uuid');
 var ArrayList = require('./array-list');
 var _ = require('lodash');
-var Comment = require('./../lib/comment');
+var Comment = require('./comment');
+
 
 function StepHolder(id){
 	var self = this;
@@ -53,8 +54,8 @@ function StepHolder(id){
 		if (data.type == 'comment') return new Comment(data.text);
 
 		if (data.type == 'section'){
-			var fixture = library.find(data.key);
-			return fixture.buildStep(data);
+			var Section = require('./section');
+			return new Section(data, library);
 		}
 
 		throw new Error('Unknown type for data: ' + JSON.stringify(data));

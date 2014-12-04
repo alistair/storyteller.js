@@ -4,6 +4,7 @@ var Fixture = require('./../lib/fixture');
 var Sentence = require('./../lib/sentence');
 var Step = require('./../lib/step');
 var _ = require('lodash');
+var FixtureLibrary = require('./../lib/fixture-library');
 
 describe('Section', function(){
 	var fixtureData = require('./math-fixture-data');
@@ -22,7 +23,7 @@ describe('Section', function(){
 		]
 	}
 
-	var section = new Section(data, fixture);
+	var section = new Section(data, new FixtureLibrary([fixtureData]));
 
 	it('can write for persistence', function(){
 		var data = section.write();

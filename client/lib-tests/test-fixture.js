@@ -2,6 +2,8 @@ var expect = require('chai').expect;
 var Sentence = require('./../lib/sentence');
 var Fixture= require('./../lib/fixture');
 var MissingGrammar = require('./../lib/missing-grammar');
+var Section = require('./../lib/section');
+var FixtureLibrary = require('./../lib/fixture-library');
 
 describe('Fixture', function(){
 	var fixture = null;
@@ -71,9 +73,10 @@ describe('Fixture', function(){
 
 		};
 
-		var fixture = new Fixture(fixtureData);
+		var library = new FixtureLibrary([fixtureData]);
+		var fixture = library.find('Math');
 
-		var section = fixture.buildStep(data);
+		var section = new Section(data, library);
 
 		var loader = require('./stub-loader')();
 		var preview = fixture.preview(section, loader);
