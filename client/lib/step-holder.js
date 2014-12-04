@@ -50,7 +50,15 @@ function StepHolder(id){
 		});
 	}
 
-	self.buildStep = function(data, library){
+	self.readSteps = function(data, library){
+		data.steps.forEach(function(x){
+			var step = self.buildStep(x, library);
+			self.addStep(step);
+		});
+	}
+
+
+	self.buildStep = function(data, library, fixture){
 		if (data.type == 'comment') return new Comment(data.text);
 
 		if (data.type == 'section'){
@@ -58,7 +66,13 @@ function StepHolder(id){
 			return new Section(data, library);
 		}
 
-		throw new Error('Unknown type for data: ' + JSON.stringify(data));
+		if (self.fixture != null){
+			// TODO -- be smart enough to deal w/ 'Missing/Unknown Grammar'
+			var grammar = self.fixture.find(data.key);
+			return grammar.buildStep(data);  
+		}
+
+		throw new Error('Unknown type for data and no fixture: ' + JSON.stringify(data));
 	}
 }
 

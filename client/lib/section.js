@@ -14,17 +14,7 @@ function Section(data, library){
 	this.type = 'section';
 	this.fixture = fixture;
 
-	var self = this;
-
-	data.steps.forEach(function(x){
-		// TODO -- has to be smart enough to deal w/ comments, TODO
-		var grammar = fixture.find(x.key);
-		var step = grammar.buildStep(x);  
-
-		self.addStep(step);
-	});
-
-	return self;
+	this.readSteps(data, library);
 }
 
 Section.prototype.children = function(){
