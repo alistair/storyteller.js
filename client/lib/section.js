@@ -13,7 +13,6 @@ function Section(data, library){
 	this.key = fixture.key;
 	this.type = 'section';
 	this.fixture = fixture;
-	this.title = data.title || data.key;
 
 	this.readSteps(data, library);
 }
@@ -47,7 +46,7 @@ Section.prototype.preview = function(loader){
 		return x.preview(loader);
 	});
 
-	return loader.previewContainer({title: this.title, components: components});
+	return loader.previewContainer({title: this.fixture.title, components: components});
 }
 
 Section.prototype.editor = function(loader){
