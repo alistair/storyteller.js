@@ -69,7 +69,11 @@ function StepHolder(id){
 		if (self.fixture != null){
 			// TODO -- be smart enough to deal w/ 'Missing/Unknown Grammar'
 			var grammar = self.fixture.find(data.key);
-			return grammar.buildStep(data);  
+			var step = grammar.buildStep(data);  
+
+			step.grammar = grammar;
+
+			return step;
 		}
 
 		throw new Error('Unknown type for data and no fixture: ' + JSON.stringify(data));

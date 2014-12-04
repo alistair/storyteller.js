@@ -44,6 +44,11 @@ describe('Section', function(){
 		expect(data.steps.length).to.equal(5);
 	});
 
+	it('should connect the grammar to each child step', function(){
+		expect(section.steps[0].grammar.key).to.equal('StartWith');
+		expect(section.steps[4].grammar.key).to.equal('Adding');
+	});
+
 	it('uses the persisted id if it exists', function(){
 		expect(section.id).to.equal(1);
 	});
