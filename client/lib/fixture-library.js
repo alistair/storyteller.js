@@ -16,6 +16,7 @@ FixtureLibrary.prototype.find = function(key){
 	return this.fixtures[key];
 }
 
+// TODO -- kill this when able 
 FixtureLibrary.prototype.buildStep = function(data){
 	if (data.type == 'comment') return new Comment(data.text);
 

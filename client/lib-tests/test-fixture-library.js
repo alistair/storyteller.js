@@ -32,6 +32,7 @@ describe('The FixtureLibrary', function(){
 		expect(zork.key).to.equal('Zork');
 	});
 
+	// TODO -- going to be killed off
 	it('can build all the steps for a section', function(){
 		expect(section.steps.length).to.equal(5);
 
@@ -45,6 +46,7 @@ describe('The FixtureLibrary', function(){
 			.to.equal(3);
 	});
 
+	// TODO -- going to be killed off
 	it('can build a comment from data', function(){
 		var comment = library.buildStep({type: 'comment', text: 'Foo!'});
 

@@ -1,6 +1,11 @@
 var expect = require('chai').expect;
 var StepHolder = require('../lib/step-holder');
 
+var fixtureData = [require('./math-fixture-data'), require('./zork-fixture-data')];
+var FixtureLibrary = require('./../lib/fixture-library');
+var library = new FixtureLibrary(fixtureData);
+var Comment = require('./../lib/comment');
+
 describe('StepHolder mechanics', function(){
 	it('should set the parent on add', function(){
 		var step = {};
@@ -55,6 +60,45 @@ describe('StepHolder mechanics', function(){
 		expect(holder.steps[0]).to.equal(step1);
 		expect(holder.steps[4]).to.equal(step4);
 
+	});
+
+	it('can build a comment from data', function(){
+		var holder = new StepHolder();
+
+
+		var comment = holder.buildStep({type: 'comment', text: 'Foo!'}, library);
+
+		expect(comment.text).to.equal('Foo!');
+		expect(comment instanceof Comment).to.be.true;
+	});
+
+	it('can build a section from data', function(){
+		var holder = new StepHolder();
+
+		var data = {
+			type: 'section',
+			key: 'Math', 
+			steps: [
+				{key: 'StartWith', cells: {x: 1}},
+				{key: 'Add', cells: {x: 5}},
+				{key: 'Subtract', cells: {x: 2}},
+				{key: 'TheResultShouldBe', cells: {x: 4}},
+				{key: 'Adding', cells:{x:1, y:2, result:3}}
+			]
+		};
+
+		var section = holder.buildStep(data, library);
+
+		expect(section.steps.length).to.equal(5);
+
+		expect(section.steps[4].findValue('x'))
+			.to.equal(1);
+
+		expect(section.steps[4].findValue('y'))
+			.to.equal(2);
+
+		expect(section.steps[4].findValue('result'))
+			.to.equal(3);
 	});
 
 	describe('writing and packing step collections', function(){

@@ -2,6 +2,7 @@
 var uuid = require('node-uuid');
 var ArrayList = require('./array-list');
 var _ = require('lodash');
+var Comment = require('./../lib/comment');
 
 function StepHolder(id){
 	var self = this;
@@ -46,6 +47,17 @@ function StepHolder(id){
 		return _.map(self.steps, function(step){
 			return step.write();
 		});
+	}
+
+	self.buildStep = function(data, library){
+		if (data.type == 'comment') return new Comment(data.text);
+
+		if (data.type == 'section'){
+			var fixture = library.find(data.key);
+			return fixture.buildStep(data);
+		}
+
+		throw new Error('Unknown type for data: ' + JSON.stringify(data));
 	}
 }
 
