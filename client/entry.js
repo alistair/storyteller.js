@@ -51,7 +51,7 @@ arg.cell.editor = 'text';
 var myCell = Cell(arg);
 React.renderComponent(myCell, document.getElementById('cell'));
 
-var component = spec.preview(loader);
+var component = spec.editor(loader);
 
 React.renderComponent(
   component,

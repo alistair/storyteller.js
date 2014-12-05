@@ -43,7 +43,7 @@ Step.prototype.preview = function(loader){
 }
 
 Step.prototype.editor = function(loader){
-	throw new Error('Not yet implemented...');
+	return this.grammar.editor(this, loader);
 }
 
 
