@@ -40,7 +40,15 @@ function Specification(data, library){
 	}
 
 	this.editor = function(loader){
-		throw new Error('Not implemented yet');
+		var components = this.buildComponents(function(x){
+			return x.editor(loader);
+		});
+
+		var props = {title: this.title, components: components};
+
+		var component = loader.specEditor(props);
+
+		return component;
 	}
 }
 

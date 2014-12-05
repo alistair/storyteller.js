@@ -23,5 +23,6 @@ loader.add('specPreview', './spec-preview');
 loader.add('previewCell', './preview-cell');
 loader.add('chromedLine', './line-with-chrome');
 loader.add('editorContainer', './editor-container');
+loader.add('specEditor', './spec-editor');
 
 module.exports = loader;
