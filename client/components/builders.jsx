@@ -33,7 +33,6 @@ var builders = {
 
 builders.add('text', function(arg){
 	// TODO -- needs to broadcast a cell change event
-	// TODO -- need to take in the step id
 
 	return (
 		<input type="text" value={arg.value} />

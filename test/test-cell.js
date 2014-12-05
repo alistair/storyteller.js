@@ -42,6 +42,12 @@ describe('Rendering a Cell', function(){
 		expect(classes).to.not.contain(clazz);
 	}
 
+	function elementShouldHaveAttribute(att, value){
+		var elem = element();
+
+		expect(elem.getAttribute(att)).to.equal(value);
+	}
+
 	function elementTypeShouldBe(type){
 		expect(element().nodeName).to.equal(type.toUpperCase());
 	}
@@ -80,6 +86,23 @@ describe('Rendering a Cell', function(){
 		it('should not show as changed if not changed', function(){
 			props.changed = false;
 			elementShouldNotHaveClass('changed');
+		});
+	});
+
+	describe('Rendering a cell in editing mode', function(){
+		beforeEach(function(){
+			props.editing = true;
+		});
+
+		it('should render a textbox when the cell editor is "text"', function(){
+			props.cell.editor = 'text';
+			props.value = 'Foo!';
+
+			var elem = element();
+
+			elementTypeShouldBe('input');
+			elementShouldHaveAttribute('type', 'text');
+			elementShouldHaveAttribute('value', props.value);
 		});
 	});
 
