@@ -10,6 +10,7 @@ function StubLoader(){
 	this.add('previewContainer');
 	this.add('specPreview');
 	this.add('previewCell');
+	this.add('chromedLine');
 
 	this.span = function(text){
 		return {type: 'span', text: text};

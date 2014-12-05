@@ -191,6 +191,32 @@ describe('Sentence', function(){
 		});
 	});
 
+	describe('when building the edit controls', function(){
+		it('should create all the right controls for text and cells', function(){
+			var loader = require('./stub-loader')();
+			var sentence = new Sentence({key: 'Adding', format: 'Add {x} to {y} should be {sum}'});
+			var step = sentence.buildStep({cells: {x: 1, y: 2, sum: 3}});
+
+			var editor = sentence.editor(step, loader);
+
+			expect(editor).to.deep.equal({
+				type: 'chromedLine',
+				props: {
+					step: step,
+					components: [
+						loader.span('Add '),
+						loader.cell(step.args.find('x')),
+						loader.span(' to '),
+						loader.cell(step.args.find('y')),
+						loader.span(' should be '),
+						loader.cell(step.args.find('sum'))
+					]
+				}
+
+			});
+		});
+	});
+
 	describe('when building a Step from raw data', function(){
 		it('creates a new step with the data and the cells', function(){
 			var sentence = new Sentence({key: 'Adding', format: 'Add {x} to {y}'});

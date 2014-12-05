@@ -21,5 +21,6 @@ loader.add('line', './line');
 loader.add('previewContainer', './preview-container');
 loader.add('specPreview', './spec-preview');
 loader.add('previewCell', './preview-cell');
+loader.add('chromedLine', './line-with-chrome');
 
 module.exports = loader;

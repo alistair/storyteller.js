@@ -53,6 +53,7 @@ Section.prototype.editor = function(loader){
 	throw new Error('Not implemented yet');
 }
 
+// This will be *much* later for embedded sections
 Section.prototype.editorWithoutChrome = function(loader){
 	throw new Error('Not implemented yet');
 }

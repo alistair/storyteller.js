@@ -44,10 +44,14 @@ Sentence.prototype.newStep = function(){
 }
 
 Sentence.prototype.editor = function(step, loader){
-	throw new Error("Not implemented yet!");
+	var components = _.map(this.parts, function(part){
+		return part.editor(step, loader);
+	});
+
+	return loader.chromedLine({step: step, components: components});
 }
 
-// TODO -- add UT
+
 Sentence.prototype.preview = function(step, loader){
 	var components = _.map(this.parts, function(part){
 		return part.preview(step, loader);
@@ -90,6 +94,12 @@ CellPart.prototype.preview = function(step, loader){
 	return loader.previewCell({cell: this.cell, value: value});
 }
 
+CellPart.prototype.editor = function(step, loader){
+	var arg = step.args.find(this.cell.key);
+
+	return loader.cell(arg);
+}
+
 
 function TextPart(text){
 	this.text = text;
@@ -103,6 +113,9 @@ TextPart.prototype.preview = function(step, loader){
 	return loader.span(this.text);
 }
 
+TextPart.prototype.editor = function(step, loader){
+	return loader.span(this.text);
+}
 
 
 

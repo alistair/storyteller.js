@@ -4,6 +4,7 @@ var React = require("react");
 var changes = require('./../lib/change-commands');
 var Postal = require('postal');
 
+// think this ends up being very similar to component-loaders
 var builders = {
 	add: function(key, strategy){
 		if (typeof(strategy) === 'function'){
@@ -32,6 +33,7 @@ var builders = {
 	}
 };
 
+// TODO -- move this out
 var CellTextBox = React.createClass({
 	getInitialState: function() {
 		return {value: this.props.value};
