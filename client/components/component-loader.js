@@ -22,5 +22,6 @@ loader.add('previewContainer', './preview-container');
 loader.add('specPreview', './spec-preview');
 loader.add('previewCell', './preview-cell');
 loader.add('chromedLine', './line-with-chrome');
+loader.add('editorContainer', './editor-container');
 
 module.exports = loader;

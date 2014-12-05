@@ -50,7 +50,11 @@ Section.prototype.preview = function(loader){
 }
 
 Section.prototype.editor = function(loader){
-	throw new Error('Not implemented yet');
+	var components = this.buildComponents(function(x){
+		return x.editor(loader);
+	});
+
+	return loader.editorContainer({title: this.fixture.title, components: components});
 }
 
 // This will be *much* later for embedded sections
