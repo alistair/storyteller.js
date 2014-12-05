@@ -1,4 +1,3 @@
-var FixtureLibrary = require('./fixture-library');
 var Specification = require('./specification');
 
 function SpecificationDataStore(){
