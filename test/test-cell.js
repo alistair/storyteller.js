@@ -7,6 +7,39 @@ var Arg = require('./../client/lib/arg');
 var $ = require('jquery');
 var Postal = require('postal');
 
+var listener = {
+	events: [],
+
+	clear: function(){
+		this.events = [];
+	},
+
+	append: function(data){
+		this.events.push(data);
+	}
+};
+
+Postal.subscribe({
+    channel  : "editor",
+    topic    : "changes",
+    callback : function(data, envelope) {
+        listener.append(data);
+    }
+});
+
+Postal.subscribe({
+    channel  : "editor",
+    topic    : "select-cell",
+    callback : function(data, envelope) {
+        listener.append(data);
+    }
+});
+
+function singleEventReceivedShouldBe(expected){
+	expect(listener.events.length).to.equal(1);
+	expect(listener.events[0]).to.deep.equal(expected);
+}
+
 describe('Rendering a Cell', function(){
 	var cell = null;
 	var div = null;
@@ -17,6 +50,7 @@ describe('Rendering a Cell', function(){
 		div = null;
 
 		props = new Arg({key: 'X', description: 'The operand'}, {cells: {X: null}});
+		listener.clear();
 	});
 
 	function element(){
@@ -104,6 +138,19 @@ describe('Rendering a Cell', function(){
 			elementShouldHaveAttribute('type', 'text');
 			elementShouldHaveAttribute('value', props.value);
 		});
+		/* Works in the harness, but this code isn't really firing the 
+		   change event
+		it('should fire a cell changed event on changes', function(){
+			props.cell.editor = 'text';
+			props.value = 'Foo!';
+
+			var elem = element();
+			$(elem).val('Bar!');
+			$(elem).change();
+
+			singleEventReceivedShouldBe({foo: 1});
+		});
+*/
 	});
 
 	describe('Rendering a Cell without results', function(){
@@ -204,35 +251,6 @@ describe('Rendering a Cell', function(){
 
 
 	describe('when responding to focus or click events in read only mode', function(){
-		var listener = {
-			events: [],
-
-			clear: function(){
-				this.events = [];
-			},
-
-			append: function(data){
-				this.events.push(data);
-			}
-		};
-
-		Postal.subscribe({
-		    channel  : "editor",
-		    topic    : "select-cell",
-		    callback : function(data, envelope) {
-		        listener.append(data);
-		    }
-		});
-
-		beforeEach(function(){
-			listener.clear();
-		});
-
-		function singleEventReceivedShouldBe(expected){
-			expect(listener.events.length).to.equal(1);
-			expect(listener.events[0]).to.deep.equal(expected);
-		}
-
 		it('should send a message for select-cell when clicked', function(){
 			var elem = element();
 

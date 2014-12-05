@@ -2,6 +2,10 @@
 
 module.exports = {
 	cellValue: function(id, cell, value){
+		this.id = id;
+		this.cell = cell;
+		this.value = value;
+
 		this.apply = function(store){
 			this.arg = store.find(id).args.find(cell);
 		

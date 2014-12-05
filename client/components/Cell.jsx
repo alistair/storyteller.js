@@ -53,7 +53,7 @@ module.exports = React.createClass({
 	buildErrorDisplay: function(state){
 		return (
 			<button type="button" 
-				tabindex="0"
+				tabIndex="0"
 				className="cell btn btn-warning" data-toggle="popover" 
 				title="Error!" 
 				data-content={this.props.result.error}>{state.raw}</button>
