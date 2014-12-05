@@ -6,6 +6,7 @@ function Arg(cell, data){
 	this.cell = cell;
 	this.changed = false;
 	this.data = data;
+	this.editing = false;
 
 	this.value = data.cells[this.key] || cell.default;
 	this.id = data.id || uuid.v4(); // the default id is only for testing

@@ -15,6 +15,15 @@ describe('Arg', function(){
 		expect(arg.key).to.equal('foo');
 	});
 
+	it('editing should be false by default', function(){
+		var cell = new Cell('foo');
+		var step = {cells:{foo: 'A'}};
+
+		var arg = new Arg(cell, step);
+
+		expect(arg.editing).to.be.false;
+	});
+
 	it('should not be changed by default', function(){
 		var cell = new Cell('foo');
 		var step = {cells:{foo: 'A'}};

@@ -45,7 +45,11 @@ var $ = require("jquery");
 var Arg = require('./lib/arg');
 
 var arg = new Arg({key: 'X', description: 'The operand'}, {cells: {X: 5}});
-React.renderComponent(Cell(arg), document.getElementById('cell'));
+arg.editing = true;
+arg.cell.editor = 'text';
+
+var myCell = Cell(arg);
+React.renderComponent(myCell, document.getElementById('cell'));
 
 var component = spec.preview(loader);
 

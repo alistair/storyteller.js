@@ -46,10 +46,6 @@ CellDisplayState.prototype.writeActual = function(actual){
 
 // TODO -- split this up a little bit
 module.exports = React.createClass({
-	getInitialState: function(){
-		return {editing: false};
-	},
-
 	hasError: function(){
 		return this.hasResults() && this.props.result.status == 'error';
 	},
@@ -93,8 +89,8 @@ module.exports = React.createClass({
 			state.addClass('changed');
 		}
 
-		if (this.state.editing){
-			throw 'I do not know how to edit yet';
+		if (this.props.editing){
+			return builders.toEditor(this.props);
 		}
 
 		if (this.hasResults()){

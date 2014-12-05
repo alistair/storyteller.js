@@ -79,7 +79,7 @@ describe('Fixture', function(){
 		var section = new Section(data, library);
 
 		var loader = require('./stub-loader')();
-		var preview = fixture.preview(section, loader);
+		var preview = section.preview(loader);
 
 		it('should build a preview container with each child step', function(){
 			var line1 = fixture.find(section.steps[0].key).preview(section.steps[0], loader);
