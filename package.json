@@ -25,7 +25,6 @@
     "karma-mocha": "^0.1.9",
     "karma-mocha-reporter": "^0.3.1",
     "karma-osx-reporter": "^0.1.0",
-    "karma-phantomjs-launcher": "^0.1.4",
     "lodash": "^2.4.1",
     "mocha": "^1.21.4",
     "node-uuid": "^1.4.1",
