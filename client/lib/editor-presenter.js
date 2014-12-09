@@ -3,6 +3,7 @@ var Postal = require('postal');
 // TODO -- have the presenter built via a promise!
 function EditorPresenter(spec){
 	this.spec = spec;
+	this.latched = false;
 
 	var self = this;
 
@@ -14,7 +15,6 @@ EditorPresenter.prototype.deactivate = function(){
 	// tear down the view, release itself from Postal
 
 	// returns a promise?
-
 	this.subscriptions.forEach(function(x){
 		x.unsubscribe();
 	});
@@ -44,6 +44,8 @@ EditorPresenter.prototype.activate = function(loader, shell){
 
 	this.spec.activateContainerEditing();
 
+	var self = this;
+
 	this.subscriptions = [
 		Postal.subscribe({
 			channel: 'editor',
@@ -71,7 +73,8 @@ EditorPresenter.prototype.selectCell = function(data){
 }
 
 EditorPresenter.prototype.applyChange = function(data){
-	throw new Error('not yet implemented...');
+	this.spec.apply(data);
+	this.enableUndoButtons();
 }
 
 
