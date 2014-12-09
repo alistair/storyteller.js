@@ -21,12 +21,21 @@ EditorPresenter.prototype.deactivate = function(){
 }
 
 EditorPresenter.prototype.enableUndoButtons = function(){
-	throw new Error('not implemented');
+	var counts = this.spec.changeStatus();
+	var state = {
+		undoEnabled: (counts.applied > 0),
+		redoEnabled: (counts.unapplied > 0)
+	}
+
+	this.menu.setState(state);
 }
 
 EditorPresenter.prototype.activate = function(loader, shell){
 	this.editor = shell.placeIntoMain(this.spec.editor(loader));
-	this.menu = shell.placeIntoMenu(loader.editorMenu({mode: 'preview'}));
+	this.menu = shell.placeIntoMenu(loader.editorMenu({
+		specId: this.spec.id,
+		specPath: this.spec.path
+	}));
 
 	this.subscriptions = [
 		Postal.subscribe({

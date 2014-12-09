@@ -1,7 +1,12 @@
+var _ = require('lodash');
+
 function StubLoader(){
 	this.add = function(method){
 		this[method] = function(props){
-			return {type: method, props: props};
+			return {
+				type: method, 
+				props: props
+			};
 		}
 	}
 
@@ -13,6 +18,8 @@ function StubLoader(){
 	this.add('chromedLine');
 	this.add('editorMenu');
 	this.add('editor');
+	this.add('editorContainer');
+	this.add('specEditor');
 
 	this.span = function(text){
 		return {type: 'span', text: text};

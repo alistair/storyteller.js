@@ -2,14 +2,30 @@ var expect = require('chai').expect;
 var StubLoader = require('./stub-loader');
 var Promise = require('bluebird');
 var EditorPresenter = require('./../lib/editor-presenter');
+var Specification = require('./../lib/specification');
+var ObjectMother = require('./object-mother');
+
+function Component(inner){
+	this.setState = function(state){
+		if (!inner.state){
+			inner.state = {};
+		}
+
+		for (var key in state){
+			inner.state[key] = state[key];
+		}
+	}
+}
 
 function FakeShell(){
 	this.placeIntoMain = function(component){
 		this.mainComponent = component;
+		return new Component(component);
 	}
 
 	this.placeIntoMenu = function(component){
 		this.menuComponent = component;
+		return new Component(component);
 	}
 
 	this.showLoading = function(message){
@@ -44,9 +60,11 @@ MAY need to go into Step.findContainer()
 
 describe('EditorPresenter', function(){
 	describe('when activating a new editor', function(){
-		var spec = new Specification({}, null);
+		var spec = ObjectMother.specification();
+		spec.path = 'foo/bar';
 
 		var loader = new StubLoader();
+
 		var presenter = new EditorPresenter(spec);
 
 		var shell = new FakeShell();
@@ -55,8 +73,18 @@ describe('EditorPresenter', function(){
 			presenter.activate(loader, shell);
 		});
 
-		it('did not blow up', function(){
-			throw 'No!';
+		it('should place the editor menu in the shell', function(){
+			expect(shell.menuComponent).to.deep.equal({
+				type: 'editorMenu',
+				props: {
+					specId: spec.id,
+					specPath: spec.path
+				},
+				state: {
+					undoEnabled: false,
+					redoEnabled: false
+				}
+			});
 		});
 	});
 });
