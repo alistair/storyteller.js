@@ -32,10 +32,17 @@ EditorPresenter.prototype.enableUndoButtons = function(){
 
 EditorPresenter.prototype.activate = function(loader, shell){
 	this.editor = shell.placeIntoMain(this.spec.editor(loader));
+	this.editor.setState({
+		activeContainer: this.spec,
+		activeCell: null
+	});
+
 	this.menu = shell.placeIntoMenu(loader.editorMenu({
 		specId: this.spec.id,
 		specPath: this.spec.path
 	}));
+
+	this.spec.activateContainerEditing();
 
 	this.subscriptions = [
 		Postal.subscribe({

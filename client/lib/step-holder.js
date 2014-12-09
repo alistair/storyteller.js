@@ -11,6 +11,7 @@ function StepHolder(id){
 	self.id = id || uuid.v4();
 
 	self.steps = new ArrayList();
+	self.active = false;
 
 	self.addStep = function(step){
 		step.parent = self;

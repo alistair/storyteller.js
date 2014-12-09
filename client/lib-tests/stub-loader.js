@@ -10,6 +10,7 @@ function StubLoader(){
 		}
 	}
 
+
 	this.add('cell');
 	this.add('line');
 	this.add('previewContainer');

@@ -38,9 +38,9 @@ function FakeShell(){
 }
 
 /*
-0.) make a new test mother that returns a completely built Specification
+
 1.) activate places the editor
-2.) activate places the menu
+
 3.) sets the state on the menu for the initial undo state
 4.) call applyChange, makes the change. Also updates the menu state
 5.) call selectCell from scratch
@@ -85,6 +85,21 @@ describe('EditorPresenter', function(){
 					redoEnabled: false
 				}
 			});
+		});
+
+		it('should place the editor itself in the main pane', function(){
+			expect(shell.mainComponent.type).to.deep.equal('specEditor');
+		});
+
+		it('should make the specification itself be the active section by default', function(){
+			expect(shell.mainComponent.state).to.deep.equal({
+				activeContainer: spec,
+				activeCell: null 
+			});
+		});
+
+		it('the spec should be marked as active', function(){
+			expect(spec.active).to.be.true;
 		});
 	});
 });
