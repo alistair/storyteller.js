@@ -1,12 +1,12 @@
 var expect = require('chai').expect;
 var fixtureData = [require('./math-fixture-data'), require('./zork-fixture-data')];
-var SpecificationDataStore = require('./../lib/specification-data-store');
+
 var Specification = require('./../lib/specification');
 var FixtureLibrary = require('./../lib/fixture-library');
 var changes = require('./../lib/change-commands');
 
 describe('ChangeCell', function(){
-	var store = null;
+	var spec = null;
 
 	var specData = {
 		title: 'My first specification',
@@ -35,39 +35,37 @@ describe('ChangeCell', function(){
 	}
 
 	beforeEach(function(){
-		store = new SpecificationDataStore();
-
 		var library = new FixtureLibrary(fixtureData);
-		store.loadSpecification(specData, library);
+		spec = new Specification(specData, library);
 	});
 
 
 	it('can apply the change', function(){
-		expect(store.find(2).args.find('x').value).to.equal(1);
-		expect(store.find(2).args.find('x').changed).to.be.false;
+		expect(spec.find(2).args.find('x').value).to.equal(1);
+		expect(spec.find(2).args.find('x').changed).to.be.false;
 
 		expect(changes.cellValue(2, 'x', 4)).to.not.be.null;
 
-		store.apply(changes.cellValue(2, 'x', 4));
+		spec.apply(changes.cellValue(2, 'x', 4));
 
-		expect(store.find(2).args.find('x').value).to.equal(4);
-		expect(store.find(2).args.find('x').changed).to.be.true;
+		expect(spec.find(2).args.find('x').value).to.equal(4);
+		expect(spec.find(2).args.find('x').changed).to.be.true;
 	});
 
 	it('can undo if the cell was otherwise unchanged', function(){
-		store.apply(changes.cellValue(2, 'x', 4));
-		store.undo();
+		spec.apply(changes.cellValue(2, 'x', 4));
+		spec.undo();
 
-		expect(store.find(2).args.find('x').value).to.equal(1);
-		expect(store.find(2).args.find('x').changed).to.be.false;		
+		expect(spec.find(2).args.find('x').value).to.equal(1);
+		expect(spec.find(2).args.find('x').changed).to.be.false;		
 	});
 
 	it('can undo if the cell was previously changed', function(){
-		store.apply(changes.cellValue(2, 'x', 3));
-		store.apply(changes.cellValue(2, 'x', 4));
-		store.undo();
+		spec.apply(changes.cellValue(2, 'x', 3));
+		spec.apply(changes.cellValue(2, 'x', 4));
+		spec.undo();
 
-		expect(store.find(2).args.find('x').value).to.equal(3);
-		expect(store.find(2).args.find('x').changed).to.be.true;	
+		expect(spec.find(2).args.find('x').value).to.equal(3);
+		expect(spec.find(2).args.find('x').changed).to.be.true;	
 	});
 });
