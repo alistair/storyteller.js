@@ -1,37 +1,51 @@
 var Postal = require('postal');
-var SpecificationDataStore = require('./specification-data-store');
 
-function EditorPresenter(view){
-	this.view = view;
-	this.dataStore = new SpecificationDataStore();
+// TODO -- have the presenter built via a promise!
+function EditorPresenter(spec){
+	this.spec = spec;
 
 	var self = this;
 
-	Postal.subscribe({
-		channel: 'editor',
-		topic: 'select-cell',
-	    callback : function(data, envelope) {
-	        self.selectCell(data);
-	    }
-	});
 
-	Postal.publish({
-		channel: 'editor',
-		topic: 'changes',
-	    callback : function(data, envelope) {
-	        self.applyChange(data);
-	    }
-	});
 
 }
 
-EditorPresenter.prototype.tearDown = function(){
+EditorPresenter.prototype.deactivate = function(){
 	// tear down the view, release itself from Postal
+
+	// returns a promise?
+
+	this.subscriptions.forEach(function(x){
+		x.unsubscribe();
+	});
 }
 
-EditorPresenter.prototype.startEditing = function(data, library){
-	this.dataStore.loadSpecification(data, library);
-	this.view.updateSpec(this.dataStore.spec);
+EditorPresenter.prototype.enableUndoButtons = function(){
+	throw new Error('not implemented');
+}
+
+EditorPresenter.prototype.activate = function(loader, shell){
+	this.editor = shell.placeIntoMain(this.spec.editor(loader));
+	this.menu = shell.placeIntoMenu(loader.editorMenu({mode: 'preview'}));
+
+	this.subscriptions = [
+		Postal.subscribe({
+			channel: 'editor',
+			topic: 'select-cell',
+		    callback : function(data, envelope) {
+		        self.selectCell(data);
+		    }
+		}),
+		Postal.subscribe({
+			channel: 'editor',
+			topic: 'changes',
+		    callback : function(data, envelope) {
+		        self.applyChange(data);
+		    }
+		})
+	];
+
+	this.enableUndoButtons();
 }
 
 EditorPresenter.prototype.selectCell = function(data){

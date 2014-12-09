@@ -7,6 +7,7 @@
   },
   "devDependencies": {
     "arraybuffer-slice": "^0.1.2",
+    "bluebird": "^2.3.11",
     "body-parser": "^1.8.3",
     "bootstrap": "^3.2.0",
     "chai": "^1.9.1",
