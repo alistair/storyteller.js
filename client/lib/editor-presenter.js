@@ -25,6 +25,10 @@ function EditorPresenter(view){
 
 }
 
+EditorPresenter.prototype.tearDown = function(){
+	// tear down the view, release itself from Postal
+}
+
 EditorPresenter.prototype.startEditing = function(data, library){
 	this.dataStore.loadSpecification(data, library);
 	this.view.updateSpec(this.dataStore.spec);

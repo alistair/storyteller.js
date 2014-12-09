@@ -1,19 +1,19 @@
 var expect = require('chai').expect;
 var changes = require('./../lib/change-commands');
 var StepHolder = require('./../lib/step-holder');
-var SpecificationDataStore = require('./../lib/specification-data-store');
+var Specification = require('./../lib/specification');
 
 describe('Add Step', function(){
 	
 	describe('when built with no index', function(){
-		var store = null;
+		var spec = null;
 		var holder = null;
 		var newStep = null;
 		var added = null;
 
 		beforeEach(function(){
 			holder = new StepHolder();
-			store = new SpecificationDataStore();
+			spec = new Specification({}, null);
 
 			holder.addStep({});
 			holder.addStep({});
@@ -30,14 +30,14 @@ describe('Add Step', function(){
 			holder.addStep({});
 			holder.addStep({});
 
-			added.apply(store);
+			added.apply(spec);
 
 			expect(holder.steps.last()).to.equal(newStep);
 		});
 
-		it('should add the new step to the SpecificationDataStore', function(){
-			added.apply(store);
-			expect(store.find(newStep.id)).to.equal(newStep);
+		it('should add the new step to the Specification', function(){
+			added.apply(spec);
+			expect(spec.find(newStep.id)).to.equal(newStep);
 		});
 
 		it('unapplies by just removing the step from the parent', function(){
@@ -45,20 +45,20 @@ describe('Add Step', function(){
 			holder.addStep({});
 			holder.addStep({});
 
-			added.apply(store);
+			added.apply(spec);
 
 			expect(holder.steps.contains(newStep)).to.be.true;
 
-			added.unapply(store);
+			added.unapply(spec);
 
 			expect(holder.steps.contains(newStep)).to.be.false;
 		});
 
-		it('should remove the step from the data store when unapplying', function(){
-			added.apply(store);
-			added.unapply(store);
+		it('should remove the step from the data spec when unapplying', function(){
+			added.apply(spec);
+			added.unapply(spec);
 
-			expect(store.find(newStep.id)).to.be.null;
+			expect(spec.find(newStep.id)).to.be.null;
 		});
 	});
 
@@ -73,11 +73,11 @@ describe('Add Step', function(){
 		var holder = null;
 		var added = null;
 
-		var store = null;
+		var spec = null;
 
 		beforeEach(function(){
 			holder = new StepHolder();
-			store = new SpecificationDataStore();
+			spec = new Specification({}, null);
 
 			holder.addStep(step1);
 			holder.addStep(step2);
@@ -87,33 +87,33 @@ describe('Add Step', function(){
 			added = changes.stepAdded(holder, newStep, 2);
 		});
 
-		it('should add the new step to the SpecificationDataStore', function(){
-			added.apply(store);
-			expect(store.find(newStep.id)).to.equal(newStep);
+		it('should add the new step to the SpecificationDataspec', function(){
+			added.apply(spec);
+			expect(spec.find(newStep.id)).to.equal(newStep);
 		});
 
 		it('should be able to insert the step on apply', function(){
-			added.apply(store);
+			added.apply(spec);
 
 			expect(holder.steps.length).to.equal(5);
 			expect(holder.steps[2]).to.equal(newStep);
 		});
 
 		it('should be able to remove the step on unapply', function(){
-			added.apply(store);
+			added.apply(spec);
 
 			expect(holder.steps.contains(newStep)).to.be.true;
 
-			added.unapply(store);
+			added.unapply(spec);
 
 			expect(holder.steps.contains(newStep)).to.be.false;
 		});
 
-		it('should remove the step from the data store when unapplying', function(){
-			added.apply(store);
-			added.unapply(store);
+		it('should remove the step from the data spec when unapplying', function(){
+			added.apply(spec);
+			added.unapply(spec);
 
-			expect(store.find(newStep.id)).to.be.null;
+			expect(spec.find(newStep.id)).to.be.null;
 		});
 
 	});

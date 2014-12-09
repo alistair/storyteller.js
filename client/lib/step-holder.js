@@ -51,6 +51,10 @@ function StepHolder(id){
 	}
 
 	self.readSteps = function(data, library){
+		if (!data.steps){
+			return;
+		}
+
 		data.steps.forEach(function(x){
 			var step = self.buildStep(x, library);
 			self.addStep(step);
