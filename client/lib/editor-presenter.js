@@ -39,7 +39,8 @@ EditorPresenter.prototype.activate = function(loader, shell){
 
 	this.menu = shell.placeIntoMenu(loader.editorMenu({
 		specId: this.spec.id,
-		specPath: this.spec.path
+		specPath: this.spec.path,
+		presenter: this
 	}));
 
 	this.spec.activateContainerEditing();
@@ -77,6 +78,15 @@ EditorPresenter.prototype.applyChange = function(data){
 	this.enableUndoButtons();
 }
 
+EditorPresenter.prototype.undo = function(){
+	this.spec.undo();
+	this.enableUndoButtons();
+}
+
+EditorPresenter.prototype.redo = function(){
+	this.spec.redo();
+	this.enableUndoButtons();
+}
 
 /* LATER
 EditorPresenter.prototype.reloadFixtures = function(library){

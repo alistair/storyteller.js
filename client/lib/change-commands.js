@@ -1,64 +1,76 @@
+function CellChange(id, cell, value){
+	this.id = id;
+	this.cell = cell;
+	this.value = value;
 
+	this.apply = function(store){
+		var arg = store.find(id).args.find(cell);
+	
+		this.oldValue = arg.value;
+		this.oldChanged = arg.changed;
+
+		arg.value = value;
+		arg.changed = true;
+	}
+
+	this.unapply = function(store){
+		var arg = store.find(id).args.find(cell);
+
+		arg.value = this.oldValue;
+		arg.changed = this.oldChanged;
+	}
+
+	return this;
+}
+
+function StepAdded(parent, step, index){
+	if (index != null){
+		this.apply = function(store){
+			parent.insertStep(index, step);
+			store.storeStep(step);
+		}
+	}
+	else {
+		this.apply = function(store){
+			parent.addStep(step);
+			store.storeStep(step);
+		}
+	}
+
+	this.unapply = function(store){
+		parent.removeStep(step);
+		store.removeStep(step);
+	}
+
+	return this;
+}
+
+function StepRemoved(parent, step){
+	this.apply = function(store){
+		this.position = parent.removeStep(step);
+		store.removeStep(step);
+	}
+
+	this.unapply = function(store){
+		parent.insertStep(this.position, step);
+		store.storeStep(step);
+	}
+
+	return this;
+}
 
 module.exports = {
 	cellValue: function(id, cell, value){
-		this.id = id;
-		this.cell = cell;
-		this.value = value;
-
-		this.apply = function(store){
-			this.arg = store.find(id).args.find(cell);
-		
-			this.oldValue = this.arg.value;
-			this.oldChanged = this.arg.changed;
-
-			this.arg.value = value;
-			this.arg.changed = true;
-		}
-
-		this.unapply = function(store){
-			this.arg.value = this.oldValue;
-			this.arg.changed = this.oldChanged;
-		}
-
-		return this;
+		return new CellChange(id, cell, value);
 	},
 
 	// the following two can do sections too
 	stepAdded: function(parent, step, index){
-		if (index != null){
-			this.apply = function(store){
-				parent.insertStep(index, step);
-				store.storeStep(step);
-			}
-		}
-		else {
-			this.apply = function(store){
-				parent.addStep(step);
-				store.storeStep(step);
-			}
-		}
-
-		this.unapply = function(store){
-			parent.removeStep(step);
-			store.removeStep(step);
-		}
-
-		return this;
+		return new StepAdded(parent, step, index);
 	},
 
 	stepRemoved: function(parent, step){
-		this.apply = function(store){
-			this.position = parent.removeStep(step);
-			store.removeStep(step);
-		}
-
-		this.unapply = function(store){
-			parent.insertStep(this.position, step);
-			store.storeStep(step);
-		}
-
-		return this;
+		return new StepRemoved(parent, step);
 	},
 
 
