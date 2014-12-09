@@ -21,6 +21,7 @@ function StubLoader(){
 	this.add('editor');
 	this.add('editorContainer');
 	this.add('specEditor');
+	this.add('specChrome');
 
 	this.span = function(text){
 		return {type: 'span', text: text};

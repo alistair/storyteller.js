@@ -40,7 +40,7 @@ function FakeShell(){
 }
 
 /*
-4.) call applyChange, makes the change. Also updates the menu state
+
 5.) call selectCell from scratch
 6.) call selectCell from a second state
 
@@ -94,18 +94,137 @@ describe('EditorPresenter', function(){
 		});
 
 		it('should place the editor itself in the main pane', function(){
-			expect(shell.mainComponent.type).to.deep.equal('specEditor');
+			expect(shell.mainComponent.type).to.deep.equal('specChrome');
+		});
+
+		it('should add the specification editor', function(){
+			expect(shell.mainComponent.state.editor.type).to.equal('specEditor');
 		});
 
 		it('should make the specification itself be the active section by default', function(){
-			expect(shell.mainComponent.state).to.deep.equal({
-				activeContainer: spec,
-				activeCell: null 
-			});
+			expect(shell.mainComponent.state.activeContainer).to.equal(spec);
+
+			expect(presenter.activeHolder).to.equal(spec);
 		});
 
 		it('the spec should be marked as active', function(){
 			expect(spec.active).to.be.true;
+		});
+	});
+
+	describe('when responding to a cell selected from the initial state', function(){
+		// var identifier = {step: this.props.id, cell: this.props.cell.key};
+
+		var spec = null;
+		var presenter = null;
+		var shell = null;
+
+		beforeEach(function(){
+			spec = ObjectMother.specification();
+			spec.path = 'foo/bar';
+
+			shell = new FakeShell();
+			presenter = new EditorPresenter(spec);
+			presenter.activate(loader, shell);
+
+			var stepId = spec.steps[0].steps[1].id;
+
+			presenter.selectCell({step: stepId, cell: 'x'});
+		});
+
+		it('should make the right cell active', function(){
+			expect(spec.steps[0].steps[1].args.find('x').active).to.be.true;
+		});
+
+		it('should make the section holding that cell active', function(){
+			expect(spec.steps[0].active).to.equal(true);
+		});
+
+		it('should make the specfication itself not active', function(){
+			expect(spec.active).to.be.false;
+		});
+
+		it('should update the editor state', function(){
+			expect(shell.mainComponent.state.activeContainer).to.equal(spec.steps[0]);
+		});
+	});
+
+	describe('when responding to a cell selected from the initial state via Postal', function(){
+		// var identifier = {step: this.props.id, cell: this.props.cell.key};
+
+		var spec = null;
+		var presenter = null;
+		var shell = null;
+
+		beforeEach(function(){
+			spec = ObjectMother.specification();
+			spec.path = 'foo/bar';
+
+			shell = new FakeShell();
+			presenter = new EditorPresenter(spec);
+			presenter.activate(loader, shell);
+
+			var stepId = spec.steps[0].steps[1].id;
+
+			Postal.publish({
+				channel: 'editor',
+				topic: 'select-cell',
+				data: {step: stepId, cell: 'x'}
+			})
+		});
+
+		it('should make the right cell active', function(){
+			expect(spec.steps[0].steps[1].args.find('x').active).to.be.true;
+		});
+
+		it('should make the section holding that cell active', function(){
+			expect(spec.steps[0].active).to.equal(true);
+		});
+
+		it('should make the specfication itself not active', function(){
+			expect(spec.active).to.be.false;
+		});
+
+		it('should update the editor state', function(){
+			expect(shell.mainComponent.state.activeContainer).to.equal(spec.steps[0]);
+		});
+	});
+
+	describe('when responding to a cell selected that is different', function(){
+		// var identifier = {step: this.props.id, cell: this.props.cell.key};
+
+		var spec = null;
+		var presenter = null;
+		var shell = null;
+
+		beforeEach(function(){
+			spec = ObjectMother.specification();
+			spec.path = 'foo/bar';
+
+			shell = new FakeShell();
+			presenter = new EditorPresenter(spec);
+			presenter.activate(loader, shell);
+
+			var stepId = spec.steps[0].steps[1].id;
+
+			presenter.selectCell({step: spec.steps[0].steps[1].id, cell: 'x'});
+			presenter.selectCell({step: spec.steps[0].steps[4].id, cell: 'result'});
+		});
+
+		it('should make the right cell active', function(){
+			expect(spec.steps[0].steps[4].args.find('result').active).to.be.true;
+		});
+
+		it('should make the previously selected cell be inactive', function(){
+			expect(spec.steps[0].steps[1].args.find('x').active).to.be.false;
+		});
+
+		it('should make the section holding that cell active', function(){
+			expect(spec.steps[0].active).to.equal(true);
+		});
+
+		it('should update the editor state', function(){
+			expect(shell.mainComponent.state.activeContainer).to.equal(spec.steps[0]);
 		});
 	});
 
@@ -224,11 +343,7 @@ describe('EditorPresenter', function(){
 
 			expect(step.findValue('x')).to.equal(12);
 		});
-/*
-		it('should apply the change to the spec itself', function(){
-			expect(spec.steps[0].steps[1].findValue('x')).to.equal(11);
-		});
-*/
+
 	});
 
 	describe('when handling a spec change from Postal subscription', function(){

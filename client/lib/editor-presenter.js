@@ -1,9 +1,11 @@
 var Postal = require('postal');
 
-// TODO -- have the presenter built via a promise!
 function EditorPresenter(spec){
 	this.spec = spec;
 	this.latched = false;
+	this.activeHolder = null;
+	this.activeCell = null;
+
 
 	var self = this;
 
@@ -30,12 +32,20 @@ EditorPresenter.prototype.enableUndoButtons = function(){
 	this.menu.setState(state);
 }
 
-EditorPresenter.prototype.activate = function(loader, shell){
-	this.editor = shell.placeIntoMain(this.spec.editor(loader));
+EditorPresenter.prototype.refreshEditor = function(){
 	this.editor.setState({
-		activeContainer: this.spec,
-		activeCell: null
+		activeContainer: this.activeHolder,
+		editor: this.spec.editor(this.loader)
 	});
+}
+
+EditorPresenter.prototype.activate = function(loader, shell){
+	this.loader = loader;
+	this.editor = shell.placeIntoMain(loader.specChrome());
+
+	this.activeHolder = this.spec.determineActiveHolder();
+	this.refreshEditor();
+
 
 	this.menu = shell.placeIntoMenu(loader.editorMenu({
 		specId: this.spec.id,
@@ -43,7 +53,7 @@ EditorPresenter.prototype.activate = function(loader, shell){
 		presenter: this
 	}));
 
-	this.spec.activateContainerEditing();
+	
 
 	var self = this;
 
@@ -68,9 +78,18 @@ EditorPresenter.prototype.activate = function(loader, shell){
 }
 
 EditorPresenter.prototype.selectCell = function(data){
-	// {step: id, cell: name}
+	var step = this.spec.find(data.step);
+	if (this.activeCell){
+		this.activeCell.active = false;
+	}
 
-	throw new Error('not yet implemented...');
+	this.activeHolder.active = false;
+	this.activeHolder = step.parent || this.spec;
+	this.activeHolder.active = true;
+	this.activeCell = step.args.find(data.cell);
+	this.activeCell.active = true;
+
+	this.refreshEditor();
 }
 
 EditorPresenter.prototype.applyChange = function(data){

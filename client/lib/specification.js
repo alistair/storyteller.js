@@ -100,10 +100,11 @@ function Specification(data, library){
 		this.byId[step.id] = step;
 	}
 
-	this.activateContainerEditing = function(){
+	this.determineActiveHolder = function(){
 		// TODO -- does more later, needs to deactivate anything else
 		this.active = true;
 
+		return this;
 	}
 
 	this.readSteps(data, library);
