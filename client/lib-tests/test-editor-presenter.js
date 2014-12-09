@@ -39,23 +39,6 @@ function FakeShell(){
 	}
 }
 
-/*
-
-5.) call selectCell from scratch
-6.) call selectCell from a second state
-
-MAY need to go into Step.findContainer()
-  -- find section
-  -- find the actual specification
-  -- find a table (later)
-  -- find an embedded section
-
-  Step.isContainer() : bool
--- implement on Section, Specification, Step
-
-
-*/
-
 var loader = new StubLoader();
 
 describe('EditorPresenter', function(){
@@ -360,8 +343,6 @@ describe('EditorPresenter', function(){
 			presenter.activate(loader, shell);
 
 			var stepId = spec.steps[0].steps[1].id;
-
-			console.log('Spec id is ' + spec.id);
 
 			Postal.publish({
 				channel: 'editor',
