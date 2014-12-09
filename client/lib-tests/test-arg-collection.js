@@ -16,7 +16,7 @@ describe('ArgCollection', function(){
 			C: 3
 		}};
 
-		args = new ArgCollection(cells, data);
+		args = new ArgCollection(cells, data, 1);
 	});
 
 	it('can build itself with data and grammar', function(){

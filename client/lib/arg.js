@@ -1,6 +1,10 @@
 var uuid = require('node-uuid');
 
-function Arg(cell, data){
+function Arg(cell, data, id){
+	if (!id){
+		throw new Error('No id for the data passed into Arg: ' + JSON.stringify(data));
+	}
+
 	this.key = cell.key;
 	this.result = null;
 	this.cell = cell;
@@ -9,7 +13,11 @@ function Arg(cell, data){
 	this.editing = false;
 
 	this.value = data.cells[this.key] || cell.default;
-	this.id = data.id || uuid.v4(); // the default id is only for testing
+	this.id = id
+
+	if (!this.cell.editor){
+		this.cell.editor = 'text';
+	}
 
 	return this;
 }

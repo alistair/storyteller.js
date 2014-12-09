@@ -179,11 +179,11 @@ describe('Sentence', function(){
 				props: {
 					components: [
 						loader.span('Add '),
-						loader.previewCell({cell: {key: 'x'}, value: 1}),
+						loader.previewCell({cell: {key: 'x', editor: 'text'}, value: 1}),
 						loader.span(' to '),
-						loader.previewCell({cell: {key: 'y'}, value: 2}),
+						loader.previewCell({cell: {key: 'y', editor: 'text'}, value: 2}),
 						loader.span(' should be '),
-						loader.previewCell({cell: {key: 'sum'}, value: 3})
+						loader.previewCell({cell: {key: 'sum', editor: 'text'}, value: 3})
 					]
 				}
 

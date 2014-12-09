@@ -16,7 +16,7 @@ function Loader(){
 }
 
 var loader = new Loader();
-loader.add('cell', './cell');
+loader.add('cell', './Cell');
 loader.add('line', './line');
 loader.add('previewContainer', './preview-container');
 loader.add('specPreview', './spec-preview');
@@ -24,5 +24,7 @@ loader.add('previewCell', './preview-cell');
 loader.add('chromedLine', './line-with-chrome');
 loader.add('editorContainer', './editor-container');
 loader.add('specEditor', './spec-editor');
+loader.add('specChrome', './spec-chrome');
+loader.add('editorMenu', './editor-menu');
 
 module.exports = loader;

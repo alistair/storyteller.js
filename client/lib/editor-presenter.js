@@ -80,14 +80,14 @@ EditorPresenter.prototype.activate = function(loader, shell){
 EditorPresenter.prototype.selectCell = function(data){
 	var step = this.spec.find(data.step);
 	if (this.activeCell){
-		this.activeCell.active = false;
+		this.activeCell.editing = false;
 	}
 
 	this.activeHolder.active = false;
 	this.activeHolder = step.parent || this.spec;
 	this.activeHolder.active = true;
 	this.activeCell = step.args.find(data.cell);
-	this.activeCell.active = true;
+	this.activeCell.editing = true;
 
 	this.refreshEditor();
 }

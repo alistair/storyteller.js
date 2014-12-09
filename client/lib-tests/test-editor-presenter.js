@@ -116,7 +116,7 @@ describe('EditorPresenter', function(){
 		});
 
 		it('should make the right cell active', function(){
-			expect(spec.steps[0].steps[1].args.find('x').active).to.be.true;
+			expect(spec.steps[0].steps[1].args.find('x').editing).to.be.true;
 		});
 
 		it('should make the section holding that cell active', function(){
@@ -157,7 +157,7 @@ describe('EditorPresenter', function(){
 		});
 
 		it('should make the right cell active', function(){
-			expect(spec.steps[0].steps[1].args.find('x').active).to.be.true;
+			expect(spec.steps[0].steps[1].args.find('x').editing).to.be.true;
 		});
 
 		it('should make the section holding that cell active', function(){
@@ -195,11 +195,11 @@ describe('EditorPresenter', function(){
 		});
 
 		it('should make the right cell active', function(){
-			expect(spec.steps[0].steps[4].args.find('result').active).to.be.true;
+			expect(spec.steps[0].steps[4].args.find('result').editing).to.be.true;
 		});
 
 		it('should make the previously selected cell be inactive', function(){
-			expect(spec.steps[0].steps[1].args.find('x').active).to.be.false;
+			expect(spec.steps[0].steps[1].args.find('x').editing).to.be.false;
 		});
 
 		it('should make the section holding that cell active', function(){

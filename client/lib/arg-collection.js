@@ -1,10 +1,10 @@
 var Arg = require('./arg');
 
-function ArgCollection(cells, data){
+function ArgCollection(cells, data, id){
 	var args = {};
 
 	cells.forEach(function(cell){
-		var arg = new Arg(cell, data);
+		var arg = new Arg(cell, data, id);
 		args[arg.key] = arg;
 	});
 

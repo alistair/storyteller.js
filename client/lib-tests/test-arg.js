@@ -8,18 +8,25 @@ describe('Arg', function(){
 		var cell = new Cell('foo');
 		var step = {cells:{foo: 'A'}};
 
-		var arg = new Arg(cell, step);
+		var arg = new Arg(cell, step, 1);
 
 		expect(arg.cell).to.equal(cell);
 		expect(arg.result).to.be.null;
 		expect(arg.key).to.equal('foo');
 	});
 
+	it('uses text as the default editor if none', function(){
+		var step = {cells:{foo: 'A'}};
+
+		var arg = new Arg({}, step, 1);
+		expect(arg.cell.editor).to.equal('text');
+	});
+
 	it('editing should be false by default', function(){
 		var cell = new Cell('foo');
 		var step = {cells:{foo: 'A'}};
 
-		var arg = new Arg(cell, step);
+		var arg = new Arg(cell, step, 1);
 
 		expect(arg.editing).to.be.false;
 	});
@@ -28,7 +35,7 @@ describe('Arg', function(){
 		var cell = new Cell('foo');
 		var step = {cells:{foo: 'A'}};
 
-		var arg = new Arg(cell, step);
+		var arg = new Arg(cell, step, 1);
 
 		expect(arg.changed).to.be.false;
 	});
@@ -39,7 +46,7 @@ describe('Arg', function(){
 
 		var step = {cells:{foo: 'A'}};
 
-		var arg = new Arg(cell, step);
+		var arg = new Arg(cell, step, 1);
 		expect(arg.value).to.equal('A');
 	});
 
@@ -49,7 +56,7 @@ describe('Arg', function(){
 
 		var step = {cells:{}};
 
-		var arg = new Arg(cell, step);
+		var arg = new Arg(cell, step, 1);
 		expect(arg.value).to.equal('B');
 	});
 
@@ -59,7 +66,7 @@ describe('Arg', function(){
 
 		var step = {cells:{}};
 
-		var arg = new Arg(cell, step);
+		var arg = new Arg(cell, step, 1);
 
 		expect(arg.isMissing()).to.be.false;
 	});
@@ -69,7 +76,7 @@ describe('Arg', function(){
 
 		var step = {cells:{foo: 'A'}};
 
-		var arg = new Arg(cell, step);
+		var arg = new Arg(cell, step, 1);
 
 		expect(arg.isMissing()).to.be.false;
 	});
@@ -79,7 +86,7 @@ describe('Arg', function(){
 
 		var step = {cells:{}};
 
-		var arg = new Arg(cell, step);
+		var arg = new Arg(cell, step, 1);
 
 		expect(arg.isMissing()).to.be.true;
 	});
@@ -89,7 +96,7 @@ describe('Arg', function(){
 
 		var step = {cells:{foo: 'A'}};
 
-		var arg = new Arg(cell, step);
+		var arg = new Arg(cell, step, 1);
 		arg.value = 'C';
 
 		var data = {};
