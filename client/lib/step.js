@@ -46,5 +46,9 @@ Step.prototype.editor = function(loader){
 	return this.grammar.editor(this, loader);
 }
 
+Step.prototype.findByPath = function(path){
+	return this.args.find(path);
+}
+
 
 module.exports = Step;

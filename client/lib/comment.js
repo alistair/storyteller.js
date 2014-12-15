@@ -24,7 +24,7 @@ Comment.prototype.preview = function(loader){
 }
 
 Comment.prototype.editor = function(loader){
-	throw new Error('Not implemented yet....');
+	return loader.commentEditor(this);
 }
 
 module.exports = Comment;

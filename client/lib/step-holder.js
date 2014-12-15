@@ -87,6 +87,42 @@ function StepHolder(id){
 	self.buildComponents = function(func){
 		return _.map(self.steps, func);
 	}
+
+	self.findByPath = function(path){
+		if ( !(path instanceof Array)){
+			path = path.split('.');
+		}
+
+		if (path.length == 0) return null;
+
+		var next = path.shift();
+		var position = parseInt(next);
+		if (isNaN(position)){
+			if (next.length > 1){
+				throw new Error('A cell address has to be the last value in the path dot notation');
+			}
+		}
+		else {
+			if (position >= this.steps.length){
+				throw new RangeError('Index is out of range.');
+			}
+
+			var child = this.steps[position];
+			if (path.length == 0){
+				return child;
+			}
+
+			return child.findByPath(path);
+		}
+
+		// #.#.#.Letter or name
+
+		
+
+	}
+
+
+
 }
 
 module.exports = StepHolder;

@@ -78,18 +78,7 @@ gulp.task('test:client:lib', function(){
 });
 
 gulp.task('tdd:lib', function(){
-    var watcher = gulp.watch(['./client/lib-tests/test-*.js', './client/lib/*.js'], []);
-    var runTests = function(){
-        run('mocha -G --reporter spec client/lib-tests/test-*.js').exec();
-    }
-
-    watcher.on('added', runTests);
-    watcher.on('deleted', runTests);
-    watcher.on('changed', runTests);
-
-    runTests();
-
-    return watcher;
+    run('mocha -G --reporter spec client/lib-tests/test-*.js').exec();
 });
 
 gulp.task('test:client', ['test:client:lib'], function(){

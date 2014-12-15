@@ -12,8 +12,8 @@ var specData = {
 				{key: 'Adding', cells:{x:1, y:2, result:3}}
 			]
 		},
-		//{type: 'comment', text: 'foo'},
-		//{type: 'comment', text: 'bar'},
+		{type: 'comment', text: 'foo'},
+		{type: 'comment', text: 'bar'},
 		{
 			type: 'section',
 			key: 'Math', 
