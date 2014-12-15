@@ -5,8 +5,7 @@ var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var webpack = require('gulp-webpack');
 var _ = require('lodash');
-
-
+var run = require('gulp-run');
 
 gulp.task('default', ['css', 'test:client']);
 
@@ -75,7 +74,22 @@ var client_entry_writer = entryWriter({folder: client_test_folder, entryFile: cl
 
 gulp.task('test:client:lib', function(){
     return gulp.src('./client/lib-tests/test-*.js', {read: false})
-        .pipe(mocha({reporter: 'spec'}));
+        .pipe(mocha({reporter: 'spec', growl: 'true'}));
+});
+
+gulp.task('tdd:lib', function(){
+    var watcher = gulp.watch(['./client/lib-tests/test-*.js', './client/lib/*.js'], []);
+    var runTests = function(){
+        run('mocha -G --reporter spec client/lib-tests/test-*.js').exec();
+    }
+
+    watcher.on('added', runTests);
+    watcher.on('deleted', runTests);
+    watcher.on('changed', runTests);
+
+    runTests();
+
+    return watcher;
 });
 
 gulp.task('test:client', ['test:client:lib'], function(){
