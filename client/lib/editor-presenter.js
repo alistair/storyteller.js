@@ -14,9 +14,6 @@ function EditorPresenter(spec){
 }
 
 EditorPresenter.prototype.deactivate = function(){
-	// tear down the view, release itself from Postal
-
-	// returns a promise?
 	this.subscriptions.forEach(function(x){
 		x.unsubscribe();
 	});
@@ -78,8 +75,12 @@ EditorPresenter.prototype.activate = function(loader, shell){
 }
 
 EditorPresenter.prototype.selectCell = function(data){
+console.log('Selected: ' + JSON.stringify(data));
+
+
 	var step = this.spec.find(data.step);
 	if (this.activeCell){
+		console.log('Turning off the previously active cell');
 		this.activeCell.editing = false;
 	}
 
@@ -87,6 +88,10 @@ EditorPresenter.prototype.selectCell = function(data){
 	this.activeHolder = step.parent || this.spec;
 	this.activeHolder.active = true;
 	this.activeCell = step.args.find(data.cell);
+	if (!this.activeCell){
+		throw 'Not sure how it is possible, but cannot find the activeCell: ' + JSON.stringify(data);
+	}
+
 	this.activeCell.editing = true;
 
 	this.refreshEditor();
