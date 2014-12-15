@@ -26,5 +26,6 @@ loader.add('editorContainer', './editor-container');
 loader.add('specEditor', './spec-editor');
 loader.add('specChrome', './spec-chrome');
 loader.add('editorMenu', './editor-menu');
+loader.add('commentEditor', './comment-editor');
 
 module.exports = loader;

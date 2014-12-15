@@ -54,7 +54,7 @@ Section.prototype.editor = function(loader){
 		return x.editor(loader);
 	});
 
-	return loader.editorContainer({title: this.fixture.title, components: components});
+	return loader.editorContainer({title: this.fixture.title, components: components, subject: this});
 }
 
 // This will be *much* later for embedded sections

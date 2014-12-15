@@ -16,6 +16,10 @@ function CellDriver(element){
 		throw 'not implemented';
 	};
 
+	this.typeText = function(text){
+		throw 'not implemented';
+	};
+
 	
 }
 

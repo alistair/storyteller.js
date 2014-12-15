@@ -7,7 +7,7 @@ var React = require("react");
 module.exports = React.createClass({
 	render: function(){
 		return (
-			<div className="sentence">{this.props.components}</div>
+			<div className="sentence" id={this.props.step.id}>{this.props.components}</div>
 		);
 	}
 });
