@@ -106,7 +106,7 @@ gulp.task('test:client:build', function(){
         .pipe(gulp.dest('./test'));
 });
 
-gulp.task('test:client:watch', ['test:client:entry', 'test:client:build'], function(){
+gulp.task('tdd:client', ['test:client:entry', 'test:client:build'], function(){
     var entryWatcher = gulp.watch(['test/test-*.js']);
 
     var writeEntry = function(e){

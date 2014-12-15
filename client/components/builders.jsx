@@ -55,7 +55,7 @@ var CellTextBox = React.createClass({
 
 	render: function(){
 		return (
-			<input type="text" value={this.state.value} onChange={this.handleChange} tabIndex="0"/>
+			<input type="text" value={this.state.value} onChange={this.handleChange} tabIndex="0" className='cell' data-cell={this.props.cell.key}/>
 		);
 	}
 });

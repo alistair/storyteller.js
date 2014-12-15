@@ -116,6 +116,7 @@ module.exports = React.createClass({
 				onFocus={editCell}
 				tabIndex="0" 
 				role="button"
+				data-cell={this.props.cell.key}
 				className={state.classes.join(' ')} 
 				title={this.props.cell.description || this.props.cell.key}>{state.text}</span>
 		)

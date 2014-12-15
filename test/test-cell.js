@@ -49,7 +49,7 @@ describe('Rendering a Cell', function(){
 		cell = null;
 		div = null;
 
-		props = new Arg({key: 'X', description: 'The operand'}, {cells: {X: null}});
+		props = new Arg({key: 'X', description: 'The operand'}, {cells: {X: null}}, 1);
 		listener.clear();
 	});
 
@@ -104,6 +104,10 @@ describe('Rendering a Cell', function(){
 			elementShouldHaveClass('cell');
 		});
 
+		it('should have the data-class attribute', function(){
+			elementShouldHaveAttribute('data-cell', 'X');
+		});
+
 		it('has the description in the title', function(){
 			props.cell.description = 'a description of this cell';
 			expect(element().title).to.equal('a description of this cell');
@@ -138,6 +142,17 @@ describe('Rendering a Cell', function(){
 			elementShouldHaveAttribute('type', 'text');
 			elementShouldHaveAttribute('value', props.value);
 		});
+
+		it('should have the cell class and data-cell att when in editing mode', function(){
+			props.cell.editor = 'text';
+			props.value = 'Foo!';
+
+			var elem = element();
+
+			elementShouldHaveAttribute('data-cell', 'X');
+			elementShouldHaveClass('cell');
+		});
+
 		/* Works in the harness, but this code isn't really firing the 
 		   change event
 		it('should fire a cell changed event on changes', function(){
@@ -164,7 +179,7 @@ describe('Rendering a Cell', function(){
 				key: 'X', 
 				description: 'The operand',
 				default: 'bar'
-			}, {cells: {X: null}});
+			}, {cells: {X: null}}, 1);
 
 			expect(props.cell.default).to.equal('bar');
 			expect(props.value).to.equal('bar');
