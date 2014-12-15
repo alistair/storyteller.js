@@ -9,7 +9,8 @@ function CellDriver(element){
 	};
 
 	this.isReadonly = function(){
-		throw 'not implemented';
+		console.log('element tagName = ' + element.tagName);
+		return element.tagName == 'SPAN';
 	};
 
 	this.tabOff = function(){
@@ -20,7 +21,13 @@ function CellDriver(element){
 		throw 'not implemented';
 	};
 
-	
+	this.value = function(){
+		if (this.isReadonly()){
+			return element.innerHTML;
+		}
+
+		return $(element).val();
+	};
 }
 
 describe('Editing a Specification Integration tests', function(){
@@ -42,9 +49,26 @@ describe('Editing a Specification Integration tests', function(){
 		presenter.deactivate();
 	});
 
-	function cellFor(position, cell){
+	function cellFor(search, cell){
+		var step = spec.findByPath(search);
+		var css = '#' + step.id + " .cell[data-cell='" + cell + "']";
 
+		var element = $(css).get(0);
+		return new CellDriver(element);
 	}
+
+	function cellShouldBeReadonlyWithText(search, cell, expected){
+		var cell = cellFor(search, cell);
+		expect(cell.isReadonly()).to.be.true;
+		expect(cell.value()).to.equal(expected);
+	}
+
+	it('should display cell values in initial state', function(){
+		cellShouldBeReadonlyWithText('0.0', 'x', '1');
+		cellShouldBeReadonlyWithText('0.4', 'y', '2');
+		cellShouldBeReadonlyWithText('0.4', 'result', '3');
+		cellShouldBeReadonlyWithText('3.0', 'y', '2');
+	});
 
 
 });
