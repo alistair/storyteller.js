@@ -13,12 +13,9 @@ function CellDriver(element){
 		return element.tagName == 'SPAN';
 	};
 
-	this.tabOff = function(){
-		throw 'not implemented';
-	};
-
 	this.typeText = function(text){
-		throw 'not implemented';
+		element.value = text;
+		$(element).change();
 	};
 
 	this.value = function(){
@@ -74,40 +71,64 @@ describe('Editing a Specification Integration tests', function(){
 		expect(cell.value()).to.equal(expected);
 	}
 
+	describe('Cell display/editing state transitions', function(){
+		it('should display cell values in initial state', function(){
+			cellShouldBeReadonlyWithText('0.0', 'x', '1');
+			cellShouldBeReadonlyWithText('0.4', 'y', '2');
+			cellShouldBeReadonlyWithText('0.4', 'result', '3');
+			cellShouldBeReadonlyWithText('3.0', 'y', '2');
+		});
 
-	it('should display cell values in initial state', function(){
-		cellShouldBeReadonlyWithText('0.0', 'x', '1');
-		cellShouldBeReadonlyWithText('0.4', 'y', '2');
-		cellShouldBeReadonlyWithText('0.4', 'result', '3');
-		cellShouldBeReadonlyWithText('3.0', 'y', '2');
+		it('moves a cell back to readonly after another cell receives focus', function(){
+			cellFor('0.2', 'x').click();
+
+			cellFor('0.4', 'y').click();
+
+			expect(cellFor('0.2', 'x').isReadonly()).to.be.true;
+			expect(cellFor('0.2', 'x').hasFocus()).to.be.false;
+
+			expect(cellFor('0.4', 'y').isTextbox()).to.be.true;
+			expect(cellFor('0.4', 'y').hasFocus()).to.be.true;
+
+		});
+
+		it('changes a cell to editor mode after clicking on it', function(){
+			cellFor('0.2', 'x').click();
+
+			var cell = cellFor('0.2', 'x');
+			expect(cell.isTextbox()).to.be.true;
+			expect(cell.value()).to.equal('2');
+
+		});
+
+		it('should make a cell in edit mode be focused', function(){
+			cellFor('0.3', 'x').click();
+
+			expect(cellFor('0.3', 'x').hasFocus()).to.be.true;
+		});
 	});
 
-	it('moves a cell back to readonly after another cell receives focus', function(){
-		cellFor('0.2', 'x').click();
 
-		cellFor('0.4', 'y').click();
+	describe('Editing in a single cell', function(){
+		before(function(){
+			cellFor('0.0', 'x').click();
 
-		expect(cellFor('0.2', 'x').isReadonly()).to.be.true;
-		expect(cellFor('0.2', 'x').hasFocus()).to.be.false;
+			expect(cellFor('0.0', 'x').isTextbox()).to.be.true;
 
-		expect(cellFor('0.4', 'y').isTextbox()).to.be.true;
-		expect(cellFor('0.4', 'y').hasFocus()).to.be.true;
+			cellFor('0.0', 'x').typeText('13');
 
-	});
+			// move off
+			cellFor('0.1', 'x').click();	
+		});
 
-	it('changes a cell to editor mode after clicking on it', function(){
-		cellFor('0.2', 'x').click();
+		it('should record the change to the spec', function(){
+			expect(spec.findByPath('0.0.x').value).to.equal('13');	
+		});
 
-		var cell = cellFor('0.2', 'x');
-		expect(cell.isTextbox()).to.be.true;
-		expect(cell.value()).to.equal('2');
-
-	});
-
-	it('should make a cell in edit mode be focused', function(){
-		cellFor('0.3', 'x').click();
-
-		expect(cellFor('0.3', 'x').hasFocus()).to.be.true;
+		it('should be reflected in the read only view after the changes', function(){
+			cellShouldBeReadonlyWithText('0.0', 'x', '13');
+		});
+		
 	});
 
 

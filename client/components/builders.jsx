@@ -40,17 +40,37 @@ var CellTextBox = React.createClass({
 	},
 
 	handleChange: function(event) {
-		this.setState({value: event.target.value});
+		if (!event){
+			var value = this.getDOMNode.getAttribute('value');
+		}
+		else {
+			var value = event.target.value;
+		}
 
+		this.setState({value: value});
+
+		this.publishChange();
+	},	
+
+	publishChange: function(value){
 		var arg = this.props;
 
-		var cellChanged = changes.cellValue(arg.id, arg.cell, event.target.value);
+		var cellChanged = changes.cellValue(arg.id, arg.cell.key, value);
 
 		Postal.publish({
 			channel: 'editor',
 			topic: 'changes',
 			data: cellChanged
 		});
+	},
+
+	componentWillUnmount: function(){
+		var element = this.getDOMNode();
+		var value = element.value;
+
+		if (value != this.props.value){
+			this.publishChange(value);
+		}
 	},
 
 	componentDidMount: function(){
@@ -60,7 +80,13 @@ var CellTextBox = React.createClass({
 
 	render: function(){
 		return (
-			<input type="text" value={this.state.value} onChange={this.handleChange} tabIndex="0" className='cell' data-cell={this.props.cell.key}/>
+			<input 
+				type="text" 
+				value={this.state.value} 
+				onChange={this.handleChange} 
+				tabIndex="0" 
+				className='cell' 
+				data-cell={this.props.cell.key}/>
 		);
 	}
 });

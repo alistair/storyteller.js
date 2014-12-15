@@ -75,12 +75,8 @@ EditorPresenter.prototype.activate = function(loader, shell){
 }
 
 EditorPresenter.prototype.selectCell = function(data){
-console.log('Selected: ' + JSON.stringify(data));
-
-
 	var step = this.spec.find(data.step);
 	if (this.activeCell){
-		console.log('Turning off the previously active cell');
 		this.activeCell.editing = false;
 	}
 
@@ -98,6 +94,8 @@ console.log('Selected: ' + JSON.stringify(data));
 }
 
 EditorPresenter.prototype.applyChange = function(data){
+console.log('Got change: ' + JSON.stringify(data));
+
 	this.spec.apply(data);
 	this.enableUndoButtons();
 }

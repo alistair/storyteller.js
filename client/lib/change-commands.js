@@ -4,8 +4,11 @@ function CellChange(id, cell, value){
 	this.value = value;
 
 	this.apply = function(store){
-		var arg = store.find(id).args.find(cell);
-	
+		var step = store.find(id);
+		console.log("FOUND STEP: " + JSON.stringify(step.args));
+
+		var arg = step.args.find(cell);
+
 		this.oldValue = arg.value;
 		this.oldChanged = arg.changed;
 
