@@ -5,7 +5,6 @@ function CellChange(id, cell, value){
 
 	this.apply = function(store){
 		var step = store.find(id);
-		console.log("FOUND STEP: " + JSON.stringify(step.args));
 
 		var arg = step.args.find(cell);
 

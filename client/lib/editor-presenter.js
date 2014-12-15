@@ -94,8 +94,6 @@ EditorPresenter.prototype.selectCell = function(data){
 }
 
 EditorPresenter.prototype.applyChange = function(data){
-console.log('Got change: ' + JSON.stringify(data));
-
 	this.spec.apply(data);
 	this.enableUndoButtons();
 }
