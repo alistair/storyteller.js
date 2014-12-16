@@ -17,6 +17,9 @@ function Sentence(metadata){
 
 	this.cells = cells;
 
+	// TODO: Someday this needs to become an object.defineproperty getter
+	this.title = metadata.format;
+
 	var parser = new SentenceParser(metadata.format, this);
 	parser.parse();
 

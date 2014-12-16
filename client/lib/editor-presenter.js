@@ -93,6 +93,7 @@ EditorPresenter.prototype.selectCell = function(data){
 	this.activeHolder.active = false;
 	this.activeHolder = step.parent || this.spec;
 	this.activeHolder.active = true;
+	
 	this.activeCell = step.args.find(data.cell);
 	if (!this.activeCell){
 		throw 'Not sure how it is possible, but cannot find the activeCell: ' + JSON.stringify(data);

@@ -1,4 +1,5 @@
 var StepHolder = require('./step-holder');
+var _ = require('lodash');
 
 function Specification(data, library){
 	StepHolder.call(this, data.id);
@@ -10,6 +11,12 @@ function Specification(data, library){
 
 	this.children = function(){
 		return this.steps;
+	}
+
+	this.grammars = function(){
+		return _.sortBy(library.fixtures, function(x){
+			return x.title;
+		});
 	}
 
 	this.write = function(){

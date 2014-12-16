@@ -1,6 +1,6 @@
 var uuid = require('node-uuid');
 var StepHolder = require('./step-holder');
-
+var _ = require('lodash');
 
 function Section(data, library){
 	StepHolder.call(this, data.id);
@@ -60,6 +60,12 @@ Section.prototype.editor = function(loader){
 // This will be *much* later for embedded sections
 Section.prototype.editorWithoutChrome = function(loader){
 	throw new Error('Not implemented yet');
+}
+
+Section.prototype.grammars = function(){
+	return _.sortBy(this.fixture.grammars, function(x){
+		return x.title;
+	});
 }
 
 module.exports = Section;

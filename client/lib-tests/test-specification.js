@@ -58,6 +58,14 @@ describe('Specification', function(){
 		var library = new FixtureLibrary(fixtureData);
 		var specification = new Specification(specData, library);
 
+		it('can return a grammars() collection of all the valid fixtures', function(){
+			var grammars = specification.grammars().map(function(x){
+				return x.key;
+			});
+
+			expect(grammars).to.deep.equal(['Math', 'Zork']);
+		});
+
 		it('should have a section after building', function(){
 			var section = specification.steps[0];
 			expect(section.key).to.equal('Math');

@@ -49,6 +49,15 @@ describe('Section', function(){
 		expect(section.steps[4].grammar.key).to.equal('Adding');
 	});
 
+	it('can return all the possible grammars that could be used within it', function(){
+		var grammars = section.grammars().map(function(x){
+			return x.key;
+		});
+
+		expect(grammars).to.deep.equal(['Add', 'Adding', 'StartWith', 'Subtract', 'TheResultShouldBe']);
+
+	});
+
 	it('uses the persisted id if it exists', function(){
 		expect(section.id).to.equal(1);
 	});

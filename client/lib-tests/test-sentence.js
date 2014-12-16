@@ -45,6 +45,15 @@ describe('Sentence', function(){
 			expect(sentence.description).to.equal('does something');
 		});
 
+		it('should copy the format to the title', function(){
+			build({
+				format: 'the foo is afoot',
+				key: 'foo'
+			});
+
+			expect(sentence.title).to.equal('the foo is afoot');
+		});
+
 		it('no cells', function(){
 			build({
 				format: 'the foo is afoot'
