@@ -65,6 +65,11 @@ describe('Editing a Specification Integration tests', function(){
 		return new CellDriver(element);
 	}
 
+	function editCell(search, cell, value){
+		cellFor(search, cell).click();
+		cellFor(search, cell).typeText(value);
+	}
+
 	function cellShouldBeReadonlyWithText(search, cell, expected){
 		var cell = cellFor(search, cell);
 		expect(cell.isReadonly()).to.be.true;
@@ -132,4 +137,20 @@ describe('Editing a Specification Integration tests', function(){
 	});
 
 
+	describe('Editing several cells at a time', function(){
+		before(function(){
+			editCell('0.3', 'x', '13');
+			editCell('3.0', 'x', '17');
+			editCell('3.0', 'result', '19');
+
+			// move off
+			cellFor('0.0', 'x').click();	
+		});
+
+		it('should apply edits to all the fields', function(){
+			cellShouldBeReadonlyWithText('0.3', 'x', '13');
+			cellShouldBeReadonlyWithText('3.0', 'x', '17');
+			cellShouldBeReadonlyWithText('3.0', 'result', '19');
+		});
+	});
 });
