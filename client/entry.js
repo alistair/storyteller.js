@@ -1,6 +1,8 @@
-
+var $ = require('jquery');
 var spec = require('./lib-tests/object-mother').specification();
-var shell = require('./lib/shell');
+var Shell = require('./lib/shell');
+var shell = new Shell($('#main'));
+
 
 var EditorPresenter = require('./lib/editor-presenter');
 

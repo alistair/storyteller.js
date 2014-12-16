@@ -65,17 +65,26 @@ var CellTextBox = React.createClass({
 	},
 
 	componentWillUnmount: function(){
-		var element = this.getDOMNode();
-		var value = element.value;
-
-		if (value != this.props.value){
-			this.publishChange(value);
-		}
+		this.subscription.unsubscribe();
 	},
 
 	componentDidMount: function(){
 		var element = this.getDOMNode();
 		element.focus();
+
+		var component = this;
+
+		this.subscription = Postal.subscribe({
+			channel: 'editor',
+			topic: 'apply-changes',
+			callback: function(data, envelope){
+				var value = element.value;
+
+				if (value != component.props.value){
+					component.publishChange(value);
+				}
+			}
+		});
 	},
 
 	render: function(){
@@ -85,7 +94,7 @@ var CellTextBox = React.createClass({
 				value={this.state.value} 
 				onChange={this.handleChange} 
 				tabIndex="0" 
-				className='cell' 
+				className='cell active-cell' 
 				data-cell={this.props.cell.key}/>
 		);
 	}

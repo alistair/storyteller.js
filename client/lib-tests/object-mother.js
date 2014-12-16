@@ -21,6 +21,17 @@ var specData = {
 				{key: 'Adding', cells:{x:1, y:2, result:3}}
 			]
 		},
+		{
+			type: 'section',
+			key: 'Math', 
+			steps: [
+				{key: 'StartWith', cells: {x: 1}},
+				{key: 'Add', cells: {x: 5}},
+				{key: 'Subtract', cells: {x: 2}},
+				{key: 'TheResultShouldBe', cells: {x: 4}},
+				{key: 'Adding', cells:{x:1, y:2, result:3}}
+			]
+		}
 	]
 }
 

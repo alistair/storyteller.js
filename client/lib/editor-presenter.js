@@ -76,7 +76,17 @@ EditorPresenter.prototype.activate = function(loader, shell){
 
 EditorPresenter.prototype.selectCell = function(data){
 	var step = this.spec.find(data.step);
+
+	// If any thing is open, pack it in now
+	Postal.publish({
+		channel: 'editor',
+		topic: 'apply-changes',
+		data: {}
+	});
+
 	if (this.activeCell){
+		// RIGHT HERE, FIND A WAY TO FORCE IN THE 'PACKING'
+
 		this.activeCell.editing = false;
 	}
 
@@ -101,11 +111,13 @@ EditorPresenter.prototype.applyChange = function(data){
 EditorPresenter.prototype.undo = function(){
 	this.spec.undo();
 	this.enableUndoButtons();
+	this.refreshEditor();
 }
 
 EditorPresenter.prototype.redo = function(){
 	this.spec.redo();
 	this.enableUndoButtons();
+	this.refreshEditor();
 }
 
 /* LATER

@@ -14,7 +14,7 @@ describe('Finding children within Specification by path', function(){
 		}).to.throw(RangeError);
 
 		expect(function(){
-			spec.findByPath('4');
+			spec.findByPath('100');
 		}).to.throw(RangeError);
 	});
 
