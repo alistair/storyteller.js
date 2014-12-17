@@ -72,6 +72,14 @@ EditorPresenter.prototype.activate = function(loader, shell){
 		    callback : function(data, envelope) {
 		        self.applyChange(data);
 		    }
+		}),
+		Postal.subscribe({
+			channel: 'editor',
+			topic: 'add-step',
+		    callback : function(data, envelope) {
+		        self.applyChange(data);
+		        self.refreshEditor();
+		    }
 		})
 	];
 
