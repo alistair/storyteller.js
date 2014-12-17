@@ -7,7 +7,7 @@ var StepAdder = require('./step-adder');
 module.exports = React.createClass({
 	buildSelector: function(){
 		if (this.props.subject.active){
-			return StepAdder({grammars: this.props.subject.grammars(), holder: this.props.subject});
+			return StepAdder({holder: this.props.subject});
 		}
 
 		return StepAdderPlaceHolder({holder: this.props.subject.id});
@@ -23,6 +23,7 @@ module.exports = React.createClass({
 			  </div>
 			  <div className="panel-body">
 			    {this.props.components}
+			    {selector}
 			  </div>
 			</div>
 		);

@@ -6,9 +6,10 @@ var changes = require('./../lib/change-commands');
 var AddStepItem = React.createClass({
 	render: function(){
 		var holder = this.props.holder;
+		var grammar = this.props.grammar;
 
 		var onclick = function(){
-			var step = this.props.grammar.newStep();
+			var step = grammar.newStep();
 			var message = changes.stepAdded(holder, step);
 
 			Postal.publish({
@@ -19,7 +20,11 @@ var AddStepItem = React.createClass({
 		}
 
 		return (
-			<a href="#" onClick={onclick} className="list-group-item">{this.props.title}</a>
+			<a 
+				href="#" 
+				data-key={this.props.grammar.key} 
+				onDoubleClick={onclick} 
+				className="list-group-item add-step">{this.props.grammar.title}</a>
 		);
 	}
 });
@@ -27,9 +32,9 @@ var AddStepItem = React.createClass({
 
 module.exports = React.createClass({
 	render: function(){
-		var holder = this.props.subject;
+		var holder = this.props.holder;
 
-		var components = this.props.grammars.map(function(grammar){
+		var components = holder.grammars().map(function(grammar){
 			return AddStepItem({grammar: grammar, holder: holder});
 		});
 

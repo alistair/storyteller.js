@@ -75,9 +75,7 @@ function StepHolder(id){
 			// TODO -- be smart enough to deal w/ 'Missing/Unknown Grammar'
 			var grammar = self.fixture.find(data.key);
 			var step = grammar.buildStep(data);  
-
-			step.grammar = grammar;
-
+			
 			return step;
 		}
 

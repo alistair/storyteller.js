@@ -25,6 +25,15 @@ describe('Fixture', function(){
 		fixture = new Fixture(data);
 	});
 
+	it('can build a new step as a section', function(){
+		var section = fixture.newStep();
+
+		expect(section.key).to.equal('Arithmetic');
+		expect(section.type).to.equal('section');
+		expect(section.steps.length).to.equal(0);
+		expect(section.fixture).to.equal(fixture);
+	});
+
 	it('should capture the key', function(){
 		expect(fixture.key).to.equal('Arithmetic');
 	});

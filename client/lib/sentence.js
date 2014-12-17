@@ -39,7 +39,7 @@ function Sentence(metadata){
 }
 
 Sentence.prototype.buildStep = function(data){
-	return new Step(data, this.allCells);
+	return new Step(data, this.allCells, this);
 }
 
 Sentence.prototype.newStep = function(){

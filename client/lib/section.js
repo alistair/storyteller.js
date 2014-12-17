@@ -2,10 +2,13 @@ var uuid = require('node-uuid');
 var StepHolder = require('./step-holder');
 var _ = require('lodash');
 
-function Section(data, library){
+function Section(data, library, fixture){
 	StepHolder.call(this, data.id);
 
-	var fixture = library.find(data.key);
+	if (fixture == null){
+		fixture = library.find(data.key);
+	}
+
 	if (fixture == null){
 		throw new Error('Unknown Fixture ' + data.key);
 	}

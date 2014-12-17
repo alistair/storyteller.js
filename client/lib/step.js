@@ -2,12 +2,12 @@
 var uuid = require('node-uuid');
 var ArgCollection = require('./arg-collection');
 
-function Step(data, cells){
+function Step(data, cells, grammar){
 	this.id = data.id || uuid.v4();
 	this.args = new ArgCollection(cells, data, this.id);
 	this.key = data.key;
 	this.type = 'step';
-	this.grammar = null; // set by the StepHolder.buildStep() method
+	this.grammar = grammar; // set by the StepHolder.buildStep() method
 }
 
 Step.prototype.children = function(){

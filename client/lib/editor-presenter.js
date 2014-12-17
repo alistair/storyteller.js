@@ -59,6 +59,10 @@ EditorPresenter.prototype.activate = function(loader, shell){
 			channel: 'editor',
 			topic: 'select-cell',
 		    callback : function(data, envelope) {
+				if (!data.step){
+					return;
+				}
+
 		        self.selectCell(data);
 		    }
 		}),
@@ -76,6 +80,10 @@ EditorPresenter.prototype.activate = function(loader, shell){
 
 EditorPresenter.prototype.selectCell = function(data){
 	var step = this.spec.find(data.step);
+
+	if (!step){
+		throw new Error('Unable to find a step matching: ' + JSON.stringify(data));
+	}
 
 	// If any thing is open, pack it in now
 	Postal.publish({

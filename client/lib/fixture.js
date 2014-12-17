@@ -20,6 +20,10 @@ function Fixture(data){
 	this.grammars = grammars;
 }
 
+Fixture.prototype.newStep = function(){
+	return new Section({}, null, this);
+}
+
 Fixture.prototype.find = function(key){
 	if (this.grammars[key]){
 		return this.grammars[key];
