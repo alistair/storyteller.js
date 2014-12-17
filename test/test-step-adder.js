@@ -13,15 +13,17 @@ var listener = {
 	},
 
 	append: function(data){
+		console.log('GOT DATA: ' + JSON.stringify(data));
+
 		this.events.push(data);
 	}
 };
 
 Postal.subscribe({
     channel  : "editor",
-    topic    : "changes",
+    topic    : "add-step",
     callback : function(data, envelope) {
-    	console.log('GOT SUBSCRIPTION IN POSTAL');
+    	console.log('GOT SUBSCRIPTION IN POSTAL: ' + JSON.stringify(envelope));
         listener.append(data);
     }
 });
@@ -31,7 +33,7 @@ function singleEventReceivedShouldBe(expected){
 	expect(listener.events[0]).to.deep.equal(expected);
 }
 
-describe('The StepAdder component', function(){
+describe.only('The StepAdder component', function(){
 	beforeEach(function(){
 		listener.clear();
 	});
@@ -51,7 +53,8 @@ describe('The StepAdder component', function(){
 
 		expect(keys).to.deep.equal(['Math', 'Zork']);
 	});
-/*
+
+	/* Can't get the double click to fire somehow
 	it('publishes the add step on double click in specification', function(){
 		$('<div id="add-step-holder"></div>').appendTo(document.body).get(0);
 		var div = $('#add-step-holder').get(0);
@@ -61,16 +64,15 @@ describe('The StepAdder component', function(){
 		React.renderComponent(adder, div);
 
 		var search = $('a.add-step[data-key=Math]', div);
-
+		search.css("background", "green");
 		expect(search.length).to.equal(1);
 
 		search.dblclick();
 
 		expect(listener.events.length).to.equal(1);
-
-		console.log(JSON.stringify(listener.events[0]));
 	});
 */
+
 	it('can render for a section', function(){
 		var div = document.createElement('div');
 		var section = spec.findByPath('0');
@@ -85,6 +87,7 @@ describe('The StepAdder component', function(){
 
 		expect(keys).to.deep.equal(['Add', 'Adding', 'StartWith', 'Subtract', 'TheResultShouldBe']);
 	});
+
 /*
 	it('publishes the add step on double click in section', function(){
 		$('<div id="add-step-holder-2"></div>').appendTo(document.body).get(0);
@@ -96,13 +99,13 @@ describe('The StepAdder component', function(){
 
 		var search = $('a.add-step[data-key=Add]', div);
 
+		search.css("background", "brown");
+
 		expect(search.length).to.equal(1);
 
-		search.dblclick();
+		search.trigger('dblclick');
 
 		expect(listener.events.length).to.equal(1);
-
-		console.log(JSON.stringify(listener.events[0]));
 	});
 */
 });

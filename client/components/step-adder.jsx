@@ -14,7 +14,7 @@ var AddStepItem = React.createClass({
 
 			Postal.publish({
 				channel: 'editor',
-				topic: 'changes',
+				topic: 'add-step',
 				data: message
 			});
 		}
