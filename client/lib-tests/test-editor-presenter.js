@@ -84,15 +84,6 @@ describe('EditorPresenter', function(){
 			expect(shell.mainComponent.state.editor.type).to.equal('specEditor');
 		});
 
-		it('should make the specification itself be the active section by default', function(){
-			expect(shell.mainComponent.state.activeContainer).to.equal(spec);
-
-			expect(presenter.activeHolder).to.equal(spec);
-		});
-
-		it('the spec should be marked as active', function(){
-			expect(spec.active).to.be.true;
-		});
 	});
 
 	describe('when responding to a cell selected from the initial state', function(){
@@ -116,7 +107,7 @@ describe('EditorPresenter', function(){
 		});
 
 		it('should make the right cell active', function(){
-			expect(spec.steps[0].steps[1].args.find('x').editing).to.be.true;
+			expect(spec.steps[0].steps[1].args.find('x').active).to.be.true;
 		});
 
 		it('should make the section holding that cell active', function(){
@@ -157,7 +148,7 @@ describe('EditorPresenter', function(){
 		});
 
 		it('should make the right cell active', function(){
-			expect(spec.steps[0].steps[1].args.find('x').editing).to.be.true;
+			expect(spec.steps[0].steps[1].args.find('x').active).to.be.true;
 		});
 
 		it('should make the section holding that cell active', function(){
@@ -195,7 +186,7 @@ describe('EditorPresenter', function(){
 		});
 
 		it('should make the right cell active', function(){
-			expect(spec.steps[0].steps[4].args.find('result').editing).to.be.true;
+			expect(spec.steps[0].steps[4].args.find('result').active).to.be.true;
 		});
 
 		it('should make the previously selected cell be inactive', function(){

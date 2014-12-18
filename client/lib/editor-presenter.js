@@ -12,14 +12,8 @@ var applyOutstandingChanges = function(){
 function EditorPresenter(spec){
 	this.spec = spec;
 	this.latched = false;
-	this.activeHolder = null;
-	this.activeCell = null;
-
 
 	var self = this;
-
-
-
 }
 
 EditorPresenter.prototype.deactivate = function(){
@@ -40,7 +34,7 @@ EditorPresenter.prototype.enableUndoButtons = function(){
 
 EditorPresenter.prototype.refreshEditor = function(){
 	this.editor.setState({
-		activeContainer: this.activeHolder,
+		activeContainer: this.spec.activeHolder,
 		editor: this.spec.editor(this.loader)
 	});
 }
@@ -49,7 +43,6 @@ EditorPresenter.prototype.activate = function(loader, shell){
 	this.loader = loader;
 	this.editor = shell.placeIntoMain(loader.specChrome());
 
-	this.activeHolder = this.spec.determineActiveHolder();
 	this.refreshEditor();
 
 
@@ -107,55 +100,15 @@ EditorPresenter.prototype.activate = function(loader, shell){
 }
 
 EditorPresenter.prototype.selectCell = function(data){
-	var step = this.spec.find(data.step);
-
-	if (!step){
-		throw new Error('Unable to find a step matching: ' + JSON.stringify(data));
-	}
-
 	applyOutstandingChanges();
 
-	if (this.activeCell){
-		this.activeCell.editing = false;
-	}
-
-	this.activeHolder.active = false;
-	this.activeHolder = step.parent || this.spec;
-	this.activeHolder.active = true;
-	
-	this.activeCell = step.args.find(data.cell);
-	if (!this.activeCell){
-		throw 'Not sure how it is possible, but cannot find the activeCell: ' + JSON.stringify(data);
-	}
-
-	this.activeCell.editing = true;
+	this.spec.selectCell(data.step, data.cell);
 
 	this.refreshEditor();
 }
 
 EditorPresenter.prototype.selectHolder = function(data){
-	var holder = this.spec.find(data.holder);
-	if (!holder){
-		throw new Error('Unable to find the holder matching: ' + JSON.stringify(data));
-	}
-
-	if (this.activeHolder){
-		if (holder == this.activeHolder) return;
-
-		applyOutstandingChanges();
-
-		this.activeHolder.active = false;
-
-		if (this.activeCell){
-			this.activeCell.active = false;
-			this.activeCell = null;
-		}
-	}
-
-	holder.active = true;
-	this.activeHolder = holder;
-
-	// TODO: select an active cell?
+	this.spec.selectHolder(data.holder);
 
 	this.refreshEditor();
 }

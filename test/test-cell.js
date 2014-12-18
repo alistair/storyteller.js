@@ -129,7 +129,7 @@ describe('Rendering a Cell', function(){
 
 	describe('Rendering a cell in editing mode', function(){
 		beforeEach(function(){
-			props.editing = true;
+			props.active = true;
 		});
 
 		it('should render a textbox when the cell editor is "text"', function(){

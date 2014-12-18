@@ -89,7 +89,7 @@ module.exports = React.createClass({
 			state.addClass('changed');
 		}
 
-		if (this.props.editing){
+		if (this.props.active){
 			return builders.toEditor(this.props);
 		}
 
