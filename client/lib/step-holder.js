@@ -7,6 +7,7 @@ var Comment = require('./comment');
 function OutlineNode(holder){
 	this.id = holder.id;
 	this.title = holder.title;
+	this.active = holder.active;
 
 	this.children = _.filter(holder.steps, function(x){
 		return x.isHolder();
