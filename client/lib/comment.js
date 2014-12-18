@@ -31,4 +31,8 @@ Comment.prototype.isHolder = function(){
 	return false;
 }
 
+Comment.prototype.clearActiveState = function(){
+	// todo -- will do something in the future
+}
+	
 module.exports = Comment;

@@ -129,7 +129,88 @@ function Specification(data, library){
 		}
 	}
 
+	var _activeCell = null;
+	var _activeHolder = null;
+
+
+	self.selectCell = function(id, cell){
+		var step = this.find(id);
+		if (!step){
+			throw new Error('Unable to find a step with id: ' + id);
+		}
+
+		var arg = step.args.find(cell);
+		if (!arg){
+			throw new Error("Unable to find a cell named " + cell + '" for id: ' + id);
+		}
+
+		this.activeCell = arg;
+		this.activeHolder = step.parent;
+	}
+
+	self.selectHolder = function(id){
+		var holder = this.find(id);
+
+		if (!holder){
+			throw new Error('Unable to find the specified holder with id: ' + id);
+		}
+	}
+
+	Object.defineProperty(self, 'activeCell', {
+		enumerable: true,
+		writeable: true,
+		get: function(){
+			return _activeCell;
+		},
+		set: function(value){
+			if (_activeCell){
+				if (_activeCell == value) return;
+
+				_activeCell.active = false;
+			}
+
+			value.active = true;
+			_activeCell = value;
+		}
+	});
+
+	Object.defineProperty(self, 'activeHolder', {
+		enumerable: true,
+		writeable: true,
+		get: function(){
+			return _activeHolder;
+		},
+		set: function(value){
+			if (_activeHolder){
+				if (_activeCell == value) return;
+
+				_activeHolder.active = false;
+			}
+
+			value.active = true;
+			_activeHolder = value;
+		}
+	});
+
 	readHolder(this);
+
+
+	// shouldn't be necessary, but still
+	this.clearActiveState();
+	var lastHolder = _.findLast(this.steps, function(x){
+		return x.isHolder();
+	});
+
+	if (lastHolder){
+		lastHolder.active = true;
+		_activeHolder = lastHolder;
+	}
+	else {
+		_activeHolder = this;
+		this.active = true;
+	}
+
+
 }
 
 

@@ -292,6 +292,7 @@ describe('Storing and finding steps by id', function(){
 
 	describe('Setting Active State', function(){
 		var spec = null;
+		var library = new FixtureLibrary(fixtureData);
 
 		var specData = {
 			title: 'My first specification',
@@ -313,7 +314,7 @@ describe('Storing and finding steps by id', function(){
 					type: 'section',
 					key: 'Zork',
 					steps: [
-						{key: 'SwingSword', cells: {x: 1}, id: 8}
+						{key: 'North', cells: {x: 1}, id: 8}
 					]
 				}
 			]
@@ -322,7 +323,6 @@ describe('Storing and finding steps by id', function(){
 
 
 		beforeEach(function(){
-			var library = new FixtureLibrary(fixtureData);
 			spec = new Specification(specData, library);
 		});
 
@@ -334,6 +334,84 @@ describe('Storing and finding steps by id', function(){
 
 			expect(spec.steps[0].active).to.be.false;
 			expect(spec.findByPath('0.2.x').active).to.be.false;
+		});
+
+		it('by default, if specification is created with no children, it is active', function(){
+			var data = {
+				title: 'Second spec',
+				steps: []
+			}
+
+			var specification = new Specification(data, library);
+
+			expect(specification.active).to.be.true;
+			expect(specification.activeCell).to.be.null;
+			expect(specification.activeHolder).to.equal(specification);
+
+		});
+
+		it('select the last holder in the immediate children if one exists', function(){
+			expect(spec.steps[1].active).to.be.true;
+			expect(spec.activeHolder).to.equal(spec.steps[1]);
+			expect(spec.activeCell).to.be.null;
+		});
+
+		it('when activating a cell for the first time', function(){
+			var id = spec.findByPath('0.3').id;
+
+			spec.selectCell(id, 'x');
+
+			var arg = spec.findByPath('0.3.x');
+			expect(arg.active).to.be.true;
+			expect(spec.activeCell).to.equal(arg);
+			expect(spec.activeHolder).to.equal(spec.findByPath('0'));
+		});
+
+		it('when activating a cell in the same step', function(){
+			var id = spec.findByPath('0.4').id;
+
+			spec.selectCell(id, 'x');
+			spec.selectCell(id, 'y');
+
+			var argX = spec.findByPath('0.4.x');
+			var argY = spec.findByPath('0.4.y');
+			
+			expect(argX.active).to.be.false;
+			expect(argY.active).to.be.true
+
+			expect(spec.activeCell).to.equal(argY);
+			expect(spec.activeHolder).to.equal(spec.findByPath('0'));
+		});
+
+		it('when activating a cell in the same section but different step', function(){
+			spec.selectCell(spec.findByPath('0.3').id, 'x');
+			spec.selectCell(spec.findByPath('0.4').id, 'y');
+
+			var arg1 = spec.findByPath('0.3.x');
+			var arg2 = spec.findByPath('0.4.y');
+			
+			expect(arg1.active).to.be.false;
+			expect(arg2.active).to.be.true
+
+			expect(spec.activeCell).to.equal(arg2);
+			expect(spec.activeHolder).to.equal(spec.findByPath('0'));
+		});
+
+		it('when activating a cell in a completely different section', function(){
+			spec.selectCell(spec.findByPath('0.3').id, 'x');
+			spec.selectCell(spec.findByPath('1.0').id, 'x');
+
+			var arg1 = spec.findByPath('0.3.x');
+			var arg2 = spec.findByPath('1.0.x');
+			
+			expect(arg1.active).to.be.false;
+			expect(arg2.active).to.be.true
+
+			expect(spec.activeCell).to.equal(arg2);
+			expect(spec.activeHolder).to.equal(spec.findByPath('1'));
+
+			expect(spec.steps[0].active).to.be.false;
+			expect(spec.steps[1].active).to.be.true;
 		});
 	});
 
