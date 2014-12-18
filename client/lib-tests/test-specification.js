@@ -413,6 +413,39 @@ describe('Storing and finding steps by id', function(){
 			expect(spec.steps[0].active).to.be.false;
 			expect(spec.steps[1].active).to.be.true;
 		});
+
+		it('when activating the specification with no cell activated', function(){
+			spec.selectHolder(spec.id);
+
+			expect(spec.active).to.be.true;
+			expect(spec.steps[0].active).to.be.false;
+			expect(spec.steps[1].active).to.be.false;
+			expect(spec.activeHolder).to.equal(spec);
+			expect(spec.activeCell).to.be.null;
+		});
+
+		it('when activating a different section', function(){
+			spec.selectCell(spec.findByPath('0.4').id, 'result');
+
+			// precondition
+			expect(spec.activeCell).to.not.be.null;
+		
+			spec.selectHolder(spec.findByPath('1').id);
+
+			
+			expect(spec.steps[1]).to.equal(spec.activeHolder);
+
+			// New active holder
+			expect(spec.steps[1].active).to.be.true;
+
+			// Previously active holder
+			expect(spec.steps[0].active).to.be.false;
+
+			// should remove the previously active cell
+			expect(spec.activeCell).to.be.null;
+			expect(spec.findByPath('0.4.result').active).to.be.false;
+
+		});
 	});
 
 });

@@ -132,6 +132,18 @@ function Specification(data, library){
 	var _activeCell = null;
 	var _activeHolder = null;
 
+	var replaceHolder = function(value){
+		if (_activeHolder){
+			if (_activeHolder == value) return false;
+
+			_activeHolder.active = false;
+		}
+
+		value.active = true;
+		_activeHolder = value;
+
+		return true;
+	}
 
 	self.selectCell = function(id, cell){
 		var step = this.find(id);
@@ -145,7 +157,7 @@ function Specification(data, library){
 		}
 
 		this.activeCell = arg;
-		this.activeHolder = step.parent;
+		replaceHolder(step.parent);
 	}
 
 	self.selectHolder = function(id){
@@ -154,6 +166,8 @@ function Specification(data, library){
 		if (!holder){
 			throw new Error('Unable to find the specified holder with id: ' + id);
 		}
+
+		this.activeHolder = holder;
 	}
 
 	Object.defineProperty(self, 'activeCell', {
@@ -181,15 +195,14 @@ function Specification(data, library){
 			return _activeHolder;
 		},
 		set: function(value){
-			if (_activeHolder){
-				if (_activeCell == value) return;
-
-				_activeHolder.active = false;
+			if (replaceHolder(value)){
+				if (_activeCell){
+					_activeCell.active = false;
+					_activeCell = null;
+				}
 			}
 
-			value.active = true;
-			_activeHolder = value;
-		}
+		}	
 	});
 
 	readHolder(this);
