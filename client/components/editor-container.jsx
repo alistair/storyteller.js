@@ -18,8 +18,13 @@ module.exports = React.createClass({
 	render: function(){
 		var selector = this.buildSelector();
 
+		var panelClass = "panel panel-default";
+		if (this.props.subject.active){
+			panelClass = "panel panel-primary";
+		}
+
 		return (
-			<div className="panel panel-default" id={this.props.subject.id}>
+			<div className={panelClass} id={this.props.subject.id}>
 			  <div className="panel-heading">
 			    <h3 className="panel-title">{this.props.title}</h3>
 			  </div>

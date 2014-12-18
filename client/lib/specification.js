@@ -50,7 +50,7 @@ function Specification(data, library){
 			return x.editor(loader);
 		});
 
-		var props = {title: this.title, components: components};
+		var props = {title: this.title, components: components, subject: this};
 
 		var component = loader.specEditor(props);
 

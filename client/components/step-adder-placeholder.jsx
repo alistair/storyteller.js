@@ -4,11 +4,13 @@ var Postal = require('postal');
 
 module.exports = React.createClass({
 	render: function(){
+		var holderId = this.props.holder;
+
 		var onclick = function(e){
 			Postal.publish({
 				channel: 'editor',
 				topic: 'select-holder',
-				data: {holder: this.props.holder}
+				data: {holder: holderId}
 			});
 
 			e.preventDefault();
@@ -16,7 +18,7 @@ module.exports = React.createClass({
 
 
 		return (
-			<a onClick={onclick}>add steps...</a>
+			<a data-holder={this.props.holder} onClick={onclick}>add steps...</a>
 		);
 	}
 });
