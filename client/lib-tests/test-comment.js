@@ -26,4 +26,10 @@ describe('Comment', function(){
 
 		expect(comment.changed).to.be.false;
 	});
+
+	it('is not a holder', function(){
+		var comment = new Comment('foo');
+
+		expect(comment.isHolder()).to.be.false;
+	});
 });

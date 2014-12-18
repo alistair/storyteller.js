@@ -58,6 +58,19 @@ describe('Specification', function(){
 		var library = new FixtureLibrary(fixtureData);
 		var specification = new Specification(specData, library);
 
+		it('can create an outline of holders', function(){
+			var expected = {
+				id: specification.id,
+				title: specification.title,
+				children: [
+					{id: specification.steps[0].id, title: specification.steps[0].title, children: []},
+					{id: specification.steps[3].id, title: specification.steps[3].title, children: []}
+				]
+			};
+
+			expect(specification.outline()).to.deep.equal(expected);
+		});
+
 		it('spec is always a holder', function(){
 			expect(specification.isHolder()).to.be.true;
 		});

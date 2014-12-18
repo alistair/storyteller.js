@@ -4,6 +4,16 @@ var ArrayList = require('./array-list');
 var _ = require('lodash');
 var Comment = require('./comment');
 
+function OutlineNode(holder){
+	this.id = holder.id;
+	this.title = holder.title;
+
+	this.children = _.filter(holder.steps, function(x){
+		return x.isHolder();
+	}).map(function(x){
+		return new OutlineNode(x);
+	});
+}
 
 function StepHolder(id){
 	var self = this;
@@ -123,7 +133,9 @@ function StepHolder(id){
 
 	}
 
-
+	self.outline = function(){
+		return new OutlineNode(this);
+	}
 
 }
 

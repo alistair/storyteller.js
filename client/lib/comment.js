@@ -27,4 +27,8 @@ Comment.prototype.editor = function(loader){
 	return loader.commentEditor(this);
 }
 
+Comment.prototype.isHolder = function(){
+	return false;
+}
+
 module.exports = Comment;
