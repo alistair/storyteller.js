@@ -80,6 +80,26 @@ describe('Step', function(){
 		expect(step.args.find('C').value).to.equal(3);
 	});
 
+	it('should be able to clear any active state', function(){
+		var cells = [new Cell('A'), new Cell('B'), new Cell('C')];
+		var data = {key: 'foo', cells: {
+			A: 1,
+			B: 2,
+			C: 3
+		}};
+
+		var step = new Step(data, cells);
+		step.args.find('A').active = true;
+		step.args.find('B').active = true;
+		step.args.find('C').active = true;
+
+		step.clearActiveState();
+
+		expect(step.args.find('A').active).to.be.false;
+		expect(step.args.find('B').active).to.be.false;
+		expect(step.args.find('C').active).to.be.false;
+	});
+
 	it('children just gives you an empty array -- FOR RIGHT NOW', function(){
 		var cells = [new Cell('A'), new Cell('B'), new Cell('C')];
 		var data = {key: 'foo', cells: {

@@ -30,5 +30,11 @@ ArgCollection.prototype.store = function(data){
 		this.args[key].store(data);
 	}
 }
+
+ArgCollection.prototype.clearActiveState = function(){
+	for (key in this.args){
+		this.args[key].active = false;
+	}
+}
 	
 module.exports = ArgCollection;

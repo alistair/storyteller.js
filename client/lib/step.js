@@ -56,5 +56,9 @@ Step.prototype.isHolder = function(){
 	return false;
 }
 
+Step.prototype.clearActiveState = function(){
+	this.args.clearActiveState();
+}
+
 
 module.exports = Step;
