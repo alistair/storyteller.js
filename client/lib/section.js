@@ -16,6 +16,7 @@ function Section(data, library, fixture){
 	this.key = fixture.key;
 	this.type = 'section';
 	this.fixture = fixture;
+	this.title = this.fixture.title;
 
 	this.readSteps(data, library);
 }

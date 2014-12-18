@@ -35,7 +35,8 @@ EditorPresenter.prototype.enableUndoButtons = function(){
 EditorPresenter.prototype.refreshEditor = function(){
 	this.editor.setState({
 		activeContainer: this.spec.activeHolder,
-		editor: this.spec.editor(this.loader)
+		editor: this.spec.editor(this.loader),
+		outline: this.spec.outline()
 	});
 }
 
