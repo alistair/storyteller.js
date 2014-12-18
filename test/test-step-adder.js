@@ -33,7 +33,7 @@ function singleEventReceivedShouldBe(expected){
 	expect(listener.events[0]).to.deep.equal(expected);
 }
 
-describe.only('The StepAdder component', function(){
+describe('The StepAdder component', function(){
 	beforeEach(function(){
 		listener.clear();
 	});

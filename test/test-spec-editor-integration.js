@@ -127,8 +127,6 @@ describe('Editing a Specification Integration tests', function(){
 
 	describe('Editing in a single cell', function(){
 		it('should record the change to the spec and be reflected into the view', function(){
-			shell.setTestTitle('should record the change to the spec and be reflected into the view');
-
 			cellFor('0.0', 'x').click();
 
 			expect(cellFor('0.0', 'x').isTextbox()).to.be.true;

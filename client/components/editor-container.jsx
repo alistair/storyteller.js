@@ -7,6 +7,8 @@ var StepAdder = require('./step-adder');
 module.exports = React.createClass({
 	buildSelector: function(){
 		if (this.props.subject.active){
+			
+
 			return StepAdder({holder: this.props.subject});
 		}
 
