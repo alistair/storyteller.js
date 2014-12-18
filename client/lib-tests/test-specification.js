@@ -58,6 +58,10 @@ describe('Specification', function(){
 		var library = new FixtureLibrary(fixtureData);
 		var specification = new Specification(specData, library);
 
+		it('spec is always a holder', function(){
+			expect(specification.isHolder()).to.be.true;
+		});
+
 		it('can return a grammars() collection of all the valid fixtures', function(){
 			var grammars = specification.grammars().map(function(x){
 				return x.key;

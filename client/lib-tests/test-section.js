@@ -25,6 +25,10 @@ describe('Section', function(){
 
 	var section = new Section(data, new FixtureLibrary([fixtureData]));
 
+	it('section is always a holder', function(){
+		expect(section.isHolder()).to.be.true;
+	});
+
 	it('can write for persistence', function(){
 		var data = section.write();
 

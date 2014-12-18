@@ -50,5 +50,11 @@ Step.prototype.findByPath = function(path){
 	return this.args.find(path);
 }
 
+Step.prototype.isHolder = function(){
+	// TODO: Will need to get fancier later when we
+	// introduce embedded sections and tables
+	return false;
+}
+
 
 module.exports = Step;

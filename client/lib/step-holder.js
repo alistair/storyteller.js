@@ -19,6 +19,10 @@ function StepHolder(id){
 		self.steps.add(step);
 	}
 
+	self.isHolder = function(){
+		return true;
+	}
+
 	self.removeStep = function(step){
 		var position = self.steps.indexOf(step);
 

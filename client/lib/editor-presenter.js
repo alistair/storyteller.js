@@ -1,5 +1,14 @@
 var Postal = require('postal');
 
+var applyOutstandingChanges = function(){
+	// If any thing is open, pack it in now
+	Postal.publish({
+		channel: 'editor',
+		topic: 'apply-changes',
+		data: {}
+	});
+}
+
 function EditorPresenter(spec){
 	this.spec = spec;
 	this.latched = false;
@@ -68,6 +77,17 @@ EditorPresenter.prototype.activate = function(loader, shell){
 		}),
 		Postal.subscribe({
 			channel: 'editor',
+			topic: 'select-holder',
+		    callback : function(data, envelope) {
+				if (!data.holder){
+					return;
+				}
+
+		        self.selectHolder(data);
+		    }
+		}),
+		Postal.subscribe({
+			channel: 'editor',
 			topic: 'changes',
 		    callback : function(data, envelope) {
 		        self.applyChange(data);
@@ -93,16 +113,9 @@ EditorPresenter.prototype.selectCell = function(data){
 		throw new Error('Unable to find a step matching: ' + JSON.stringify(data));
 	}
 
-	// If any thing is open, pack it in now
-	Postal.publish({
-		channel: 'editor',
-		topic: 'apply-changes',
-		data: {}
-	});
+	applyOutstandingChanges();
 
 	if (this.activeCell){
-		// RIGHT HERE, FIND A WAY TO FORCE IN THE 'PACKING'
-
 		this.activeCell.editing = false;
 	}
 
@@ -116,6 +129,33 @@ EditorPresenter.prototype.selectCell = function(data){
 	}
 
 	this.activeCell.editing = true;
+
+	this.refreshEditor();
+}
+
+EditorPresenter.prototype.selectHolder = function(data){
+	var holder = this.spec.find(data.holder);
+	if (!holder){
+		throw new Error('Unable to find the holder matching: ' + JSON.stringify(data));
+	}
+
+	if (this.activeHolder){
+		if (holder == this.activeHolder) return;
+
+		applyOutstandingChanges();
+
+		this.activeHolder.active = false;
+
+		if (this.activeCell){
+			this.activeCell.active = false;
+			this.activeCell = null;
+		}
+	}
+
+	holder.active = true;
+	this.activeHolder = holder;
+
+	// TODO: select an active cell?
 
 	this.refreshEditor();
 }

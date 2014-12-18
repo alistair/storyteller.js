@@ -6,8 +6,8 @@ module.exports = React.createClass({
 	render: function(){
 		var onclick = Postal.publish({
 			channel: 'editor',
-			topic: 'select-cell',
-			data: {section: this.props.section}
+			topic: 'select-holder',
+			data: {holder: this.props.holder}
 		});
 
 		return (

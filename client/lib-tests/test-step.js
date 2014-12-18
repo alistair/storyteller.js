@@ -52,6 +52,12 @@ describe('Step', function(){
 		expect(step2.id).to.not.equal(step3.id);
 	});
 
+	it('by default is not a holder', function(){
+		var step1 = new Step({key: 'foo'}, []);
+
+		expect(step1.isHolder()).to.be.false;
+	});
+
 	it('should capture the grammar key of the data', function(){
 		var step = new Step({key: 'foo'}, []);
 		expect(step.key).to.equal('foo');
