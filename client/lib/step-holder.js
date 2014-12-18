@@ -133,6 +133,13 @@ function StepHolder(id){
 
 	}
 
+	self.clearActiveState = function(){
+		this.active = false;
+		this.steps.forEach(function(x){
+			x.clearActiveState();
+		});
+	}
+
 	self.outline = function(){
 		return new OutlineNode(this);
 	}

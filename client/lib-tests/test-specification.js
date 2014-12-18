@@ -289,4 +289,52 @@ describe('Storing and finding steps by id', function(){
 });
 
 
+
+	describe('Setting Active State', function(){
+		var spec = null;
+
+		var specData = {
+			title: 'My first specification',
+			steps: [
+				{
+					id: 1,
+					type: 'section',
+					key: 'Math', 
+					steps: [
+						{key: 'StartWith', cells: {x: 1}, id:2},
+						{key: 'Add', cells: {x: 5}, id:3},
+						{key: 'Subtract', cells: {x: 2}, id:4},
+						{key: 'TheResultShouldBe', cells: {x: 4}, id: 5},
+						{key: 'Adding', cells:{x:1, y:2, result:3}, id: 6}
+					]
+				},
+				{
+					id: 7,
+					type: 'section',
+					key: 'Zork',
+					steps: [
+						{key: 'SwingSword', cells: {x: 1}, id: 8}
+					]
+				}
+			]
+		}
+
+
+
+		beforeEach(function(){
+			var library = new FixtureLibrary(fixtureData);
+			spec = new Specification(specData, library);
+		});
+
+		it('can clear active state wherever it is', function(){
+			spec.findByPath('0').active = true;
+			spec.findByPath('0.2.x').active = true;
+
+			spec.clearActiveState();
+
+			expect(spec.steps[0].active).to.be.false;
+			expect(spec.findByPath('0.2.x').active).to.be.false;
+		});
+	});
+
 });
