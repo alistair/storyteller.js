@@ -20,7 +20,7 @@ var buildItem = function(item){
 var ActiveOutlineItem = React.createClass({
 	render: function(){
 		return (
-			<li><b>{this.props.title}</b><ul>{this.props.children}</ul></li>
+			<li key={this.props.id}><b>{this.props.title}</b><ul>{this.props.children}</ul></li>
 		);
 	}
 });
@@ -37,11 +37,10 @@ var OutlineItem = React.createClass({
 			});
 
 			e.preventDefault();
-			e.stopPropogation();
 		}
 
 		return (
-			<li>
+			<li key={this.props.id}>
 				<a href="#" onClick={onclick}>{this.props.title}</a>
 				<ul>{this.props.children}</ul>
 			</li>

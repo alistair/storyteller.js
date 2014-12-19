@@ -23,8 +23,8 @@ module.exports = React.createClass({
 
 		return (
 			<span>
-				<button id="undo" disabled={!this.state.undoEnabled} onClick={callUndo}>Undo</button>
-				<button id="redo" disabled={!this.state.redoEnabled} onClick={callRedo}>Redo</button>
+				<button id="undo" className="btn btn-default" disabled={!this.state.undoEnabled} onClick={callUndo}>Undo</button>
+				<button id="redo" className="btn btn-default" disabled={!this.state.redoEnabled} onClick={callRedo}>Redo</button>
 			</span>
 		);
 	}
