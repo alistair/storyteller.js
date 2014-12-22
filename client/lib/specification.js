@@ -151,7 +151,7 @@ function Specification(data, library){
 
 		// TODO -- gotta make this step.findArg(cell) so that comment
 		// can work.
-		var arg = step.args.find(cell);
+		var arg = step.findByPath(cell);
 		if (!arg){
 			throw new Error("Unable to find a cell named " + cell + '" for id: ' + id);
 		}

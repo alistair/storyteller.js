@@ -6,7 +6,7 @@ function CellChange(id, cell, value){
 	this.apply = function(store){
 		var step = store.find(id);
 
-		var arg = step.args.find(cell);
+		var arg = step.findByPath(cell);
 
 		this.oldValue = arg.value;
 		this.oldChanged = arg.changed;
@@ -16,7 +16,7 @@ function CellChange(id, cell, value){
 	}
 
 	this.unapply = function(store){
-		var arg = store.find(id).args.find(cell);
+		var arg = store.find(id).findByPath(cell);
 
 		arg.value = this.oldValue;
 		arg.changed = this.oldChanged;

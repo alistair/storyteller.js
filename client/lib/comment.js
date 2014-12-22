@@ -32,7 +32,7 @@ Comment.prototype.preview = function(loader){
 }
 
 Comment.prototype.editor = function(loader){
-	return loader.commentEditor({arg: this.arg});
+	return loader.commentEditor({step: this, arg: this.arg});
 }
 
 Comment.prototype.isHolder = function(){

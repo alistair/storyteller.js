@@ -238,5 +238,52 @@ describe('Editing a Specification Integration tests', function(){
 		
 	});
 
+	describe('When editing a comment', function(){
+		it('can render a comment', function(){
+			var id = spec.findByPath('1').id;
+
+			var text = $('#' + id + ' .comment-text').html();
+
+			expect(text).to.equal('foo');
+		});
+
+		it('can activate a comment for editing', function(){
+			var id = spec.findByPath('1').id;
+			$('#' + id + ' span.comment-text').click();
+
+			var textbox = $('#' + id + ' input');
+			expect(textbox.length).to.equal(1);
+			expect(textbox.val()).to.equal('foo');
+
+
+		});
+
+		it('can edit a comment', function(){
+			var id = spec.findByPath('1').id;
+			$('#' + id + ' span.comment-text').click();
+
+			var textbox = $('#' + id + ' input');
+
+			textbox.val('different comment text');
+
+			// Moving off to make it commit
+			cellFor('0.0', 'x').click();	
+
+			// In the UI
+			var text = $('#' + id + ' .comment-text').html();
+			expect(text).to.equal('different comment text');
+
+			expect(spec.find(id).arg.value).to.equal('different comment text');
+		});
+
+		it('can delete a comment', function(){
+			var id = spec.findByPath('1').id;
+			$('#' + id + ' .delete').click();
+
+			expect(spec.find(id)).to.be.null;
+
+			expect($('#' + id).length).to.equal(0);
+		});
+	});
 
 });
