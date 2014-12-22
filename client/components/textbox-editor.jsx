@@ -59,13 +59,18 @@ module.exports = React.createClass({
 	},
 
 	render: function(){
+		var className = 'cell active-cell';
+		if (this.props.classes){
+			className = className + " " + this.props.classes;
+		}
+
 		return (
 			<input 
 				type="text" 
 				value={this.state.value} 
 				onChange={this.handleChange} 
 				tabIndex="0" 
-				className='cell active-cell' 
+				className={className}
 				data-cell={this.props.arg.cell.key}/>
 		);
 	}
