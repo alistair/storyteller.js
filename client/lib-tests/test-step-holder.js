@@ -68,7 +68,7 @@ describe('StepHolder mechanics', function(){
 
 		var comment = holder.buildStep({type: 'comment', text: 'Foo!'}, library);
 
-		expect(comment.text).to.equal('Foo!');
+		expect(comment.arg.value).to.equal('Foo!');
 		expect(comment instanceof Comment).to.be.true;
 	});
 

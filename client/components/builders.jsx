@@ -41,6 +41,10 @@ builders.add('text', function(arg){
 	return CellTextBox({arg: arg});
 });
 
+builders.add('comment', function(arg){
+	return CellTextBox({arg: arg, className: 'form-control'});
+});
+
 
 
 builders.get = function(type){

@@ -78,7 +78,7 @@ function StepHolder(id){
 
 
 	self.buildStep = function(data, library, fixture){
-		if (data.type == 'comment') return new Comment(data.text);
+		if (data.type == 'comment') return new Comment(data);
 
 		if (data.type == 'section'){
 			var Section = require('./section');

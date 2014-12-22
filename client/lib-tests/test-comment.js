@@ -3,8 +3,13 @@ var Comment = require('./../lib/comment');
 
 describe('Comment', function(){
 	it('assigns an id on creation', function(){
-		var comment = new Comment('foo');
+		var comment = new Comment({type: 'comment', text: 'foo'});
 		expect(comment.hasOwnProperty('id')).to.be.true;
+	});
+
+	it('does not blow up on children', function(){
+		var comment = new Comment({type: 'comment', text: 'foo'});
+		expect(comment.children().length).to.equal(0);
 	});
 
 	it('returns null for pack', function(){
@@ -14,7 +19,7 @@ describe('Comment', function(){
 	});
 
 	it('writes out data for persistence', function(){
-		var comment = new Comment('foo');
+		var comment = new Comment({type: 'comment', text: 'foo'});
 
 		var data = comment.write();
 
@@ -22,14 +27,24 @@ describe('Comment', function(){
 	});
 
 	it('is not changed by default', function(){
-		var comment = new Comment('foo');
+		var comment = new Comment({type: 'comment', text: 'foo'});
 
-		expect(comment.changed).to.be.false;
+		expect(comment.arg.changed).to.be.false;
 	});
 
 	it('is not a holder', function(){
-		var comment = new Comment('foo');
+		var comment = new Comment({type: 'comment', text: 'foo'});
 
 		expect(comment.isHolder()).to.be.false;
+	});
+
+	it('findByPath works for text', function(){
+		var comment = new Comment({type: 'comment', text: 'foo'});
+		expect(comment.findByPath('text')).to.equal(comment.arg);
+	});
+
+	it('clearActiveState removes active on the arg', function(){
+		var comment = new Comment({type: 'comment', text: 'foo'});
+
 	});
 });

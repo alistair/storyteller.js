@@ -1,18 +1,26 @@
 var uuid = require('node-uuid');
+var Arg = require('./arg');
+var Cell = require('./cell');
 
-function Comment(text){
+function Comment(data){
 	var self = this;
 
 	self.id = uuid.v4();
-	self.text = text;
 
-	self.changed = false;
+	var cell = new Cell('text', 'Textual comment');
+	cell.editor = 'comment';
+
+	self.arg = new Arg(cell, {cells: data}, self.id);
 
 	return self;
 }
 
+Comment.prototype.children = function(){
+	return [];
+}
+
 Comment.prototype.write = function(){
-	return {text: this.text, type: 'comment'}
+	return {text: this.arg.value, type: 'comment'}
 }
 
 Comment.prototype.pack = function(){
@@ -33,6 +41,12 @@ Comment.prototype.isHolder = function(){
 
 Comment.prototype.clearActiveState = function(){
 	// todo -- will do something in the future
+}
+
+Comment.prototype.findByPath = function(path){
+	if (path == 'text') return this.arg;
+
+	return null;
 }
 	
 module.exports = Comment;
