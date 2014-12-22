@@ -51,7 +51,7 @@ describe('The StepAdder component', function(){
 			return $(this).attr('data-key');
 		}).get();
 
-		expect(keys).to.deep.equal(['Math', 'Zork']);
+		expect(keys).to.deep.equal(['Comment', 'Math', 'Zork']);
 	});
 
 	/* Can't get the double click to fire somehow
@@ -85,7 +85,7 @@ describe('The StepAdder component', function(){
 			return $(this).attr('data-key');
 		}).get();
 
-		expect(keys).to.deep.equal(['Add', 'Adding', 'StartWith', 'Subtract', 'TheResultShouldBe']);
+		expect(keys).to.deep.equal(['Comment', 'Add', 'Adding', 'StartWith', 'Subtract', 'TheResultShouldBe']);
 	});
 
 /*

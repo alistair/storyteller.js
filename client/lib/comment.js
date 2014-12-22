@@ -48,5 +48,5 @@ Comment.prototype.findByPath = function(path){
 
 	return null;
 }
-	
+
 module.exports = Comment;
