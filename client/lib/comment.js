@@ -32,7 +32,7 @@ Comment.prototype.preview = function(loader){
 }
 
 Comment.prototype.editor = function(loader){
-	return loader.commentEditor(this);
+	return loader.commentEditor({arg: this.arg});
 }
 
 Comment.prototype.isHolder = function(){
@@ -40,7 +40,7 @@ Comment.prototype.isHolder = function(){
 }
 
 Comment.prototype.clearActiveState = function(){
-	// todo -- will do something in the future
+	this.arg.active = false;
 }
 
 Comment.prototype.findByPath = function(path){

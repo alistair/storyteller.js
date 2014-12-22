@@ -7,6 +7,11 @@ describe('Comment', function(){
 		expect(comment.hasOwnProperty('id')).to.be.true;
 	});
 
+	it('the id has to be on arg as well', function(){
+		var comment = new Comment({type: 'comment', text: 'foo'});
+		expect(comment.arg.id).to.equal(comment.id);
+	});
+
 	it('does not blow up on children', function(){
 		var comment = new Comment({type: 'comment', text: 'foo'});
 		expect(comment.children().length).to.equal(0);
@@ -45,6 +50,10 @@ describe('Comment', function(){
 
 	it('clearActiveState removes active on the arg', function(){
 		var comment = new Comment({type: 'comment', text: 'foo'});
+		comment.arg.active = true;
 
+		comment.clearActiveState();
+
+		expect(comment.arg.active).to.be.false;
 	});
 });
