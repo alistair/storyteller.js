@@ -99,9 +99,14 @@ function Specification(data, library){
 		this.undoList.push(last);
 	}
 
+	var removeStepBase = this.removeStep;
+
 	this.removeStep = function(step){
 		delete this.byId[step.id];
+		return removeStepBase(step);
 	}
+
+
 
 	this.storeStep = function(step){
 		this.byId[step.id] = step;

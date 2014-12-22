@@ -36,7 +36,6 @@ function StepHolder(id){
 
 	self.removeStep = function(step){
 		var position = self.steps.indexOf(step);
-
 		self.steps.removeAt(position);
 
 		return position;

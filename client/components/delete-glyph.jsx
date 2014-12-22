@@ -11,8 +11,6 @@ module.exports = React.createClass({
 		var step = this.props.step;
 
 		var onclick = function(){
-console.log('got the onclick for the delete glyph');
-
 			Postal.publish({
 				channel: 'editor',
 				topic: 'remove-step',

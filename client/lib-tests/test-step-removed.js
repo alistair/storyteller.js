@@ -2,7 +2,8 @@ var expect = require('chai').expect;
 var changes = require('./../lib/change-commands');
 var StepHolder = require('./../lib/step-holder');
 var Specification = require('./../lib/specification');
-
+var ObjectMother = require('./object-mother');
+var _ = require('lodash');
 
 describe('stepRemoved', function(){
 	var step1 = {};
@@ -59,5 +60,19 @@ describe('stepRemoved', function(){
 		event.unapply(spec);
 
 		expect(spec.find(newStep.id)).to.equal(newStep);
+	});
+});
+
+describe('stepRemoved working to remove a section from the top specification', function(){
+	it('can remove the section', function(){
+		var spec = ObjectMother.specification();
+
+		var section = spec.steps[0];
+
+		var event = changes.stepRemoved(spec, section);
+
+		event.apply(spec);
+
+		expect(_.contains(spec.steps, section)).to.be.false;
 	});
 });

@@ -158,6 +158,29 @@ describe('Editing a Specification Integration tests', function(){
 		});
 	});
 
+	it('Can delete a step', function(){
+		var id = spec.findByPath('0.0').id;
+		expect(spec.find(id)).to.not.be.null;
+
+		$('#' + id + ' > .delete').click();
+
+		expect(spec.find(id)).to.be.null;
+
+		expect($('#' + id).length).to.equal(0);
+	});
+
+	it('Can delete a section', function(){
+		var id = spec.findByPath('0').id;
+
+		expect(spec.find(id)).to.not.be.null;
+
+		$('#' + id + ' .delete').click();
+
+		expect(spec.find(id)).to.be.null;
+
+		expect($('#' + id).length).to.equal(0);
+	});
+
 	it('Undo/Redo mechanics MEGA TEST', function(){
 		var undoButton = $('#undo', div);
 		var redoButton = $('#redo', div);
