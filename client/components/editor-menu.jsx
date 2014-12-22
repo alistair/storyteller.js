@@ -2,6 +2,16 @@
 
 var React = require("react");
 
+var Icon = React.createClass({
+	render: function(){
+		var src = 'client/public/images/' + this.props.image;
+
+		return (
+			<img src={src} height="25" width="25" />
+		);
+	}
+});
+
 module.exports = React.createClass({
 	// also specId and specPath
 
@@ -23,8 +33,35 @@ module.exports = React.createClass({
 
 		return (
 			<span>
-				<button id="undo" className="btn btn-default" disabled={!this.state.undoEnabled} onClick={callUndo}>Undo</button>
-				<button id="redo" className="btn btn-default" disabled={!this.state.redoEnabled} onClick={callRedo}>Redo</button>
+				<button 
+					id="preview" 
+					className="btn btn-default"><Icon image="view.png"/>Preview</button>
+
+
+
+				<button 
+					id="run" 
+					className="btn btn-default"><Icon image="run.png"/>Run</button>
+
+				<button 
+					id="clear-results" 
+					className="btn btn-default"><Icon image="clear-results.png"/>Clear Results</button>
+
+
+				<button 
+					id="undo" 
+					className="btn btn-default" 
+					disabled={!this.state.undoEnabled} 
+					title="Undo last change"
+					onClick={callUndo}><Icon image="undo.png" />Undo</button>
+
+
+				<button 
+					id="redo" 
+					className="btn btn-default" 
+					disabled={!this.state.redoEnabled} 
+					title="Redo the last change"
+					onClick={callRedo}><Icon image="redo.png" />Redo</button>
 			</span>
 		);
 	}

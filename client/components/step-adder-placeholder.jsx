@@ -18,7 +18,9 @@ module.exports = React.createClass({
 
 
 		return (
-			<a data-holder={this.props.holder} onClick={onclick}>add steps...</a>
+			<a 
+				data-holder={this.props.holder} 
+				onClick={onclick}>{this.props.text}</a>
 		);
 	}
 });

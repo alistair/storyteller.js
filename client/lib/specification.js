@@ -144,6 +144,8 @@ function Specification(data, library){
 			throw new Error('Unable to find a step with id: ' + id);
 		}
 
+		// TODO -- gotta make this step.findArg(cell) so that comment
+		// can work.
 		var arg = step.args.find(cell);
 		if (!arg){
 			throw new Error("Unable to find a cell named " + cell + '" for id: ' + id);

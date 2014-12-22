@@ -12,26 +12,23 @@ module.exports = React.createClass({
 			return StepAdder({holder: this.props.subject});
 		}
 
-		return StepAdderPlaceHolder({holder: this.props.subject.id, text: 'add steps...'});
+		return StepAdderPlaceHolder({holder: this.props.subject.id, text: 'add sections or comments...'});
 	},
 
 	render: function(){
 		var selector = this.buildSelector();
 
-		var panelClass = "panel panel-default";
+		var headerClass = "";
 		if (this.props.subject.active){
-			panelClass = "panel panel-primary";
+			headerClass = "text-primary";
 		}
 
 		return (
-			<div className={panelClass} id={this.props.subject.id}>
-			  <div className="panel-heading">
-			    <h3 className="panel-title">{this.props.title}</h3>
-			  </div>
-			  <div className="panel-body">
+			<div id={this.props.subject.id}>
+			    <h3 className={headerClass}>{this.props.title}</h3>
+			    <hr />
 			    {this.props.components}
 			    {selector}
-			  </div>
 			</div>
 		);
 	}
