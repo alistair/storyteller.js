@@ -94,6 +94,14 @@ EditorPresenter.prototype.activate = function(loader, shell){
 		        self.applyChange(data);
 		        self.refreshEditor();
 		    }
+		}),
+		Postal.subscribe({
+			channel: 'editor',
+			topic: 'remove-step',
+		    callback : function(data, envelope) {
+		        self.applyChange(data);
+		        self.refreshEditor();
+		    }
 		})
 	];
 

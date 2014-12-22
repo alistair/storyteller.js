@@ -3,6 +3,7 @@
 var React = require("react");
 var StepAdderPlaceHolder = require('./step-adder-placeholder');
 var StepAdder = require('./step-adder');
+var DeleteGlyph = require('./delete-glyph');
 
 module.exports = React.createClass({
 	buildSelector: function(){
@@ -26,7 +27,7 @@ module.exports = React.createClass({
 		return (
 			<div className={panelClass} id={this.props.subject.id}>
 			  <div className="panel-heading">
-			    <h3 className="panel-title">{this.props.title}</h3>
+			    <h3 className="panel-title"><DeleteGlyph step={this.props.subject}/>{this.props.title}</h3>
 			  </div>
 			  <div className="panel-body">
 			    {this.props.components}

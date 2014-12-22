@@ -2,15 +2,7 @@
 
 var React = require("react");
 
-var Icon = React.createClass({
-	render: function(){
-		var src = 'client/public/images/' + this.props.image;
-
-		return (
-			<img src={src} height="25" width="25" />
-		);
-	}
-});
+var Icon = require('./icon');
 
 module.exports = React.createClass({
 	// also specId and specPath
