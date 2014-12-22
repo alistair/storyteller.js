@@ -38,7 +38,7 @@ var builders = {
 
 
 builders.add('text', function(arg){
-	return CellTextBox(arg);
+	return CellTextBox({arg: arg});
 });
 
 

@@ -7,7 +7,7 @@ var Postal = require('postal');
 
 module.exports = React.createClass({
 	getInitialState: function() {
-		return {value: this.props.value};
+		return {value: this.props.arg.value};
 	},
 
 	handleChange: function(event) {
@@ -24,7 +24,7 @@ module.exports = React.createClass({
 	},	
 
 	publishChange: function(value){
-		var arg = this.props;
+		var arg = this.props.arg;
 
 		var cellChanged = changes.cellValue(arg.id, arg.cell.key, value);
 
@@ -51,7 +51,7 @@ module.exports = React.createClass({
 			callback: function(data, envelope){
 				var value = element.value;
 
-				if (value != component.props.value){
+				if (value != component.props.arg.value){
 					component.publishChange(value);
 				}
 			}
@@ -66,7 +66,7 @@ module.exports = React.createClass({
 				onChange={this.handleChange} 
 				tabIndex="0" 
 				className='cell active-cell' 
-				data-cell={this.props.cell.key}/>
+				data-cell={this.props.arg.cell.key}/>
 		);
 	}
 });
