@@ -85,7 +85,7 @@ describe('Fixture', function(){
 		var library = new FixtureLibrary([fixtureData]);
 		var fixture = library.find('Math');
 
-		var section = new Section(data, library);
+		var section = new Section(data, fixture);
 
 		var loader = require('./stub-loader')();
 		var preview = section.preview(loader);

@@ -5,12 +5,13 @@ var fixtureData = [require('./math-fixture-data'), require('./zork-fixture-data'
 var FixtureLibrary = require('./../lib/fixture-library');
 var library = new FixtureLibrary(fixtureData);
 var Comment = require('./../lib/comment');
+var Fixture = require('./../lib/fixture');
 
 describe('StepHolder mechanics', function(){
 	it('should set the parent on add', function(){
 		var step = {};
 
-		var holder = new StepHolder();
+		var holder = new StepHolder(null, new FixtureLibrary([]));
 
 		holder.addStep(step);
 
@@ -18,7 +19,7 @@ describe('StepHolder mechanics', function(){
 	});
 
 	it('should allow you to remove a step and get the original position', function(){
-		var holder = new StepHolder();
+		var holder = new StepHolder(null, new FixtureLibrary([]));
 
 		var step1 = {};
 		var step2 = {};
@@ -38,7 +39,7 @@ describe('StepHolder mechanics', function(){
 	});
 
 	it('should allow you to add a step at a position', function(){
-		var holder = new StepHolder();
+		var holder = new StepHolder(null, new FixtureLibrary([]));
 
 		var step1 = {};
 		var step2 = {};
@@ -63,7 +64,7 @@ describe('StepHolder mechanics', function(){
 	});
 
 	it('can build a comment from data', function(){
-		var holder = new StepHolder();
+		var holder = new StepHolder(null, new FixtureLibrary([]));
 
 
 		var comment = holder.buildStep({type: 'comment', text: 'Foo!'}, library);
@@ -73,7 +74,7 @@ describe('StepHolder mechanics', function(){
 	});
 
 	it('can build a section from data', function(){
-		var holder = new StepHolder();
+		var holder = new StepHolder(null, new FixtureLibrary(fixtureData));
 
 		var data = {
 			type: 'section',
@@ -87,7 +88,7 @@ describe('StepHolder mechanics', function(){
 			]
 		};
 
-		var section = holder.buildStep(data, library);
+		var section = holder.buildStep(data);
 
 		expect(section.steps.length).to.equal(5);
 
@@ -117,7 +118,7 @@ describe('StepHolder mechanics', function(){
 		}
 
 		it('can write all the steps for persistence', function(){
-			var holder = new StepHolder();
+			var holder = new StepHolder(null, new FixtureLibrary([]));
 
 			var step1 = new FakeStep({}, {});
 			var step2 = new FakeStep({}, {});
@@ -136,7 +137,7 @@ describe('StepHolder mechanics', function(){
 
 
 		it('can pack all the steps for execution', function(){
-			var holder = new StepHolder();
+			var holder = new StepHolder(null, new FixtureLibrary([]));
 
 			var step1 = new FakeStep({}, {});
 			var step2 = new FakeStep({}, {});

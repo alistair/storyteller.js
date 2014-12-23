@@ -160,7 +160,7 @@ describe('Step', function(){
 			}};
 
 			step = new Step(data, cells);
-			var holder = new StepHolder();
+			var holder = new StepHolder(null, {});
 
 			holder.addStep(new Step({key: 'foo', cells: {A: 4, B: 5, C: 6}}, cells));
 			holder.addStep(new Step({key: 'foo', cells: {A: 7, B: 8, C: 9}}, cells));
@@ -195,9 +195,9 @@ describe('Step', function(){
 		}};
 
 		var step = new Step(data, cells);
-		var holder1 = new StepHolder();
-		var holder2 = new StepHolder();
-		var holder3 = new StepHolder();
+		var holder1 = new StepHolder(null, {});
+		var holder2 = new StepHolder(null, {});
+		var holder3 = new StepHolder(null, {});
 	
 		step.collections['a'] = holder1;
 		step.collections['b'] = holder2;

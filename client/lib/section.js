@@ -2,8 +2,8 @@ var uuid = require('node-uuid');
 var StepHolder = require('./step-holder');
 var _ = require('lodash');
 
-function Section(data, library, fixture){
-	StepHolder.call(this, data.id);
+function Section(data, fixture){
+	StepHolder.call(this, data.id, fixture);
 
 	if (fixture == null){
 		fixture = library.find(data.key);
@@ -18,7 +18,7 @@ function Section(data, library, fixture){
 	this.fixture = fixture;
 	this.title = this.fixture.title;
 
-	this.readSteps(data, library);
+	this.readSteps(data);
 }
 
 Section.prototype.children = function(){

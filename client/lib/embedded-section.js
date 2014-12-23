@@ -1,3 +1,5 @@
+var Section = require('./section');
+
 function EmbeddedSection(metadata){
 
 }

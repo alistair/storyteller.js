@@ -12,8 +12,8 @@ describe('Add Step', function(){
 		var added = null;
 
 		beforeEach(function(){
-			holder = new StepHolder();
-			spec = new Specification({}, null);
+			holder = new StepHolder(null, {});
+			spec = new Specification({}, {});
 
 			holder.addStep({});
 			holder.addStep({});
@@ -76,8 +76,8 @@ describe('Add Step', function(){
 		var spec = null;
 
 		beforeEach(function(){
-			holder = new StepHolder();
-			spec = new Specification({}, null);
+			holder = new StepHolder(null, {});
+			spec = new Specification({}, {});
 
 			holder.addStep(step1);
 			holder.addStep(step2);

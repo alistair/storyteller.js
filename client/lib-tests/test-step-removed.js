@@ -18,9 +18,9 @@ describe('stepRemoved', function(){
 	var spec = null;
 
 	beforeEach(function(){
-		holder = new StepHolder();
+		holder = new StepHolder(null, {});
 		event = changes.stepRemoved(holder, newStep);
-		spec = new Specification({}, null);
+		spec = new Specification({}, {});
 
 		holder.clear();
 

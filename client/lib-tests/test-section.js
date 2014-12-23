@@ -23,7 +23,7 @@ describe('Section', function(){
 		]
 	}
 
-	var section = new Section(data, new FixtureLibrary([fixtureData]));
+	var section = new Section(data, new Fixture(fixtureData));
 
 	it('section is always a holder', function(){
 		expect(section.isHolder()).to.be.true;

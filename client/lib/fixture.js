@@ -21,7 +21,7 @@ function Fixture(data){
 }
 
 Fixture.prototype.newStep = function(){
-	return new Section({}, null, this);
+	return new Section({}, this);
 }
 
 Fixture.prototype.find = function(key){

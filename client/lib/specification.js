@@ -2,7 +2,7 @@ var StepHolder = require('./step-holder');
 var _ = require('lodash');
 
 function Specification(data, library){
-	StepHolder.call(this, data.id);
+	StepHolder.call(this, data.id, library);
 
 	this.title = data.title;
 	this.byId = {};
@@ -112,7 +112,7 @@ function Specification(data, library){
 		this.byId[step.id] = step;
 	}
 
-	this.readSteps(data, library);
+	this.readSteps(data);
 
 	var self = this;
 	var readHolder = function(holder){

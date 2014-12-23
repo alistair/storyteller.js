@@ -16,10 +16,13 @@ function OutlineNode(holder){
 	});
 }
 
-function StepHolder(id){
+function StepHolder(id, fixture){
+	if (fixture == null) throw new Error('Missing argument for "fixture"');
+
 	var self = this;
 
 	self.id = id || uuid.v4();
+	self.fixture = fixture;
 
 	self.steps = new ArrayList();
 	self.active = false;
@@ -65,13 +68,13 @@ function StepHolder(id){
 		});
 	}
 
-	self.readSteps = function(data, library){
+	self.readSteps = function(data){
 		if (!data.steps){
 			return;
 		}
 
 		data.steps.forEach(function(x){
-			var step = self.buildStep(x, library);
+			var step = self.buildStep(x);
 			self.addStep(step);
 		});
 	}
@@ -80,20 +83,9 @@ function StepHolder(id){
 	self.buildStep = function(data, library, fixture){
 		if (data.type == 'comment') return new Comment(data);
 
-		if (data.type == 'section'){
-			var Section = require('./section');
-			return new Section(data, library);
-		}
-
-		if (self.fixture != null){
-			// TODO -- be smart enough to deal w/ 'Missing/Unknown Grammar'
-			var grammar = self.fixture.find(data.key);
-			var step = grammar.buildStep(data);  
-			
-			return step;
-		}
-
-		throw new Error('Unknown type for data and no fixture: ' + JSON.stringify(data));
+		// TODO -- be smart enough to deal w/ 'Missing/Unknown Grammar'
+		var grammar = this.fixture.find(data.key);
+		return grammar.buildStep(data);
 	}
 
 	self.buildComponents = function(func){
