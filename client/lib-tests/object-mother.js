@@ -9,7 +9,13 @@ var specData = {
 				{key: 'Add', cells: {x: 5}},
 				{key: 'Subtract', cells: {x: 2}},
 				{key: 'TheResultShouldBe', cells: {x: 4}},
-				{key: 'Adding', cells:{x:1, y:2, result:3}}
+				{key: 'Adding', cells:{x:1, y:2, result:3}},
+				{key: 'Tabulating', collections: {steps: [
+					{key: 'Enter', cells: {x: 1}},
+					{key: 'Press', cells: {button: 'add'}},
+					{key: 'Enter', cells: {x: 2}},
+					{key: 'ValueShouldBe', cells: {value: '3'}}
+				]}}
 			]
 		},
 		{type: 'comment', text: 'foo'},

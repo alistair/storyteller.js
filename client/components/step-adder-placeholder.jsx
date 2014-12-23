@@ -16,9 +16,9 @@ module.exports = React.createClass({
 			e.preventDefault();
 		}
 
-
 		return (
 			<a 
+				className="step-adder-placeholder"
 				data-holder={this.props.holder} 
 				onClick={onclick}>{this.props.text}</a>
 		);

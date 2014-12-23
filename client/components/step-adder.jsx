@@ -9,7 +9,7 @@ var AddStepItem = React.createClass({
 		var holder = this.props.holder;
 		var grammar = this.props.grammar;
 
-		var onclick = function(){
+		var ondblclick = function(){
 			var step = grammar.newStep();
 			var message = changes.stepAdded(holder, step);
 
@@ -20,11 +20,16 @@ var AddStepItem = React.createClass({
 			});
 		}
 
+		var onclick = function(e){
+			e.stopPropogation();
+			e.preventDefault();
+		}
+
 		return (
 			<a 
 				href="#" 
 				data-key={this.props.grammar.key} 
-				onDoubleClick={onclick} 
+				onDoubleClick={ondblclick} 
 				className="list-group-item add-step">{this.props.grammar.title}</a>
 		);
 	}
