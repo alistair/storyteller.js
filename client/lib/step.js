@@ -21,12 +21,29 @@ Step.prototype.write = function(){
 
 	this.args.store(data);
 
+	if (_.keys(this.collections).length > 0){
+		data.collections = {};
+
+		for (var key in this.collections){
+			data.collections[key] - this.collections[key].writeSteps();
+		}
+	}
+
 	return data;
 }
 
 Step.prototype.pack = function(){
-	var data = this.write();
+	var data = {key: this.key, cells: {}};
+	this.args.store(data);
 	data.id = this.id;
+
+	if (_.keys(this.collections).length > 0){
+		data.collections = {};
+
+		for (var key in this.collections){
+			data.collections[key] - this.collections[key].packSteps();
+		}
+	}
 
 	return data;
 }
