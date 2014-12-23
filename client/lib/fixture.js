@@ -1,16 +1,22 @@
-var Sentence = require('./sentence');
 var MissingGrammar = require('./missing-grammar');
 var Section = require('./section');
 var _ = require('lodash');
+
+
 
 function Fixture(data){
 	this.key = data.key;
 	this.title = data.title;
 
+	var builders = {};
+	builders['sentence'] = require('./sentence');
+	builders['embedded-section'] = require('./embedded-section');
+
 	var grammars = {};
 	data.grammars.forEach(function(metadata){
-		if (metadata.type == 'sentence'){
-			grammars[metadata.key] = new Sentence(metadata);
+		var ctor = builders[metadata.type];
+		if (ctor){
+			grammars[metadata.key] = new ctor(metadata);
 		}
 		else {
 			throw new Error('Fixture does not support a grammar type ' + metadata.type);

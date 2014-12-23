@@ -17,6 +17,31 @@ describe('EmbeddedSection', function(){
 
 	var grammar = new EmbeddedSection(metadata);
 	
+	it('uses steps as the default collection', function(){
+		var grammar = new EmbeddedSection({
+			type: 'embedded-section',
+			key: 'DoMath',
+			title: 'Doing some mathematics',
+			fixture: require('./math-fixture-data')
+			//collection: 'steps'
+
+		});
+
+		expect(grammar.collection).to.equal('steps');
+	});
+
+	it('uses the internal fixture title for the title if none is specified', function(){
+		var grammar = new EmbeddedSection({
+			type: 'embedded-section',
+			key: 'DoMath',
+			//title: 'Doing some mathematics',
+			fixture: require('./math-fixture-data'),
+			collection: 'steps'
+
+		});
+
+		expect(grammar.title).to.equal(grammar.fixture.title);
+	});
 
 	it('should capture the key', function(){
 		expect(grammar.key).to.equal('DoMath');

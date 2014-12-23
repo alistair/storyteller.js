@@ -58,7 +58,7 @@ describe('Section', function(){
 			return x.key;
 		});
 
-		expect(grammars).to.deep.equal(['Add', 'Adding', 'StartWith', 'Subtract', 'TheResultShouldBe']);
+		expect(grammars).to.deep.equal(['Add', 'Adding', 'Tabulating', 'StartWith', 'Subtract', 'TheResultShouldBe']);
 
 	});
 

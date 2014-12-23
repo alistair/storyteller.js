@@ -24,10 +24,12 @@ module.exports = React.createClass({
 			panelClass = "panel panel-primary";
 		}
 
+		var deleteSubject = this.props.deleteSubject || this.props.subject;
+
 		return (
 			<div className={panelClass} id={this.props.subject.id}>
 			  <div className="panel-heading">
-			    <h3 className="panel-title"><DeleteGlyph step={this.props.subject}/>{this.props.title}</h3>
+			    <h3 className="panel-title"><DeleteGlyph step={deleteSubject}/>{this.props.title}</h3>
 			  </div>
 			  <div className="panel-body">
 			    {this.props.components}

@@ -53,12 +53,16 @@ Section.prototype.preview = function(loader){
 	return loader.previewContainer({title: this.fixture.title, components: components});
 }
 
-Section.prototype.editor = function(loader){
+Section.prototype.editor = function(loader, deleteSubject){
 	var components = this.buildComponents(function(x){
 		return x.editor(loader);
 	});
 
-	return loader.editorContainer({title: this.fixture.title, components: components, subject: this});
+	if (!deleteSubject){
+		deleteSubject = this;
+	}
+
+	return loader.editorContainer({title: this.fixture.title, components: components, subject: this, deleteSubject: deleteSubject});
 }
 
 // This will be *much* later for embedded sections
