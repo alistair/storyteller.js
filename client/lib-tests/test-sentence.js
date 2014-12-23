@@ -1,4 +1,3 @@
-var React = require('react');
 var expect = require('chai').expect;
 var Sentence = require('./../lib/sentence');
 var Step = require('./../lib/step');

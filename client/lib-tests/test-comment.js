@@ -56,4 +56,5 @@ describe('Comment', function(){
 
 		expect(comment.arg.active).to.be.false;
 	});
+
 });
