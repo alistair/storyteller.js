@@ -1,6 +1,7 @@
 
 var uuid = require('node-uuid');
 var ArgCollection = require('./arg-collection');
+var _ = require('lodash');
 
 function Step(data, cells, grammar){
 	this.id = data.id || uuid.v4();
@@ -8,12 +9,11 @@ function Step(data, cells, grammar){
 	this.key = data.key;
 	this.type = 'step';
 	this.grammar = grammar; // set by the StepHolder.buildStep() method
+	this.collections = {};
 }
 
 Step.prototype.children = function(){
-	
-	// TODO -- gotta get table data
-	return [];
+	return _.values(this.collections);
 }
 
 Step.prototype.write = function(){
@@ -47,7 +47,21 @@ Step.prototype.editor = function(loader){
 }
 
 Step.prototype.findByPath = function(path){
-	return this.args.find(path);
+	if ( !(path instanceof Array)){
+		path = path.split('.');
+	}
+
+	if (path.length == 0) return null;
+
+	var next = this.args.find(path[0]) || this.collections[path[0]];
+
+	if (path.length == 1){
+		return next;
+	}
+	else {
+		path.shift();
+		return next.findByPath(path);
+	}
 }
 
 Step.prototype.isHolder = function(){

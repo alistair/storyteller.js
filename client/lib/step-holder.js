@@ -109,28 +109,17 @@ function StepHolder(id){
 
 		var next = path.shift();
 		var position = parseInt(next);
-		if (isNaN(position)){
-			if (next.length > 1){
-				throw new Error('A cell address has to be the last value in the path dot notation');
-			}
-		}
-		else {
-			if (position >= this.steps.length){
-				throw new RangeError('Index is out of range.');
-			}
 
-			var child = this.steps[position];
-			if (path.length == 0){
-				return child;
-			}
-
-			return child.findByPath(path);
+		if (position >= this.steps.length){
+			throw new RangeError('Index is out of range.');
 		}
 
-		// #.#.#.Letter or name
+		var child = this.steps[position];
+		if (path.length == 0){
+			return child;
+		}
 
-		
-
+		return child.findByPath(path);
 	}
 
 	self.clearActiveState = function(){

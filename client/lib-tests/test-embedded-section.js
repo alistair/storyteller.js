@@ -24,6 +24,6 @@ describe('EmbeddedSection', function(){
 		}
 	}
 
-	var embeddedSection = new EmbeddedSection(metadata);
-	var step = embeddedSection.buildStep(stepData);
+	//var embeddedSection = new EmbeddedSection(metadata);
+	//var step = embeddedSection.buildStep(stepData);
 });
