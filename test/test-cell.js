@@ -2,7 +2,7 @@ var React = require('react');
 var TU = require('react-test-utils');
 var expect = require('chai').expect;
 
-var Cell = require('./../client/components/cell');
+var Cell = require('./../client/components/Cell');
 var Arg = require('./../client/lib/arg');
 var $ = require('jquery');
 var Postal = require('postal');
